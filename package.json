@@ -1,0 +1,95 @@
+{
+  "name": "aio-cli-plugin-aep",
+  "description": "A plugin for CRUD operations on aep resources",
+  "version": "0.0.1",
+  "author": "bgaurav",
+  "bugs": "https://github.com/bgaurav/aio-cli-plugin-aep/issues",
+  "dependencies": {
+    "@adobe/aio-cli-config": "^1.0.7",
+    "@oclif/command": "^1.5.6",
+    "@oclif/config": "^1.9.0",
+    "@oclif/errors": "^1.1.2",
+    "cli-ux": "^5.2.0",
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "@oclif/dev-cli": "^1",
+    "@oclif/plugin-help": "^2.1.4",
+    "@oclif/test": "^1",
+    "babel-jest": "^24.1.0",
+    "babel-runtime": "^6.26.0",
+    "codecov": "^3.5.0",
+    "dedent-js": "^1.0.1",
+    "eol": "^0.9.1",
+    "eslint": "^5.16.0",
+    "eslint-config-oclif": "^3.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.13.10",
+    "eslint-plugin-jest": "^22.1.2",
+    "eslint-plugin-node": "^9.0.0",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.0",
+    "fetch-mock": "^7.3.3",
+    "jest": "^24.1.0",
+    "jest-cli": "^24.8.0",
+    "jest-junit": "^6.3.0",
+    "jest-plugin-fs": "^2.9.0",
+    "stdout-stderr": "^0.1.9"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/bgaurav/aio-cli-plugin-aep",
+  "keywords": [
+    "oclif-plugin"
+  ],
+  "license": "Apache-2.0",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "./bin/run",
+    "devPlugins": [
+      "@oclif/plugin-help"
+    ]
+  },"main": "src/index.js",
+  "repository": "bgaurav/aio-cli-plugin-aep",
+  "scripts": {
+    "eslint": "eslint .",
+    "test": "npm run eslint && npm run unit-tests",
+    "unit-tests": "jest --ci -w=2",
+    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "postpack": "rm -f oclif.manifest.json",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./test/jest.setup.js"
+    ]
+  }
+}
+
