@@ -8,17 +8,29 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-module.exports = {
-  baseUrl: 'https://platform.adobe.io/',
-  endPoints: {
-    targetOffers: {
-      name: '/target/offers/',
-      contentType: 'application/vnd.adobe.target.v2+json',
-      parameters: {
-        limit: 'limit',
-        offset: 'offset',
-        sortBy: 'sortBy'
-      }
-    }
+const BaseCommand = require('./base')
+const { flags } = require('@oclif/command')
+const { cli } = require('cli-ux')
+
+class HelloCommand extends BaseCommand {
+  async run() {
+    const {flags} = this.parse(HelloCommand)
+    const name = flags.name || 'world'
+    this.log(`hello ${name} `)
+  }
+
+   hi() {
+    this.log("hello there !!!")
   }
 }
+
+HelloCommand.description = `Describe the command here
+...
+Extra documentation goes here
+`
+
+HelloCommand.flags = {
+  name: flags.string({char: 'n', description: 'name to print'}),
+}
+
+module.exports = HelloCommand

@@ -28,8 +28,8 @@ let AdobeTarget = {
     return Client.getOffer(offerId)
   },
 
-  listOffers: async function (limit = null, offset = null, sortBy = null) {
-    return Client.listOffers(limit, offset, sortBy)
+  listOffers: async function () {
+    return Client.listOffers()
   },
 
   createOffer: async function (name = null, content = null, workspace = null) {

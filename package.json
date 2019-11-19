@@ -46,7 +46,7 @@
     "/oclif.manifest.json",
     "/src"
   ],
-  "homepage": "https://github.com/bgaurav/aio-cli-plugin-aep",
+  "homepage": "https://git.corp.adobe.com/bgaurav/aio-cli-plugin-aep/tree/aep1",
   "keywords": [
     "oclif-plugin"
   ],
@@ -57,8 +57,9 @@
     "devPlugins": [
       "@oclif/plugin-help"
     ]
-  },"main": "src/index.js",
-  "repository": "bgaurav/aio-cli-plugin-aep",
+  },
+  "main": "src/index.js",
+  "repository": "https://git.corp.adobe.com/bgaurav/aio-cli-plugin-aep/",
   "scripts": {
     "eslint": "eslint .",
     "test": "npm run eslint && npm run unit-tests",
@@ -92,4 +93,3 @@
     ]
   }
 }
-

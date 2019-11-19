@@ -18,35 +18,35 @@ class ListOffersCommand extends BaseCommand {
     let result
 
     try {
-      result = await this.listOffers(flags.limit, flags.offset, flags.sortBy)
+      result = await this.listDatasets()
     } catch (error) {
       this.error(error.message)
     }
 
-    cli.table(result, {
-      id: {
-        header: 'Id'
-      },
-      name: {
-        header: 'Name'
-      },
-      type: {
-        header: 'Type'
-      },
-      modifiedAt: {
-        header: 'Modified At'
-      },
-      workspace: {
-        header: 'Workspace'
-      }
-    }, {
-      printLine: this.log
-    })
+    // cli.table(result, {
+    //   id: {
+    //     header: 'Id'
+    //   },
+    //   name: {
+    //     header: 'Name'
+    //   },
+    //   type: {
+    //     header: 'Type'
+    //   },
+    //   modifiedAt: {
+    //     header: 'Modified At'
+    //   },
+    //   workspace: {
+    //     header: 'Workspace'
+    //   }
+    // }, {
+    //   printLine: this.log
+    // })
     return result
   }
 
-  async listOffers (limit = null, offset = null, sortBy = null) {
-    return this.getAdobeTarget().listOffers(limit, offset, sortBy)
+  async listDatasets () {
+    return this.getAdobeTarget().listOffers()
   }
 }
 
