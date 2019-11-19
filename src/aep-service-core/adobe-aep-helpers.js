@@ -25,7 +25,6 @@ function isValidWorkspace (workspace) {
 
 function getTenantName () {
   const targetConfig = config.get('jwt-auth.jwt_payload.iss')
-  console.log(targetConfig)
   if (!targetConfig) {
     throw new Error('missing config data: org')
   }

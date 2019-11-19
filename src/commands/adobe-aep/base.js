@@ -9,12 +9,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const { Command } = require('@oclif/command')
-const AdobeTarget = require('../../service/adobe-aep-service')
+const AdobeAep = require('../../service/adobe-aep-service')
 
 class BaseCommand extends Command {
-  getAdobeTarget () {
-    AdobeTarget.init()
-    return AdobeTarget
+  getAdobeAep () {
+    AdobeAep.init()
+    return AdobeAep
   }
 }
 

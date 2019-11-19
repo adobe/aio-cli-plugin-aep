@@ -25,13 +25,14 @@ function getApiKey () {
   }
   return apiKey
 }
-
+//
 function getAccessToken () {
   const jwtAuth = config.get('jwt-auth')
   if (!jwtAuth) {
     throw new Error('missing config data: jwt-auth')
   }
-  const accessToken = jwtAuth.access_token
+ // const accessToken = jwtAuth.access_token
+  const accessToken = config.get('jwt-auth.access_token')
   if (!accessToken) {
     throw new Error('missing config data: jwt-auth.access_token')
   }

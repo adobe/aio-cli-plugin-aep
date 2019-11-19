@@ -46,7 +46,7 @@ class ListOffersCommand extends BaseCommand {
   }
 
   async listDatasets () {
-    return this.getAdobeTarget().listOffers()
+    return this.getAdobeAep().listOffers()
   }
 }
 

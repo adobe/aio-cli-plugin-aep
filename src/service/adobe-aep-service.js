@@ -12,7 +12,7 @@ const { getApiKey, getAccessToken } = require('../aep-service-core/adobe-helpers
 const { getTenantName } = require('../aep-service-core/adobe-aep-helpers')
 const Client = require('../aep-service-core/client')
 
-let AdobeTarget = {
+let AdobeAep = {
 
   init: function () {
     const config = {
@@ -45,4 +45,4 @@ let AdobeTarget = {
   }
 }
 
-module.exports = AdobeTarget
+module.exports = AdobeAep

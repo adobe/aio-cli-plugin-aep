@@ -2,18 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbabda06-4b28-4477-8a98-7f049ee33adf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/commands/adobe-aep/base.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/aep-service-core/adobe-aep-constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/aep-service-core/adobe-aep-constants.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/aep-service-core/adobe-aep-helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/aep-service-core/adobe-aep-helpers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/aep-service-core/adobe-helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/aep-service-core/adobe-helpers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/aep-service-core/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/aep-service-core/client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/aep-commands/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/adobe-aep/hello.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/aep-commands/list-offers.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/adobe-aep/list-ds.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commands/hello.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/adobe-aep/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/adobe-aep/base.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commands/adobe-aep/list-ds.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/commands/adobe-aep/list-ds.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/adobe-aep-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/adobe-aep-service.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,6 +32,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -61,6 +56,11 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="debug" type="ChromiumRemoteDebugType" factoryName="Chromium Remote" port="9229">
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -71,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574103251379</updated>
-      <workItem from="1574103252522" duration="13749000" />
+      <workItem from="1574103252522" duration="21927000" />
     </task>
     <servers />
   </component>
@@ -88,5 +88,17 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/commands/adobe-aep/list-ds.js</url>
+          <line>48</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
