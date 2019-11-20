@@ -2,7 +2,10 @@
   "name": "@adobe/aio-cli-plugin-aep",
   "description": "A plugin for CRUD operations on aep resources",
   "version": "1.1.1",
-  "author": "bgaurav",
+  "author": "Adobe",
+  "contributors": [
+    "Bibhuti Gurav"
+  ],
   "bugs": "https://github.com/bgaurav/aio-cli-plugin-aep/issues",
   "dependencies": {
     "@adobe/aio-cli-config": "^1.0.7",
@@ -10,7 +13,10 @@
     "@oclif/config": "^1.9.0",
     "@oclif/errors": "^1.1.2",
     "cli-ux": "^5.2.0",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "debug": "^4.1.0",
+    "mustache": "^3.1.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
@@ -44,8 +50,12 @@
   "files": [
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json",
-    "/src"
+    "/src",
+    "/bin"
   ],
+  "bin": {
+    "aio-aep": "./bin/run"
+  },
   "homepage": "https://git.corp.adobe.com/bgaurav/aio-cli-plugin-aep/tree/aep1",
   "keywords": [
     "oclif-plugin"
@@ -53,7 +63,7 @@
   "license": "Apache-2.0",
   "oclif": {
     "commands": "./src/commands",
-    "bin": "./bin/run",
+    "bin": "aio-aep",
     "devPlugins": [
       "@oclif/plugin-help"
     ]

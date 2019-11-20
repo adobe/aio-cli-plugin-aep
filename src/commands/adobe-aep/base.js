@@ -18,6 +18,6 @@ class BaseCommand extends Command {
   }
 }
 
-BaseCommand.hidden = true
+BaseCommand.hidden = false
 
 module.exports = BaseCommand
