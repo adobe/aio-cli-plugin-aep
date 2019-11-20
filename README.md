@@ -28,7 +28,7 @@ A plugin for CRUD operations on aep resources
 
 1. go to <https://console.adobe.io/integrations> and create a production integration for test
 
-2. Follow  the instructions on <https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md> 
+2. Follow  the instructions on [jwt I/o auth] (https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md) 
    to get the necessary I/O config credentials
 
 3. Create a config.json file with the following content
