@@ -6,7 +6,7 @@ A plugin for CRUD operations on aep resources
 
 
 <!-- tocstop -->
-# Let's try this to get you going. This is just for the sake of proff of concept.
+# Let's try this to get you going. This is just for the sake of proof of concept.
 
 
 
