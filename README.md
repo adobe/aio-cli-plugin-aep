@@ -18,11 +18,13 @@ A plugin for CRUD operations on aep resources
 
 2. ```$ npm install -g @adobe/aio-cli-plugin-config```
 
-3. ```$ git clone git@git.corp.adobe.com:bgaurav/aio-cli-plugin-aep.git -b aep1```
+3. ```$ npm install -g @adobe/aio-cli-plugin-console```
 
-4. ```$ cd ${above downloaded repo path}/aio-cli-plugin-aep``` 
+4. ```$ git clone git@git.corp.adobe.com:bgaurav/aio-cli-plugin-aep.git -b aep1```
 
-5. ```$ npm install```
+5. ```$ cd ${above downloaded repo path}/aio-cli-plugin-aep``` 
+
+6. ```$ npm install```
 
 ## Set up adobe I/O production integration
 
@@ -50,6 +52,10 @@ A plugin for CRUD operations on aep resources
 4. ```$ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json```
 
 5. ```$ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration}```
+
+ I have noticed sometimes access_token is not generated from aio-cli-config module and is a lazy load after the first command. So fire this please:
+ 
+6. ```$ aio console:list-integrations```
 
 ## Finally run this simple command to list datasets in your org
 
