@@ -8,8 +8,8 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const ListDatasetsCommand = require('./commands/adobe-aep/list-ds')
-const HelloCommand = require('./commands/adobe-aep/hello')
+const ListDatasetsCommand = require('./commands/aep/list-ds')
+const HelloCommand = require('./commands/aep/hello')
 
 module.exports = {
   'list-ds': new ListDatasetsCommand().listDatasets,
