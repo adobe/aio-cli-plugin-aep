@@ -3,48 +3,54 @@ aio-cli-plugin-aep
 
 A plugin for CRUD operations on aep resources
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/aio-cli-plugin-aep.svg)](https://npmjs.org/package/aio-cli-plugin-aep)
-[![Downloads/week](https://img.shields.io/npm/dw/aio-cli-plugin-aep.svg)](https://npmjs.org/package/aio-cli-plugin-aep)
-[![License](https://img.shields.io/npm/l/aio-cli-plugin-aep.svg)](https://github.com/bgaurav/aio-cli-plugin-aep/blob/master/package.json)
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
+
 <!-- tocstop -->
 # Usage
-<!-- usage -->
+
 ```sh-session
-$ npm install -g aio-cli-plugin-aep
-$ oclif-example COMMAND
-running command...
-$ oclif-example (-v|--version|version)
-aio-cli-plugin-aep/0.0.1 darwin-x64 node-v11.2.0
-$ oclif-example --help [COMMAND]
-USAGE
-  $ oclif-example COMMAND
-...
+
+
+
+****** Set up necessary adobe I/O dependencies **********
+ 
+1. $ npm install -g @adobe/aio-cli
+
+2. $ npm install -g @adobe/aio-cli-plugin-config
+
+3. $ git clone git@git.corp.adobe.com:bgaurav/aio-cli-plugin-aep.git -b aep1
+
+4. $ cd ${above downloaded repo path}/aio-cli-plugin-aep 
+
+5. $ npm install
+
+****** Set up adobe I/O production integration **********
+
+1. go to <https://console.adobe.io/integrations> and create a production integration for test
+
+2. Follow  the instructions on <https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md> 
+   to get the necessary I/O config credentials
+
+3. Create a config.json file with the following content
+
+{
+  "client_id": "your_client_id",
+  "client_secret": "your_client_secret",
+  "jwt_payload": { 
+    "exp": your_expiration_time_value,
+    "iss": "your-org@AdobeOrg",
+    "sub": "your-tech-id@techacct.adobe.com",
+    "https://ims-na1.adobelogin.com/s/ent_dataservices_sdk": true,
+    "aud": "https://ims-na1.adobelogin.com/c/${your_client_id}"
+  },
+  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/"
+}
+
+4. $ aio config:set jwt-auth ${path_to_the_abobe_config.json} --file --json
+
+5. $ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration}
+
+******** Finally run this simple command to list datasets in your org *****
+
+   $ ./bin/run adobe-aep:list-ds
 ```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`oclif-example hello`](#oclif-example-hello)
-
-## `oclif-example hello`
-
-Describe the command here
-
-```
-USAGE
-  $ oclif-example hello
-
-OPTIONS
-  -n, --name=name  name to print
-
-DESCRIPTION
-  ...
-  Extra documentation goes here
-```
-
-_See code: [src/commands/hello.js](https://github.com/bgaurav/aio-cli-plugin-aep/blob/v0.0.1/src/commands/hello.js)_
-<!-- commandsstop -->
