@@ -54,5 +54,37 @@ A plugin for CRUD operations on aep resources
 ## Finally run this simple command to list datasets in your org
 
    ```$ ./bin/run adobe-aep:list-ds```
+ 
+ Output would look something like...  
+  
+   ```javascript 1.8
+{ '234':
+   { imsOrg: 'abc@AdobeOrg',
+     relatedObjects:
+      [ { id: 'abc', type: 'dataSet' },
+        { id: 'abc', type: 'batch' } ],
+     status: 'success',
+     metrics:
+      { recordsFailed: 0,
+        recordsWritten: 11,
+        startTime: 1561155493660,
+        endTime: 1561155539996 },
+     errors: [],
+     created: 1561155463604,
+     createdClient: 'acp_core_identity_data',
+     createdUser: 'acp_core_identity_data@AdobeID',
+     updatedUser: 'acp_core_identity_data@AdobeID',
+     updated: 1561155685767,
+     version: '1.0.3' },
+  'abc':
+   { imsOrg: 'abc@AdobeOrg',
+     relatedObjects:
+      [ { id: 'abc', type: 'dataSet' },
+        { id: 'abc', type: 'batch' } ],
+     status: 'success',
+     metrics:
+      { recordsFailed: 0,
+...
+```
 
 
