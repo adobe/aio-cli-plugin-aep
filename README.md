@@ -47,7 +47,7 @@ A plugin for CRUD operations on aep resources
   "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/"
 }
 ```
-4. ```$ aio config:set jwt-auth ${path_to_the_abobe_config.json} --file --json```
+4. ```$ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json```
 
 5. ```$ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration}```
 
