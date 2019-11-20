@@ -8,7 +8,7 @@ A plugin for CRUD operations on aep resources
 <!-- tocstop -->
 # Usage
 
-```sh-session
+```
 
 
 
@@ -53,4 +53,5 @@ A plugin for CRUD operations on aep resources
 ******** Finally run this simple command to list datasets in your org *****
 
    $ ./bin/run adobe-aep:list-ds
+
 ```
