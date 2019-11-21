@@ -9049,7 +9049,12 @@
       "devPlugins": [
         "@oclif/plugin-help"
       ]
-    }
-
+    },
+    "files": [
+      "/oclif.manifest.json",
+      "/src",
+      "/bin",
+      "/view"
+    ]
   }
 }
