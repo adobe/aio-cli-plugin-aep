@@ -9039,6 +9039,17 @@
         "camelcase": "^5.0.0",
         "decamelize": "^1.2.0"
       }
+    },
+    "bin": {
+      "aio-aep": "./bin/run"
+    },
+    "oclif": {
+      "commands": "./src/commands",
+      "bin": "aio-aep",
+      "devPlugins": [
+        "@oclif/plugin-help"
+      ]
     }
+
   }
 }
