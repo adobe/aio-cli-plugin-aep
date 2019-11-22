@@ -20,6 +20,6 @@ class BaseCommand extends Command {
 
 // BaseCommand.hidden = false
 
-BaseCommand.description = 'This is a no operation command !!'
+BaseCommand.description = 'A plugin for CRUD operations on aep resources !!'
 
 module.exports = BaseCommand
