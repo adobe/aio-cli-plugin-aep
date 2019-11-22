@@ -9,18 +9,34 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const config = require('@adobe/aio-cli-config')
-const { isEmpty } = require('./adobe-aep-helpers')
 
-function isValidOfferName (offerName) {
-  return !isEmpty(offerName) && offerName.length <= 250
+function isEmpty (s) {
+  return s === null || s === undefined || s.length === 0
 }
 
-function isValidOfferContent (offerContent) {
-  return !isEmpty(offerContent)
+function getApiKey () {
+  const jwtAuth = config.get('jwt-auth')
+  if (!jwtAuth) {
+    throw new Error('missing config data: jwt-auth')
+  }
+  const apiKey = jwtAuth.client_id
+  if (!apiKey) {
+    throw new Error('missing config data: jwt-auth.client_id')
+  }
+  return apiKey
 }
-
-function isValidWorkspace (workspace) {
-  return isEmpty(workspace) || workspace.length <= 250
+//
+function getAccessToken () {
+  const jwtAuth = config.get('jwt-auth')
+  if (!jwtAuth) {
+    throw new Error('missing config data: jwt-auth')
+  }
+ // const accessToken = jwtAuth.access_token
+  const accessToken = config.get('jwt-auth.access_token')
+  if (!accessToken) {
+    throw new Error('missing config data: jwt-auth.access_token')
+  }
+  return accessToken
 }
 
 function getTenantName () {
@@ -36,8 +52,8 @@ function getTenantName () {
 }
 
 module.exports = {
+  getApiKey,
+  getAccessToken,
   getTenantName,
-  isValidOfferName,
-  isValidOfferContent,
-  isValidWorkspace
+  isEmpty
 }

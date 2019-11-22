@@ -10,11 +10,9 @@ governing permissions and limitations under the License.
 */
 const fetch = require('node-fetch')
 
-const { isEmpty } = require('./adobe-helpers')
-const { endPoints, baseUrl } = require('./adobe-aep-constants')
-const { isValidOfferName, isValidOfferContent, isValidWorkspace } = require('./adobe-aep-helpers')
-const { getApiKey, getAccessToken } = require('../aep-service-core/adobe-helpers')
-const { getTenantName } = require('../aep-service-core/adobe-aep-helpers')
+const { isEmpty } = require('./aep-helpers')
+const { endPoints, baseUrl } = require('./aep-constants')
+const { getApiKey, getAccessToken, getTenantName } = require('./aep-helpers')
 
 let Client = {
   tenantName: null,

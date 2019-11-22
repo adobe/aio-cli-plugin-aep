@@ -12,9 +12,9 @@ const BaseCommand = require('./base')
 const { flags } = require('@oclif/command')
 const { cli } = require('cli-ux')
 
-class ListOffersCommand extends BaseCommand {
+class ListDatasourcesCommand extends BaseCommand {
   async run () {
-    const { flags } = this.parse(ListOffersCommand)
+    const { flags } = this.parse(ListDatasourcesCommand)
     let result
 
     try {
@@ -50,12 +50,12 @@ class ListOffersCommand extends BaseCommand {
   }
 }
 
-ListOffersCommand.description = 'Retrieve the list of previously-created content offers. The parameters passed through the query string are optional and are used to indicate the sorting and filtering options.'
+ListDatasourcesCommand.description = 'Retrieve the list of datasources associated with this organization'
 
-ListOffersCommand.flags = {
+ListDatasourcesCommand.flags = {
   limit: flags.string({ char: 'l', description: 'Defines the number of items to return. Default value is 2147483647.' }),
   offset: flags.string({ char: 'o', description: 'Defines the first offer to return from the list of total offers. Used in conjunction with limit, you can provide pagination in your application for users to browse through a large set of offers.' }),
   sortBy: flags.string({ char: 's', description: 'Defines the sorting criteria on the returned items. You can add a “-” modifier to sort by descending order.' })
 }
 
-module.exports = ListOffersCommand
+module.exports = ListDatasourcesCommand

@@ -9,11 +9,14 @@
   "bugs": "https://github.com/bgaurav/aio-cli-plugin-aep/issues",
   "dependencies": {
     "@adobe/aio-cli-config": "^1.0.7",
-    "@oclif/command": "^1.5.6",
-    "@oclif/config": "^1.9.0",
+    "@oclif/command": "^1.5.12",
+    "@oclif/config": "^1.12.12",
+    "@oclif/plugin-help": "^2.1.4",
     "@oclif/errors": "^1.1.2",
-    "cli-ux": "^5.2.0",
+    "cli-ux": "^5.2.1",
     "node-fetch": "^2.3.0",
+    "tempy": "^0.2.1",
+    "term-img": "^4.1.0",
     "debug": "^4.1.0",
     "mustache": "^3.1.0",
     "winston": "^3.2.1",
@@ -64,6 +67,9 @@
     "commands": "./src/commands",
     "bin": "",
     "devPlugins": [
+      "@oclif/plugin-help"
+    ],
+    "plugins": [
       "@oclif/plugin-help"
     ]
   },

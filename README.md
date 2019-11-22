@@ -24,7 +24,7 @@ A plugin for CRUD operations on aep resources
 
 5. ```$ cd ${above downloaded repo path}/aio-cli-plugin-aep``` 
 
-6. ```$ npm install```
+6. ```$ aio link```
 
 ## Set up adobe I/O production integration
 

@@ -18,16 +18,9 @@ class HelloCommand extends BaseCommand {
     const name = flags.name || 'world'
     this.log(`hello ${name} `)
   }
-
-   hi() {
-    this.log("hello there !!!")
-  }
 }
 
-HelloCommand.description = `Describe the command here
-...
-Extra documentation goes here
-`
+HelloCommand.description = `Test with hello !!`
 
 HelloCommand.flags = {
   name: flags.string({char: 'n', description: 'name to print'}),
