@@ -54,6 +54,5 @@ function getTenantName () {
 module.exports = {
   getApiKey,
   getAccessToken,
-  getTenantName,
-  isEmpty
+  getTenantName
 }

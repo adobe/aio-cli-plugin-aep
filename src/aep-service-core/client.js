@@ -9,9 +9,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const fetch = require('node-fetch')
-const { endPoints, catalogBaseUrl } = require('./aep-constants')
-
-
+const request = require('request')
+const {endPoints, catalogBaseUrl} = require('./aep-constants')
 
 let Client = {
   tenantName: null,
@@ -27,16 +26,16 @@ let Client = {
     return true
   },
 
-
   _doRequest: async function (path, method, contentType, body = null) {
     const options = {
       method: method,
       headers: {
-        'authorization': `Bearer `+this.accessToken,
+        'authorization': `Bearer ` + this.accessToken,
         'cache-control': 'no-cache',
         'x-api-key': this.apiKey,
-        'x-gw-ims-org-id' : this.tenantName,
-      }
+        'x-gw-ims-org-id': this.tenantName,
+        'content-type': contentType,
+      },
 
     }
     if (method !== 'GET' && (body !== null || body !== undefined)) {
@@ -75,51 +74,49 @@ let Client = {
     return this.get(`${baseUrl.toString()}`, endPoints.listDatasets.contentType).then((res) => {
       if (res.ok) {
         return res.json()
-      }
-      else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText})`)
-    })
-  },
-
-  _getDataset: async function (datasetId) {
-    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}`+datasetId)
-    return this.get(`${baseUrl.toString()}`, endPoints.listDatasets.contentType).then((res) => {
-      if (res.ok) {
-        return res.json()
-      }
-      else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText}`)
+      } else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText})`)
     })
   },
 
   _createDataset: async function (name, description, xdm) {
-    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}`)
-    const body = {
-      name: name,
-      description: description,
-      namespace: `ACP`,
-      schemaRef:
-        { id: 'https://ns.adobe.com/acponboarding/schemas/a306af0dd913e40867403807b2ddfd21',
-          contentType: 'application/vnd.adobe.xed+json; version=1'
-        },
-    }
+    request.post({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+      },
+      url: new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}`).toString(),
+      body: JSON.stringify({
+        name: name,
+        description: description,
+        schemaRef:
+          {
+            id: xdm,
+            contentType: 'application/vnd.adobe.xed-full+json; version=1',
+          },
+      }),
+    }, function (error, response, body) {
+      console.log(body)
+    })
+  },
 
-    console.log("this is the body" +JSON.stringify(body))
-    return this.post(`${baseUrl.toString()}`, endPoints.listDatasets.contentType, body).then((res) => {
+  _getDataset: async function (datasetId) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}` + datasetId)
+    return this.get(`${baseUrl.toString()}`, endPoints.listDatasets.contentType).then((res) => {
       if (res.ok) {
         return res.json()
-      }
-      else {
-        throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText})`)
-      }
+      } else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText}`)
     })
   },
 
   _deleteDataset: async function (datasetId) {
-    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}`+datasetId)
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}` + datasetId)
     return this.delete(`${baseUrl.toString()}`, endPoints.listDatasets.contentType).then((res) => {
       if (res.ok) {
         return res.json()
-      }
-      else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText}`)
+      } else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText}`)
     })
   },
 
@@ -142,8 +139,6 @@ let Client = {
     const result = await this._deleteDataset(datasetId)
     return (result)
   },
-
-
 
 }
 
