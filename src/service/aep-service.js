@@ -23,25 +23,25 @@ let AdobeAep = {
     return true
   },
 
-  getOffer: async function (offerId = null) {
-    return Client.getOffer(offerId)
+  getDataset: async function (datasetId) {
+    return Client.getDataset(datasetId)
   },
 
-  listOffers: async function () {
-    return Client.listOffers()
+  listDatasets: async function (limit = null, start = null, orderBy = null) {
+    return Client.listDatasets(limit, start, orderBy)
   },
 
-  createOffer: async function (name = null, content = null, workspace = null) {
-    return Client.createOffer(name, content, workspace)
+  createDataset: async function (name, description, xdm) {
+    return Client.createDataset(name, description, xdm)
+  },
+
+  deleteDataset: async function (id) {
+    return Client.deleteDataset(id)
   },
 
   updateOffer: async function (id = null, name = null, content = null) {
     return Client.updateOffer(id, name, content)
   },
-
-  deleteOffer: async function (id = null) {
-    return Client.deleteOffer(id)
-  }
 }
 
 module.exports = AdobeAep

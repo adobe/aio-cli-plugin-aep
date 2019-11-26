@@ -20,7 +20,7 @@ A plugin for CRUD operations on aep resources
 
 3. ```$ npm install -g @adobe/aio-cli-plugin-console```
 
-4. ```$ git clone git@git.corp.adobe.com:bgaurav/aio-cli-plugin-aep.git -b aep1```
+4. ```$ git clone git@git.corp.adobe.com:bgaurav/aio-cli-plugin-aep.git -b aep2```
 
 5. ```$ cd ${above downloaded repo path}/aio-cli-plugin-aep``` 
 
@@ -59,37 +59,45 @@ A plugin for CRUD operations on aep resources
 
 ## Finally run this simple command to list datasets in your org
 
-   ```$ ./bin/run adobe-aep:list-ds```
+   ```$ aio aep:ds:list```
  
  Output would look something like...  
   
    ```javascript 1.8
-{ '234':
-   { imsOrg: 'abc@AdobeOrg',
-     relatedObjects:
-      [ { id: 'abc', type: 'dataSet' },
-        { id: 'abc', type: 'batch' } ],
-     status: 'success',
-     metrics:
-      { recordsFailed: 0,
-        recordsWritten: 11,
-        startTime: 1561155493660,
-        endTime: 1561155539996 },
-     errors: [],
-     created: 1561155463604,
-     createdClient: 'acp_core_identity_data',
-     createdUser: 'acp_core_identity_data@AdobeID',
-     updatedUser: 'acp_core_identity_data@AdobeID',
-     updated: 1561155685767,
-     version: '1.0.3' },
-  'abc':
-   { imsOrg: 'abc@AdobeOrg',
-     relatedObjects:
-      [ { id: 'abc', type: 'dataSet' },
-        { id: 'abc', type: 'batch' } ],
-     status: 'success',
-     metrics:
-      { recordsFailed: 0,
+{ 'abc':
+   { tags:
+      { targetDataSetId: [ 'abc' ],
+        'aep/siphon/partitions': [],
+        'adobe/pqs/table': [ 'abc' ],
+        sandboxId: [ 'abc' ],
+        mappingId: [ 'abc' ],
+        acp_validationContext: [ 'enabled' ] },
+     imsOrg: 'abc@AdobeOrg',
+     name: 'Mapping DataSet_abc',
+     namespace: 'ACP',
+     state: 'DRAFT',
+     lastBatchId: 'abc',
+     lastBatchStatus: 'success',
+     version: '1.0.3',
+     created: 1573866068596,
+     updated: 1573866132606,
+     createdClient: 'acp_foundation_connectors',
+     createdUser: 'abc@AdobeID',
+     updatedUser: 'acp_foundation_dataTracker@AdobeID',
+     lastSuccessfulBatch: 'abc',
+     viewId: 'abc',
+     aspect: 'production',
+     status: 'enabled',
+     fileDescription: { persisted: false },
+     files:
+      '@/dataSets/abc/views/abc/files',
+     schemaMetadata: { primaryKey: [], delta: [], dule: [], gdpr: [] },
+     schemaRef:
+      { id:
+         'https://ns.adobe.com/acponboarding/schemas/bac62b237c00c26bd5767d7c55a28fa4',
+        contentType: 'application/vnd.adobe.xed-full+json;version=1' },
+     streamingIngestionEnabled: 'false' },
+
 ...
 ```
 

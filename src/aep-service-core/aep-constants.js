@@ -9,16 +9,16 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 module.exports = {
-  baseUrl: 'https://platform.adobe.io/',
+  catalogBaseUrl: 'https://platform.adobe.io/data/foundation',
   endPoints: {
-    targetOffers: {
-      name: '/target/offers/',
-      contentType: 'application/vnd.adobe.target.v2+json',
+    listDatasets: {
+      resourcePath: '/catalog/dataSets/',
+      contentType: 'application/json',
       parameters: {
         limit: 'limit',
-        offset: 'offset',
-        sortBy: 'sortBy'
-      }
-    }
-  }
+        start: 'start',
+        orderBy: 'orderBy',
+      },
+    },
+  },
 }

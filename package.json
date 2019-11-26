@@ -21,7 +21,8 @@
     "mustache": "^3.1.0",
     "winston": "^3.2.1",
     "@adobe/aio-app-scripts": "^0.6.0",
-    "@adobe/aio-lib-core-config": "^1.0.15"
+    "@adobe/aio-lib-core-config": "^1.0.15",
+    "jsonpath": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",

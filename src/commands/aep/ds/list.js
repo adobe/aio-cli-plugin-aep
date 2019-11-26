@@ -8,54 +8,37 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const BaseCommand = require('./base')
+const BaseCommand = require('../base')
 const { flags } = require('@oclif/command')
 const { cli } = require('cli-ux')
-
 class ListDatasourcesCommand extends BaseCommand {
   async run () {
     const { flags } = this.parse(ListDatasourcesCommand)
     let result
 
     try {
-      result = await this.listDatasets()
+      result = await this.listDatasets(flags.limit, flags.start, flags.orderBy)
+      console.log(result);
     } catch (error) {
       this.error(error.message)
     }
-
-    // cli.table(result, {
-    //   id: {
-    //     header: 'Id'
-    //   },
-    //   name: {
-    //     header: 'Name'
-    //   },
-    //   type: {
-    //     header: 'Type'
-    //   },
-    //   modifiedAt: {
-    //     header: 'Modified At'
-    //   },
-    //   workspace: {
-    //     header: 'Workspace'
-    //   }
-    // }, {
-    //   printLine: this.log
-    // })
     return result
   }
 
-  async listDatasets () {
-    return this.getAdobeAep().listOffers()
+  async listDatasets (limit = null, start = null, orderBy = null) {
+    return this.getAdobeAep().listDatasets(limit, start, orderBy)
   }
 }
 
 ListDatasourcesCommand.description = 'Retrieve the list of datasources associated with this organization'
 
 ListDatasourcesCommand.flags = {
-  limit: flags.string({ char: 'l', description: 'Defines the number of items to return. Default value is 2147483647.' }),
-  offset: flags.string({ char: 'o', description: 'Defines the first offer to return from the list of total offers. Used in conjunction with limit, you can provide pagination in your application for users to browse through a large set of offers.' }),
-  sortBy: flags.string({ char: 's', description: 'Defines the sorting criteria on the returned items. You can add a “-” modifier to sort by descending order.' })
+  limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),
+  orderBy: flags.string({ char: 'o', description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.' }),
+  start: flags.string({ char: 's', description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..' })
 }
 
+ListDatasourcesCommand.aliases = [
+  'aep:ds:ls',
+  'aep:ds:list']
 module.exports = ListDatasourcesCommand

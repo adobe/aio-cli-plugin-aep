@@ -9,10 +9,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const fetch = require('node-fetch')
+const { endPoints, catalogBaseUrl } = require('./aep-constants')
 
-const { isEmpty } = require('./aep-helpers')
-const { endPoints, baseUrl } = require('./aep-constants')
-const { getApiKey, getAccessToken, getTenantName } = require('./aep-helpers')
+
 
 let Client = {
   tenantName: null,
@@ -29,7 +28,6 @@ let Client = {
   },
 
 
-
   _doRequest: async function (path, method, contentType, body = null) {
     const options = {
       method: method,
@@ -37,7 +35,7 @@ let Client = {
         'authorization': `Bearer `+this.accessToken,
         'cache-control': 'no-cache',
         'x-api-key': this.apiKey,
-        'x-gw-ims-org-id' : this.tenantName
+        'x-gw-ims-org-id' : this.tenantName,
       }
 
     }
@@ -63,40 +61,89 @@ let Client = {
     return this._doRequest(path, 'DELETE', contentType)
   },
 
-  _listOffers: async function () {
-    const request = require('request');
-    const promisifiedRequest = function(options) {
-      return new Promise((resolve,reject) => {
-        request(options, (error, response, body) => {
-          if (response) {
-            return resolve(response);
-          }
-          if (error) {
-            return reject(error);
-          }
-        });
-      });
-    };
-    (async function() {
-      const options = {
-        url: 'https://platform.adobe.io/data/foundation/catalog/batches',
-        method: 'GET',
-        headers: {
-          'authorization': `Bearer `+getAccessToken(),
-          'cache-control': 'no-cache',
-          'x-api-key': getApiKey(),
-          'x-gw-ims-org-id' : getTenantName()
-        }
-      };
-
-      let response = await promisifiedRequest(options);
-      console.log(JSON.parse(response.body));
-    })();
+  _listDatasets: async function (limit, start, orderBy) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}`)
+    if (limit) {
+      baseUrl.searchParams.append(endPoints.listDatasets.parameters.limit, limit)
+    }
+    if (start) {
+      baseUrl.searchParams.append(endPoints.listDatasets.parameters.start, start)
+    }
+    if (orderBy) {
+      baseUrl.searchParams.append(endPoints.listDatasets.parameters.orderBy, orderBy)
+    }
+    return this.get(`${baseUrl.toString()}`, endPoints.listDatasets.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      }
+      else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText})`)
+    })
   },
-  listOffers: async function () {
-    const result = await this._listOffers()
+
+  _getDataset: async function (datasetId) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}`+datasetId)
+    return this.get(`${baseUrl.toString()}`, endPoints.listDatasets.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      }
+      else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText}`)
+    })
+  },
+
+  _createDataset: async function (name, description, xdm) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}`)
+    const body = {
+      name: name,
+      description: description,
+      namespace: `ACP`,
+      schemaRef:
+        { id: 'https://ns.adobe.com/acponboarding/schemas/a306af0dd913e40867403807b2ddfd21',
+          contentType: 'application/vnd.adobe.xed+json; version=1'
+        },
+    }
+
+    console.log("this is the body" +JSON.stringify(body))
+    return this.post(`${baseUrl.toString()}`, endPoints.listDatasets.contentType, body).then((res) => {
+      if (res.ok) {
+        return res.json()
+      }
+      else {
+        throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText})`)
+      }
+    })
+  },
+
+  _deleteDataset: async function (datasetId) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.listDatasets.resourcePath}`+datasetId)
+    return this.delete(`${baseUrl.toString()}`, endPoints.listDatasets.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      }
+      else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText}`)
+    })
+  },
+
+  listDatasets: async function (limit = null, start = null, orderBy = null) {
+    const result = await this._listDatasets(limit, start, orderBy)
     return (result)
   },
+
+  getDataset: async function (datasetId) {
+    const result = await this._getDataset(datasetId)
+    return (result)
+  },
+
+  createDataset: async function (name, description, xdm) {
+    const result = await this._createDataset(name, description, xdm)
+    return (result)
+  },
+
+  deleteDataset: async function (datasetId) {
+    const result = await this._deleteDataset(datasetId)
+    return (result)
+  },
+
+
 
 }
 
