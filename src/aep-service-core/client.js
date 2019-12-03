@@ -222,7 +222,7 @@ let Client = {
 
   _deleteBatch: async function (batchId) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.batches.resourcePath}` + batchId)
-    return this.delete(`${baseUrl.toString()}`, endPoints.batches.contentType).then((res) => {
+    return this.delete(`${baseUrl.toString()}`).then((res) => {
       if (res.ok) {
         return res.json()
       } else throw new Error(`Cannot fulfill request on resource batches: ${res.url} (${res.status} ${res.statusText}`)

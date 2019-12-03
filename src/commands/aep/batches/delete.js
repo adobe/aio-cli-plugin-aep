@@ -31,7 +31,7 @@ class DeleteBatchesCommand extends BaseCommand {
   }
 }
 
-DeleteBatchesCommand.description = 'Delete this dataset.'
+DeleteBatchesCommand.description = 'Delete this batch.'
 
 DeleteBatchesCommand.flags = {
   batchId: flags.string({char: 'i', description: 'The ID of the batch.', required: true}),
@@ -39,4 +39,5 @@ DeleteBatchesCommand.flags = {
 
 DeleteBatchesCommand.aliases = [
   'aep:batches:delete']
+
 module.exports = DeleteBatchesCommand

@@ -35,8 +35,8 @@ let AdobeAep = {
     return Client.createDataset(name, description, xdm)
   },
 
-  deleteDataset: async function (id) {
-    return Client.deleteDataset(id)
+  deleteDataset: async function (datasetId) {
+    return Client.deleteDataset(datasetId)
   },
 
  //batches
