@@ -11,8 +11,17 @@ governing permissions and limitations under the License.
 module.exports = {
   catalogBaseUrl: 'https://platform.adobe.io/data/foundation',
   endPoints: {
-    listDatasets: {
+    datasets: {
       resourcePath: '/catalog/dataSets/',
+      contentType: 'application/json',
+      parameters: {
+        limit: 'limit',
+        start: 'start',
+        orderBy: 'orderBy',
+      },
+    },
+    batches: {
+      resourcePath: '/catalog/batches/',
       contentType: 'application/json',
       parameters: {
         limit: 'limit',

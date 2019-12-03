@@ -22,7 +22,7 @@ let AdobeAep = {
     Client.init(config)
     return true
   },
-
+//datasets
   getDataset: async function (datasetId) {
     return Client.getDataset(datasetId)
   },
@@ -39,8 +39,22 @@ let AdobeAep = {
     return Client.deleteDataset(id)
   },
 
-  updateOffer: async function (id = null, name = null, content = null) {
-    return Client.updateOffer(id, name, content)
+ //batches
+
+  listBatches: async function (limit = null, start = null, orderBy = null) {
+    return Client.listBatches(limit, start, orderBy)
+  },
+
+  getBatch: async function (batchId) {
+    return Client.getBatch(batchId)
+  },
+
+  createBatch: async function (datasetId, fileType) {
+    return Client.createBatch(datasetId, fileType)
+  },
+
+  deleteBatch: async function (batchId) {
+    return Client.deleteBatch(batchId)
   },
 }
 
