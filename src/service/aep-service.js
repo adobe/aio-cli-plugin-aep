@@ -22,7 +22,9 @@ let AdobeAep = {
     Client.init(config)
     return true
   },
+
 //datasets
+
   getDataset: async function (datasetId) {
     return Client.getDataset(datasetId)
   },
@@ -55,6 +57,24 @@ let AdobeAep = {
 
   deleteBatch: async function (batchId) {
     return Client.deleteBatch(batchId)
+  },
+
+  //classes
+
+  listClasses: async function (limit = null, start = null, orderBy = null, container = null) {
+    return Client.listClasses(limit, start, orderBy, container)
+  },
+
+  getClass: async function (classId, container) {
+    return Client.getClass(classId, container)
+  },
+
+  createClass: async function (mixin, title, description, baseClass, container) {
+    return Client.createClass(mixin, title, description, baseClass, container)
+  },
+
+  deleteClass: async function (classId, container) {
+    return Client.deleteClass(classId, container)
   },
 }
 

@@ -29,5 +29,15 @@ module.exports = {
         orderBy: 'orderBy',
       },
     },
+    classes: {
+      resourcePath: '/schemaregistry/',
+      resourceType: '/classes/',
+      contentType: 'application/json',
+      parameters: {
+        limit: 'limit',
+        start: 'start',
+        orderBy: 'orderBy',
+      },
+    },
   },
 }

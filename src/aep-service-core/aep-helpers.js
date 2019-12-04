@@ -10,11 +10,11 @@ governing permissions and limitations under the License.
 */
 const config = require('@adobe/aio-cli-config')
 
-function isEmpty (s) {
+function isEmpty(s) {
   return s === null || s === undefined || s.length === 0
 }
 
-function getApiKey () {
+function getApiKey() {
   const jwtAuth = config.get('jwt-auth')
   if (!jwtAuth) {
     throw new Error('missing config data: jwt-auth')
@@ -25,13 +25,14 @@ function getApiKey () {
   }
   return apiKey
 }
+
 //
-function getAccessToken () {
+function getAccessToken() {
   const jwtAuth = config.get('jwt-auth')
   if (!jwtAuth) {
     throw new Error('missing config data: jwt-auth')
   }
- // const accessToken = jwtAuth.access_token
+  // const accessToken = jwtAuth.access_token
   const accessToken = config.get('jwt-auth.access_token')
   if (!accessToken) {
     throw new Error('missing config data: jwt-auth.access_token')
@@ -39,7 +40,7 @@ function getAccessToken () {
   return accessToken
 }
 
-function getTenantName () {
+function getTenantName() {
   const targetConfig = config.get('jwt-auth.jwt_payload.iss')
   if (!targetConfig) {
     throw new Error('missing config data: org')
@@ -54,5 +55,5 @@ function getTenantName () {
 module.exports = {
   getApiKey,
   getAccessToken,
-  getTenantName
+  getTenantName,
 }
