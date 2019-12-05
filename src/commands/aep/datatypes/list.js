@@ -30,7 +30,7 @@ class ListClassesCommand extends BaseCommand {
   }
 }
 
-ListClassesCommand.description = 'Retrieve the list of datasources associated with this organization'
+ListClassesCommand.description = 'Retrieve the list of classes associated with this organization'
 
 ListClassesCommand.flags = {
   limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),

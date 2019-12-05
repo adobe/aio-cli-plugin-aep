@@ -11,9 +11,9 @@ governing permissions and limitations under the License.
 const BaseCommand = require('../base')
 const { flags } = require('@oclif/command')
 const { cli } = require('cli-ux')
-class CreateClassesCommand extends BaseCommand {
+class CreateDatatypesCommand extends BaseCommand {
   async run () {
-    const { flags } = this.parse(CreateClassesCommand)
+    const { flags } = this.parse(CreateDatatypesCommand)
     let result
 
     try {
@@ -29,9 +29,9 @@ class CreateClassesCommand extends BaseCommand {
   }
 }
 
-CreateClassesCommand.description = 'Create a dataset. '
+CreateDatatypesCommand.description = 'Create a dataset. '
 
-CreateClassesCommand.flags = {
+CreateDatatypesCommand.flags = {
   mixin: flags.string({char: 'm', description: 'The type of mixin. One of   https://ns.adobe.com/xdm/data/record,  https://ns.adobe.com/xdm/data/time-series,  https://ns.adobe.com/xdm/data/adhoc',
     options: ['https://ns.adobe.com/xdm/data/record',  'https://ns.adobe.com/xdm/data/time-series',  'https://ns.adobe.com/xdm/data/adhoc'], default: 'https://ns.adobe.com/xdm/data/record', required: false}),
   title: flags.string({ char: 't', description: 'Title of class.', required: true }),
@@ -40,7 +40,7 @@ CreateClassesCommand.flags = {
   container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
 }
 
-CreateClassesCommand.aliases = [
+CreateDatatypesCommand.aliases = [
   'aep:classes:create',
   'aep:classes:new']
-module.exports = CreateClassesCommand
+module.exports = CreateDatatypesCommand
