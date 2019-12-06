@@ -18,14 +18,14 @@ class DeleteDatatypesCommand extends BaseCommand {
     let result
 
     try {
-      result = await this.deletDatatype(flags.datatypeId, flags.container)
+      result = await this.deleteDatatype(flags.datatypeId, flags.container)
     } catch (error) {
       this.error(error.message)
     }
     return result
   }
 
-  async deletDatatype(datatypeId, container) {
+  async deleteDatatype(datatypeId, container) {
     return this.getAdobeAep().deleteDatatype(datatypeId, container)
   }
 }
