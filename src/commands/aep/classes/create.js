@@ -9,11 +9,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const BaseCommand = require('../base')
-const { flags } = require('@oclif/command')
-const { cli } = require('cli-ux')
+const {flags} = require('@oclif/command')
+const {cli} = require('cli-ux')
+
 class CreateClassesCommand extends BaseCommand {
-  async run () {
-    const { flags } = this.parse(CreateClassesCommand)
+  async run() {
+    const {flags} = this.parse(CreateClassesCommand)
     let result
 
     try {
@@ -24,7 +25,7 @@ class CreateClassesCommand extends BaseCommand {
     return result
   }
 
-  async createClass (mixin, title, description, baseClass, container) {
+  async createClass(mixin, title, description, baseClass, container) {
     return this.getAdobeAep().createClass(mixin, title, description, baseClass, container)
   }
 }
@@ -32,12 +33,23 @@ class CreateClassesCommand extends BaseCommand {
 CreateClassesCommand.description = 'Create a dataset. '
 
 CreateClassesCommand.flags = {
-  mixin: flags.string({char: 'm', description: 'The type of mixin. One of   https://ns.adobe.com/xdm/data/record,  https://ns.adobe.com/xdm/data/time-series,  https://ns.adobe.com/xdm/data/adhoc',
-    options: ['https://ns.adobe.com/xdm/data/record',  'https://ns.adobe.com/xdm/data/time-series',  'https://ns.adobe.com/xdm/data/adhoc'], default: 'https://ns.adobe.com/xdm/data/record', required: false}),
-  title: flags.string({ char: 't', description: 'Title of class.', required: true }),
-  description: flags.string({ char: 'd', description: 'Description of class.', required: true }),
-  base_class: flags.string({ char: 'b', description: 'Base class id.', required: false }),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+  mixin: flags.string({
+    char: 'm',
+    description: 'The type of mixin. One of   https://ns.adobe.com/xdm/data/record,  https://ns.adobe.com/xdm/data/time-series,  https://ns.adobe.com/xdm/data/adhoc',
+    options: ['https://ns.adobe.com/xdm/data/record', 'https://ns.adobe.com/xdm/data/time-series', 'https://ns.adobe.com/xdm/data/adhoc'],
+    default: 'https://ns.adobe.com/xdm/data/record',
+    required: false,
+  }),
+  title: flags.string({char: 't', description: 'Title of class.', required: true}),
+  description: flags.string({char: 'd', description: 'Description of class.', required: true}),
+  base_class: flags.string({char: 'b', description: 'Base class id.', required: false}),
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 CreateClassesCommand.aliases = [

@@ -343,8 +343,130 @@ let Client = {
     })
   },
 
+  //datatypes signature
+
+  listDatatypes: async function (limit = null, start = null, orderBy = null, container = null) {
+    return Client._listDatatypes(limit, start, orderBy, container)
+  },
+
+  getDatatype: async function (datatypeId, container) {
+    return Client._getDatatype(datatypeId, container)
+  },
+
+  createDatatype: async function ( title, description, container, propName, propValue) {
+    return Client._createDatatype(title, description,  container, propName, propValue)
+  },
+
+  deleteDatatype: async function (datatypeId, container) {
+    return Client._deleteDatatype(datatypeId, container)
+  },
+
+  //datatypes definition
+  _listDatatypes: async function (limit, start, orderBy, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datatypes.resourcePath}${container}${endPoints.datatypes.resourceType}`)
+    if (limit) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.limit, limit)
+    }
+    if (start) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.start, start)
+    }
+    if (orderBy) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.orderBy, orderBy)
+    }
+    request.get({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full+json',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      let json = JSON.parse(body)
+      console.log(json)
+    })
+  },
+
+
+  _createDatatype: async function (title, description, container, propName, propValue) {
+    var metExtend = 'meta:extensible'
+    var metAbstract = 'meta:abstract'
+
+    var payLoad = {
+      title: title,
+      description: description,
+      type: 'object',
+      [metExtend]: true,
+      [metAbstract]: true,
+      allOf: [{
+        properties: {
+          [propName]: {
+            type: propValue
+          },
+        },
+      }],
+    }
+    request.post({
+
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full+json',
+      },
+      url: new URL(`${catalogBaseUrl}${endPoints.datatypes.resourcePath}${container}${endPoints.datatypes.resourceType}`),
+      body: JSON.stringify(payLoad),
+    }, function (error, response, body) {
+      const object = JSON.parse(body)
+      console.dir(object, {depth: null, colors: true})
+    })
+  },
+
+  _getDatatype: async function (datatypeId, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datatypes.resourcePath}${container}${endPoints.datatypes.resourceType}${datatypeId}`)
+    request.get({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      let json = JSON.parse(body)
+      console.log(json)
+    })
+  },
+
+  _deleteDatatype: async function (datatypeId, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datatypes.resourcePath}${container}${endPoints.datatypes.resourceType}${datatypeId}`)
+    request.delete({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        console.log('Successfully deleted datatype ' + datatypeId)
+      } else {
+        const object = JSON.parse(body)
+        console.dir(object, {depth: null, colors: true})
+      }
+    })
+  },
+
 }
 
-//classes definition
 
 module.exports = Client

@@ -76,6 +76,27 @@ let AdobeAep = {
   deleteClass: async function (classId, container) {
     return Client.deleteClass(classId, container)
   },
+
+
+  //datatypes
+
+  listDatatypes: async function (limit = null, start = null, orderBy = null, container = null) {
+    return Client.listDatatypes(limit, start, orderBy, container)
+  },
+
+  getDatatype: async function (datatypeId, container) {
+    return Client.getDatatype(datatypeId, container)
+  },
+
+  createDatatype: async function (title, description, container, propName, propValue) {
+    return Client.createDatatype(title, description,  container, propName, propValue)
+  },
+
+  deleteDatatype: async function (datatypeId, container) {
+    return Client.deleteDatatype(datatypeId, container)
+  },
+
+
 }
 
 module.exports = AdobeAep

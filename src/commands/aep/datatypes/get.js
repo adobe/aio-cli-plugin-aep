@@ -12,31 +12,31 @@ const BaseCommand = require('../base')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class GetClassesCommand extends BaseCommand {
+class GetDatatypesCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(GetClassesCommand)
+    const {flags} = this.parse(GetDatatypesCommand)
     let result
 
     try {
-      result = await this.getClass(flags.classId, flags.container)
+      result = await this.getDatatype(flags.datatypeId, flags.container)
     } catch (error) {
       this.error(error.message)
     }
     return result
   }
 
-  async getClass(classId, container) {
-    return this.getAdobeAep().getClass(classId, container)
+  async getDatatype(datatypeId, container) {
+    return this.getAdobeAep().getDatatype(datatypeId, container)
   }
 }
 
-GetClassesCommand.description = 'Retrieve the detail of one dataset'
+GetDatatypesCommand.description = 'Retrieve the detail of one datatypes'
 
-GetClassesCommand.flags = {
-  classId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+GetDatatypesCommand.flags = {
+  datatypeId: flags.string({char: 'i', description: 'The meta:altId of the datatypes.', required: true}),
+  container: flags.string( {char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
 }
 
-GetClassesCommand.aliases = [
-  'aep:ds:get']
-module.exports = GetClassesCommand
+GetDatatypesCommand.aliases = [
+  'aep:datatypes:get']
+module.exports = GetDatatypesCommand

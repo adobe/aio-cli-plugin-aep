@@ -12,31 +12,31 @@ const BaseCommand = require('../base')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class DeleteClassesCommand extends BaseCommand {
+class DeleteDatatypesCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(DeleteClassesCommand)
+    const {flags} = this.parse(DeleteDatatypesCommand)
     let result
 
     try {
-      result = await this.deleteClass(flags.classId, flags.container)
+      result = await this.deletDatatype(flags.datatypeId, flags.container)
     } catch (error) {
       this.error(error.message)
     }
     return result
   }
 
-  async deleteClass(datasetId, container) {
-    return this.getAdobeAep().deleteClass(datasetId, container)
+  async deletDatatype(datatypeId, container) {
+    return this.getAdobeAep().deleteDatatype(datatypeId, container)
   }
 }
 
-DeleteClassesCommand.description = 'Delete this dataset.'
+DeleteDatatypesCommand.description = 'Delete this datatypes.'
 
-DeleteClassesCommand.flags = {
-  classId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
+DeleteDatatypesCommand.flags = {
+  datatypeId: flags.string({char: 'i', description: 'The meta:altId of the datatype.', required: true}),
   container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
 }
 
-DeleteClassesCommand.aliases = [
-  'aep:ds:delete']
-module.exports = DeleteClassesCommand
+DeleteDatatypesCommand.aliases = [
+  'aep:datatypes:delete']
+module.exports = DeleteDatatypesCommand
