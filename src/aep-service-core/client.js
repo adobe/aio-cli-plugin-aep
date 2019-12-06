@@ -291,11 +291,15 @@ let Client = {
         title: title,
         description: description,
         type: 'object',
-        metExtend: metaExtends,
+        [metExtend]: metaExtends,
         allOf: [{
           $ref: mixin,
           properties: {},
-        }],
+        },
+          {
+            $ref: baseClass,
+            properties: {},
+          }],
       }),
     }, function (error, response, body) {
       const object = JSON.parse(body)
@@ -466,7 +470,129 @@ let Client = {
     })
   },
 
-}
+  //mixins signature
 
+  listMixins: async function (limit = null, start = null, orderBy = null, container = null) {
+    const result = await this._listMixins(limit, start, orderBy, container)
+    return (result)
+  },
+
+  getMixin: async function (mixinId, container) {
+    const result = await this._getMixin(mixinId, container)
+    return (result)
+  },
+
+  createMixin: async function (classId, title, description, container) {
+    const result = await this._createMixin(classId, title, description, container)
+    return (result)
+  },
+
+  deleteMixin: async function (mixinId, container) {
+    const result = await this._deleteMixin(mixinId, container)
+    return (result)
+  },
+
+  ////mixins implementation
+
+  _createMixin: async function (classId, title, description, container) {
+    var metExtend = 'meta:intendedToExtend'
+    request.post({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full+json',
+      },
+      url: new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}`),
+      body: JSON.stringify({
+        title: title,
+        description: description,
+        type: 'object',
+        [metExtend]: classId,
+        // allOf: [{
+        //   $ref: mixin,
+        //   properties: {},
+        // },
+        //   {
+        //     $ref: baseClass,
+        //     properties: {},
+        //   }],
+      }),
+    }, function (error, response, body) {
+      const object = JSON.parse(body)
+      console.dir(object, {depth: null, colors: true})
+    })
+  },
+
+  _listMixins: async function (limit, start, orderBy, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}`)
+    if (limit) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.limit, limit)
+    }
+    if (start) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.start, start)
+    }
+    if (orderBy) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.orderBy, orderBy)
+    }
+    request.get({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full+json',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      let json = JSON.parse(body)
+      console.log(json)
+    })
+  },
+
+  _getMixin: async function (mixinId, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}${mixinId}`)
+    request.get({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      let json = JSON.parse(body)
+      console.log(json)
+    })
+  },
+
+  _deleteMixin: async function (mixinId, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}${mixinId}`)
+    request.delete({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        console.log('Successfully deleted mixin ' + mixinId)
+      } else {
+        const object = JSON.parse(body)
+        console.dir(object, {depth: null, colors: true})
+      }
+    })
+  },
+
+}
 
 module.exports = Client

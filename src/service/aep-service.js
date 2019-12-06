@@ -96,6 +96,23 @@ let AdobeAep = {
     return Client.deleteDatatype(datatypeId, container)
   },
 
+  //mixins
+
+  listMixins: async function (limit = null, start = null, orderBy = null, container = null) {
+    return Client.listMixins(limit, start, orderBy, container)
+  },
+
+  getMixin: async function (mixinId, container) {
+    return Client.getMixin(mixinId, container)
+  },
+
+  createMixin: async function (classId, title, description, container) {
+    return Client.createMixin(classId, title, description, container)
+  },
+
+  deleteMixin: async function (mixinId, container) {
+    return Client.deleteMixin(mixinId, container)
+  },
 
 }
 

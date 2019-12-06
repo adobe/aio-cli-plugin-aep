@@ -49,5 +49,15 @@ module.exports = {
         orderBy: 'orderBy',
       },
     },
+    mixins: {
+      resourcePath: '/schemaregistry/',
+      resourceType: '/mixins/',
+      contentType: 'application/json',
+      parameters: {
+        limit: 'limit',
+        start: 'start',
+        orderBy: 'orderBy',
+      },
+    },
   },
 }
