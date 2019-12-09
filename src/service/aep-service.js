@@ -106,12 +106,29 @@ let AdobeAep = {
     return Client.getMixin(mixinId, container)
   },
 
-  createMixin: async function (classId, title, description, container) {
-    return Client.createMixin(classId, title, description, container)
+  createMixin: async function (classId, title, description, container, propName, propValue, organization) {
+    return Client.createMixin(classId, title, description, container, propName, propValue, organization)
   },
 
   deleteMixin: async function (mixinId, container) {
     return Client.deleteMixin(mixinId, container)
+  },
+
+  //schemas
+  createSchema: async function (mixin, title, description, baseClass, container, unionschema) {
+    return Client.createSchema(mixin, title, description, baseClass, container, unionschema)
+  },
+
+  listSchemas: async function (limit = null, start = null, orderBy = null, container = null) {
+    return Client.listSchemas(limit, start, orderBy, container)
+  },
+
+  getSchema: async function (schemaId, container) {
+    return Client.getSchema(schemaId, container)
+  },
+
+  deleteSchema: async function (schemaId, container) {
+    return Client.deleteSchema(schemaId, container)
   },
 
 }

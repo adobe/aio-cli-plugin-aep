@@ -12,31 +12,31 @@ const BaseCommand = require('../base')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class DeleteMixinsCommand extends BaseCommand {
+class DeleteSchemaCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(DeleteMixinsCommand)
+    const {flags} = this.parse(DeleteSchemaCommand)
     let result
 
     try {
-      result = await this.deleteMixin(flags.mixinId, flags.container)
+      result = await this.deleteSchema(flags.schemaId, flags.container)
     } catch (error) {
       this.error(error.message)
     }
     return result
   }
 
-  async deleteMixin(mixinId, container) {
-    return this.getAdobeAep().deleteMixin(mixinId, container)
+  async deleteSchema(schemaId, container) {
+    return this.getAdobeAep().deleteSchema(schemaId, container)
   }
 }
 
-DeleteMixinsCommand.description = 'Delete this dataset.'
+DeleteSchemaCommand.description = 'Delete this dataset.'
 
-DeleteMixinsCommand.flags = {
-  mixinId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
+DeleteSchemaCommand.flags = {
+  schemaId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
   container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
 }
 
-DeleteMixinsCommand.aliases = [
-  'aep:mixins:delete']
-module.exports = DeleteMixinsCommand
+DeleteSchemaCommand.aliases = [
+  'aep:schemas:delete']
+module.exports = DeleteSchemaCommand

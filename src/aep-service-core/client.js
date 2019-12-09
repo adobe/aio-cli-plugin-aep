@@ -237,8 +237,8 @@ let Client = {
     return Client._getClass(classId, container)
   },
 
-  createClass: async function (mixin, title, description, baseClass, container) {
-    return Client._createClass(mixin, title, description, baseClass, container)
+  createClass: async function (mixin, title, description, baseClass, container, unionschema) {
+    return Client._createClass(mixin, title, description, baseClass, container, unionschema)
   },
 
   deleteClass: async function (classId, container) {
@@ -274,7 +274,7 @@ let Client = {
     })
   },
 
-  _createClass: async function (mixin, title, description, baseClass, container) {
+  _createClass: async function (mixin, title, description, baseClass, container, unionschema) {
     var metaExtends = [mixin, baseClass]
     var metExtend = 'meta:extends'
     request.post({
@@ -482,8 +482,8 @@ let Client = {
     return (result)
   },
 
-  createMixin: async function (classId, title, description, container) {
-    const result = await this._createMixin(classId, title, description, container)
+  createMixin: async function (classId, title, description, container, propName, propValue, organization) {
+    const result = await this._createMixin(classId, title, description, container, propName, propValue, organization)
     return (result)
   },
 
@@ -494,8 +494,11 @@ let Client = {
 
   ////mixins implementation
 
-  _createMixin: async function (classId, title, description, container) {
+  _createMixin: async function (classId, title, description, container, propName, propValue, organization) {
     var metExtend = 'meta:intendedToExtend'
+    var ext = 'meta:extensible'
+    var meta = 'meta:abstract'
+    console.log(organization)
     request.post({
       headers: {
         'authorization': `Bearer ` + this.accessToken,
@@ -510,15 +513,29 @@ let Client = {
         title: title,
         description: description,
         type: 'object',
-        [metExtend]: classId,
-        // allOf: [{
-        //   $ref: mixin,
-        //   properties: {},
-        // },
-        //   {
-        //     $ref: baseClass,
-        //     properties: {},
-        //   }],
+        [ext]: true,
+        [meta]: true,
+        [metExtend]: [classId],
+        definitions: {
+      [propName]: {
+      properties: {
+        [organization]: {
+          // type:'object',
+          properties: {
+            [propName]: {
+              type: propValue,
+              }
+            }
+          }
+        }
+      }
+    },
+        allOf: [
+          {
+            $ref: "#/definitions/"+ propName,
+          },
+
+        ],
       }),
     }, function (error, response, body) {
       const object = JSON.parse(body)
@@ -586,6 +603,130 @@ let Client = {
     }, function (error, response, body) {
       if (response.statusCode == 204 || response.statusCode == 200) {
         console.log('Successfully deleted mixin ' + mixinId)
+      } else {
+        const object = JSON.parse(body)
+        console.dir(object, {depth: null, colors: true})
+      }
+    })
+  },
+
+  //schemas definition
+
+  createSchema: async function (mixin, title, description, baseClass, container) {
+    return Client._createSchema(mixin, title, description, baseClass, container)
+  },
+
+
+  listSchemas: async function (limit = null, start = null, orderBy = null, container = null) {
+    const result = await this._listSchemas(limit, start, orderBy, container)
+    return (result)
+  },
+
+  getSchema: async function (schemaId, container) {
+    const result = await this._getSchema(schemaId, container)
+    return (result)
+  },
+
+
+  deleteSchema: async function (schemaId, container) {
+    const result = await this._deleteSchema(schemaId, container)
+    return (result)
+  },
+
+//schemas implementation
+
+  _createSchema: async function (mixin, title, description, baseClass, container) {
+    var metaExtends = [baseClass]
+    var metExtend = 'meta:extends'
+    var unionSchema ='meta:immutableTags'
+    request.post({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full+json',
+      },
+      url: new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}`),
+      body: JSON.stringify({
+        title: title,
+        description: description,
+        type: 'object',
+        [unionSchema]: ['union'],
+        [metExtend]: metaExtends,
+        allOf: [
+          {
+            $ref: baseClass,
+            properties: {},
+          }],
+      }),
+    }, function (error, response, body) {
+      const object = JSON.parse(body)
+      console.dir(object, {depth: null, colors: true})
+    })
+  },
+
+  _listSchemas: async function (limit, start, orderBy, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}`)
+    if (limit) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.limit, limit)
+    }
+    if (start) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.start, start)
+    }
+    if (orderBy) {
+      baseUrl.searchParams.append(endPoints.batches.parameters.orderBy, orderBy)
+    }
+    request.get({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full+json',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      let json = JSON.parse(body)
+      console.log(json)
+    })
+  },
+
+  _getSchema: async function (schemaId, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}${schemaId}`)
+    request.get({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      let json = JSON.parse(body)
+      console.log(json)
+    })
+  },
+
+  _deleteSchema: async function (schemaId, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}${schemaId}`)
+    request.delete({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        console.log('Successfully deleted schema ' + schemaId)
       } else {
         const object = JSON.parse(body)
         console.dir(object, {depth: null, colors: true})

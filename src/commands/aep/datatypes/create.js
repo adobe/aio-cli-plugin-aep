@@ -47,7 +47,7 @@ CreateDatatypesCommand.flags = {
   }),
   properties: flags.string({
     char: 'p',
-    description: 'Please provide atleast one property in this format propertyName*propertyValue ',
+    description: 'Please provide one property in this format propertyName*propertyValue ',
     default: 'global',
     multiple: false,
     required: true,
