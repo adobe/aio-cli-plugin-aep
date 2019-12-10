@@ -69,5 +69,10 @@ module.exports = {
         orderBy: 'orderBy',
       },
     },
+    stats: {
+      resourcePath: '/schemaregistry/',
+      resourceType: 'stats',
+      contentType: 'application/json',
+    },
   },
 }

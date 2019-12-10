@@ -633,6 +633,11 @@ let Client = {
     return (result)
   },
 
+  listStats: async function () {
+    const result = await this._listStats()
+    return (result)
+  },
+
 //schemas implementation
 
   _createSchema: async function (mixin, title, description, baseClass, container) {
@@ -731,6 +736,24 @@ let Client = {
         const object = JSON.parse(body)
         console.dir(object, {depth: null, colors: true})
       }
+    })
+  },
+
+  _listStats: async function () {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.stats.resourcePath}${endPoints.stats.resourceType}`)
+    request.get({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
+      },
+      url: baseUrl,
+    }, function (error, response, body) {
+      let json = JSON.parse(body)
+      console.log(json)
     })
   },
 
