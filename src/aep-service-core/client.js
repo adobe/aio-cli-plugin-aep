@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 const fetch = require('node-fetch')
 const request = require('request')
-const {endPoints, catalogBaseUrl} = require('./aep-constants')
+const {endPoints, catalogBaseUrl} = require('./constants')
 
 let Client = {
   tenantName: null,
@@ -237,8 +237,8 @@ let Client = {
     return Client._getClass(classId, container)
   },
 
-  createClass: async function (mixin, title, description, baseClass, container, unionschema) {
-    return Client._createClass(mixin, title, description, baseClass, container, unionschema)
+  createClass: async function (mixin, title, description, baseClass, container) {
+    return Client._createClass(mixin, title, description, baseClass, container)
   },
 
   deleteClass: async function (classId, container) {
@@ -274,7 +274,7 @@ let Client = {
     })
   },
 
-  _createClass: async function (mixin, title, description, baseClass, container, unionschema) {
+  _createClass: async function (mixin, title, description, baseClass, container) {
     var metaExtends = [mixin, baseClass]
     var metExtend = 'meta:extends'
     request.post({
@@ -338,7 +338,7 @@ let Client = {
       },
       url: baseUrl,
     }, function (error, response, body) {
-      if (response.statusCode == 204 || response.statusCode == 200) {
+      if (response.statusCode === 204 || response.statusCode === 200) {
         console.log('Successfully deleted class ' + classId)
       } else {
         const object = JSON.parse(body)
@@ -461,7 +461,7 @@ let Client = {
       },
       url: baseUrl,
     }, function (error, response, body) {
-      if (response.statusCode == 204 || response.statusCode == 200) {
+      if (response.statusCode === 204 || response.statusCode === 200) {
         console.log('Successfully deleted datatype ' + datatypeId)
       } else {
         const object = JSON.parse(body)
@@ -601,7 +601,7 @@ let Client = {
       },
       url: baseUrl,
     }, function (error, response, body) {
-      if (response.statusCode == 204 || response.statusCode == 200) {
+      if (response.statusCode === 204 || response.statusCode === 200) {
         console.log('Successfully deleted mixin ' + mixinId)
       } else {
         const object = JSON.parse(body)

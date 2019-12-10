@@ -8,22 +8,18 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const BaseCommand = require('./base')
-const { flags } = require('@oclif/command')
-const { cli } = require('cli-ux')
+const {Command} = require('@oclif/command')
+const AdobeAep = require('../../aep-service-core/service')
 
-class HelloCommand extends BaseCommand {
-  async run() {
-    const {flags} = this.parse(HelloCommand)
-    const name = flags.name || 'world'
-    this.log(`hello ${name} `)
+class BaseCommand extends Command {
+  getAdobeAep() {
+    AdobeAep.init()
+    return AdobeAep
   }
 }
 
-HelloCommand.description = `Test with hello !!`
+ // BaseCommand.hidden = false
 
-HelloCommand.flags = {
-  name: flags.string({char: 'n', description: 'name to print'}),
-}
+BaseCommand.description = 'This is a no operation command and is just used as a parent to be extended by other commands !!!'
 
-module.exports = HelloCommand
+module.exports = BaseCommand
