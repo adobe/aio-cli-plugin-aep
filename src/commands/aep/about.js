@@ -19,8 +19,10 @@ class BaseCommand extends Command {
   }
   async run() {
     const { flags } = this.parse(BaseCommand)
-     if(flags.verbose)
+    console.warn('For enabling autocomplete run this command -> '+'\'printf "$(aio autocomplete:script bash)" >> ~/.bashrc; source ~/.bashrc\'')
+     if(flags.verbose) {
        console.log(this.config)
+     }
      else {
       console.log('Plugin = ' + this.config.name)
       console.log('Version = ' + this.config.version)
