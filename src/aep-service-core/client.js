@@ -11,7 +11,8 @@ governing permissions and limitations under the License.
 const fetch = require('node-fetch')
 const request = require('request')
 const {endPoints, catalogBaseUrl} = require('./constants')
-
+//const BaseCommand = require('../../../src/commands/aep/about')
+// printf "$(aio autocomplete:script bash)" >> ~/.bashrc; source ~/.bashrc
 let Client = {
   tenantName: null,
   accessToken: null,

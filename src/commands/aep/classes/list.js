@@ -8,7 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const BaseCommand = require('../abstract-no-operation')
+const BaseCommand = require('../about')
 const { flags } = require('@oclif/command')
 const { cli } = require('cli-ux')
 class ListClassesCommand extends BaseCommand {
@@ -31,7 +31,7 @@ class ListClassesCommand extends BaseCommand {
 }
 
 ListClassesCommand.description = 'Retrieve the list of datasources associated with this organization'
-
+ListClassesCommand.hidden = false
 ListClassesCommand.flags = {
   limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),
   orderBy: flags.string({ char: 'o', description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.' }),

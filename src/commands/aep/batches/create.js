@@ -8,7 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const BaseCommand = require('../abstract-no-operation')
+const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
@@ -18,7 +18,7 @@ class CreateBatchesCommand extends BaseCommand {
     let result
 
     try {
-      result = await this.createBatch(flags.datasetId, flags.fileType)
+       result = await this.createBatch(flags.datasetId, flags.fileType)
     } catch (error) {
       this.error(error.message)
     }
@@ -31,8 +31,11 @@ class CreateBatchesCommand extends BaseCommand {
 }
 
 CreateBatchesCommand.description = 'Create a batch. '
-
+CreateBatchesCommand.hidden = false
 CreateBatchesCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
   datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
   fileType: flags.string({char: 'f', description: 'The type of file to be ingested in this batch. One of parquet, csv, json', options: ['json', 'parquet', 'csv'], default: 'parquet', required: false}),
 }
@@ -40,4 +43,9 @@ CreateBatchesCommand.flags = {
 CreateBatchesCommand.aliases = [
   'aep:batches:create',
   'aep:batches:new']
+
+CreateBatchesCommand.examples = [
+  '$ aio aep:batches:create -i=abcd1234 -f=json',
+
+]
 module.exports = CreateBatchesCommand

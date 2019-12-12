@@ -8,7 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const BaseCommand = require('../abstract-no-operation')
+const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
@@ -34,7 +34,7 @@ class CreateDatatypesCommand extends BaseCommand {
 }
 
 CreateDatatypesCommand.description = 'Create a datatype. '
-
+CreateDatatypesCommand.hidden = false
 CreateDatatypesCommand.flags = {
   title: flags.string({char: 't', description: 'Title of datatype.', required: true}),
   description: flags.string({char: 'd', description: 'Description of datatype.', required: true}),

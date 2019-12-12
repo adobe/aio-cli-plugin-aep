@@ -8,7 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const BaseCommand = require('../abstract-no-operation')
+const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
@@ -31,7 +31,7 @@ class GetMixinsCommand extends BaseCommand {
 }
 
 GetMixinsCommand.description = 'Retrieve the detail of one dataset'
-
+GetMixinsCommand.hidden = false
 GetMixinsCommand.flags = {
   mixinId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
   container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})

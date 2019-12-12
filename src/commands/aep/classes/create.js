@@ -8,7 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const BaseCommand = require('../abstract-no-operation')
+const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
@@ -31,7 +31,7 @@ class CreateClassesCommand extends BaseCommand {
 }
 
 CreateClassesCommand.description = 'Create a dataset. '
-
+CreateClassesCommand.hidden = false
 CreateClassesCommand.flags = {
   mixin: flags.string({
     char: 'm',

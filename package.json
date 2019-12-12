@@ -12,7 +12,10 @@
     "@oclif/command": "^1.5.12",
     "@oclif/config": "^1.12.12",
     "@oclif/plugin-help": "^2.1.4",
+    "@anycli/plugin-version": "0.1.34",
     "@oclif/errors": "^1.1.2",
+    "@oclif/plugin-autocomplete": "^0.1.2",
+    "@oclif/plugin-not-found": "^1.2.0",
     "cli-ux": "^5.2.1",
     "node-fetch": "^2.3.0",
     "tempy": "^0.2.1",
@@ -22,7 +25,9 @@
     "winston": "^3.2.1",
     "@adobe/aio-app-scripts": "^0.6.0",
     "@adobe/aio-lib-core-config": "^1.0.15",
-    "jsonpath": "^1.0.2"
+    "jsonpath": "^1.0.2",
+    "hjson": "^3.1.2",
+    "js-yaml": "^3.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
@@ -68,10 +73,20 @@
     "commands": "./src/commands",
     "bin": "",
     "devPlugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "@anycli/plugin-version",
+      "@oclif/plugin-autocomplete",
+      "@oclif/plugin-not-found"
     ],
+    "topics": {
+      "aep": {
+        "description": "A CLI to help do CRUD operations on AEP resources",
+        "version": "1.1.1"
+      }
+    },
     "plugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "@anycli/plugin-version"
     ]
   },
   "repository": "https://git.corp.adobe.com/bgaurav/aio-cli-plugin-aep/",
