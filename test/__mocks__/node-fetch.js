@@ -19,11 +19,41 @@ function mockResponseWithMethod (url, method, response) {
   fetchMock.mock((u, opts) => u === url && opts.method === method, response)
 }
 
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/?limit=3&offset=1&sortBy=-id', 'GET', {
-  'total': 3,
-  'offset': 1,
-  'limit': 3,
-  'batches': [
-  ]
-})
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/', 'GET',
+
+  {
+    "5df181f034742b18a81ec7cf": {
+      "status": "active",
+      "inputFormat": {
+        "format": "parquet"
+      },
+      "createdUser": "0D076CEB5DD32E7A0A495C06@techacct.adobe.com",
+      "imsOrg": "C37C0A125B0458C20A495D95@AdobeOrg",
+      "createdClient": "b9ceb3ffbb44415aaec53647b083eb00",
+      "updatedUser": "0D076CEB5DD32E7A0A495C06@techacct.adobe.com",
+      "version": "1.0.0",
+      "created": 1576108528538,
+      "updated": 1576108528538
+    },
+  }
+  )
+
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/?limit=3&start=-id&orderBy=1', 'GET',
+
+  {
+    "5df181f034742b18a81ec7cf": {
+      "status": "active",
+      "inputFormat": {
+        "format": "parquet"
+      },
+      "createdUser": "0D076CEB5DD32E7A0A495C06@techacct.adobe.com",
+      "imsOrg": "C37C0A125B0458C20A495D95@AdobeOrg",
+      "createdClient": "b9ceb3ffbb44415aaec53647b083eb00",
+      "updatedUser": "0D076CEB5DD32E7A0A495C06@techacct.adobe.com",
+      "version": "1.0.0",
+      "created": 1576108528538,
+      "updated": 1576108528538
+    },
+  }
+)
 
