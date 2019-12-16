@@ -8,6 +8,7 @@
   ],
   "bugs": "https://github.com/bgaurav/aio-cli-plugin-aep/issues",
   "dependencies": {
+    "@adobe/aio-cli-plugin-jwt-auth": "^2.0.3",
     "@adobe/aio-cli-config": "^1.0.7",
     "@oclif/command": "^1.5.12",
     "@oclif/config": "^1.12.12",

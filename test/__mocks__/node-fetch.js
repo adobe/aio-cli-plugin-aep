@@ -19,45 +19,11 @@ function mockResponseWithMethod (url, method, response) {
   fetchMock.mock((u, opts) => u === url && opts.method === method, response)
 }
 
-mockResponseWithMethod(' https://platform.adobe.io/data/foundation/catalog/batches/', 'GET', {
-  'total': 1120,
-  'offset': 0,
-  'limit': 5,
-  'offers': [
-    {
-      'id': '391769',
-      'name': '/l1_a_b_test/experiences/0/pages/0/zones/0/1489440825492',
-      'type': 'content',
-      'modifiedAt': '2017-03-20T03:03:28Z',
-      'workspace': '1234567'
-    },
-    {
-      'id': '391902',
-      'name': '10OFF',
-      'type': 'content',
-      'modifiedAt': '2017-03-19T00:06:47Z',
-      'workspace': '1234567'
-    },
-    {
-      'id': '391903',
-      'name': 'SHIPFREE',
-      'type': 'content',
-      'modifiedAt': '2017-03-19T00:06:29Z',
-      'workspace': '1234567'
-    },
-    {
-      'id': '391904',
-      'name': '5OFF',
-      'type': 'content',
-      'modifiedAt': '2017-03-19T00:06:26Z',
-      'workspace': '1234567'
-    },
-    {
-      'id': '391905',
-      'name': '/a1_-_l4206a_-_ab/experiences/0/pages/0/zones/0/1489468580249',
-      'type': 'content',
-      'modifiedAt': '2017-06-30T19:48:38Z',
-      'workspace': '1234567'
-    }
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/?limit=3&offset=1&sortBy=-id', 'GET', {
+  'total': 3,
+  'offset': 1,
+  'limit': 3,
+  'batches': [
   ]
 })
+
