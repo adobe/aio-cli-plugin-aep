@@ -19,7 +19,7 @@ class DeleteBatchesCommand extends BaseCommand {
 
     try {
       result = await this.deleteBatch(flags.batchId)
-      console.log(result)
+  //    console.log(result)
     } catch (error) {
       this.error(error.message)
     }
