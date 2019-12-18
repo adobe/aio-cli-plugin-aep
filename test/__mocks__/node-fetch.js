@@ -38,17 +38,24 @@ let mockResponseForBatch =  {
     "updated": 1576108528538
   },
 }
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/', 'GET', mockResponseForBatch
-  )
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/', 'GET', mockResponseForBatch)
 
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForBatch
-)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForBatch)
+
 fetchMock.get('https://platform.adobe.io/data/foundation/catalog/batches/abc', mockResponseForBatch)
 
 fetchMock.delete('https://platform.adobe.io/data/foundation/catalog/batches/abc', mockResponseForBatch)
 
 fetchMock.post('https://platform.adobe.io/data/foundation/catalog/batches/', mockResponseForBatch)
 
-// mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/', 'POST',
-//   mockResponseForBatch)
-
+//classes
+// fetchMock.get('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/', mockResponseForBatch)
+// fetchMock.get('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', mockResponseForBatch)
+// fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', mockResponseForBatch)
+//
+// fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/', 'GET', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', 'GET', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForBatch)
+fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/classes/', mockResponseForBatch)
+fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', mockResponseForBatch)

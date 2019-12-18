@@ -27,17 +27,22 @@ let Client = {
     return true
   },
 
-  _doRequest: async function (path, method, contentType, body = null) {
+  prepareHeader: function (contentType = null, accept = null) {
+    headers = {
+      'authorization': `Bearer ` + this.accessToken,
+      'cache-control': 'no-cache',
+      'x-api-key': this.apiKey,
+      'x-gw-ims-org-id': this.tenantName,
+      'Content-Type': contentType,
+      'Accept': accept,
+    }
+    return headers
+  },
+
+  _doRequest: async function (path, method, contentType, body = null, accept = null) {
     const options = {
       method: method,
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'content-type': contentType,
-      },
-
+      headers: this.prepareHeader(contentType, accept),
     }
     if (method !== 'GET' && (body !== null || body !== undefined)) {
       options.body = JSON.stringify(body)
@@ -45,21 +50,44 @@ let Client = {
     return fetch(path, options)
   },
 
-  get: async function (path, contentType) {
-    return this._doRequest(path, 'GET', contentType)
+  get: async function (path, contentType, accept = null) {
+    return this._doRequest(path, 'GET', contentType, null, accept)
   },
 
   put: async function (path, contentType, body) {
     return this._doRequest(path, 'PUT', contentType, body)
   },
 
-  post: async function (path, contentType, body) {
-    return this._doRequest(path, 'POST', contentType, body)
+  post: async function (path, contentType, body, accept = null) {
+    return this._doRequest(path, 'POST', contentType, body, accept)
   },
 
-  delete: async function (path, contentType) {
-    return this._doRequest(path, 'DELETE', contentType)
+  delete: async function (path, contentType, accept = null) {
+    return this._doRequest(path, 'DELETE', contentType, null, accept)
   },
+
+  //batches signature
+
+  listBatches: async function (limit = null, start = null, orderBy = null) {
+    const result = await this._listBatches(limit, start, orderBy)
+    return (result)
+  },
+
+  getBatch: async function (batchId) {
+    const result = await this._getBatch(batchId)
+    return (result)
+  },
+
+  createBatch: async function (datasetId, fileType) {
+    const result = await this._createBatch(datasetId, fileType)
+    return (result)
+  },
+
+  deleteBatch: async function (batchId) {
+    const result = await this._deleteBatch(batchId)
+    return (result)
+  },
+
 
 //datasets signature
 
@@ -80,6 +108,91 @@ let Client = {
 
   deleteDataset: async function (datasetId) {
     const result = await this._deleteDataset(datasetId)
+    return (result)
+  },
+
+  //classes signature
+
+  listClasses: async function (limit = null, start = null, orderBy = null, container = null) {
+    return Client._listClasses(limit, start, orderBy, container)
+  },
+
+  getClass: async function (classId, container) {
+    return Client._getClass(classId, container)
+  },
+
+  createClass: async function (mixin, title, description, baseClass, container) {
+    return Client._createClass(mixin, title, description, baseClass, container)
+  },
+
+  deleteClass: async function (classId, container) {
+    return Client._deleteClass(classId, container)
+  },
+
+  //datatypes signature
+
+  listDatatypes: async function (limit = null, start = null, orderBy = null, container = null) {
+    return Client._listDatatypes(limit, start, orderBy, container)
+  },
+
+  getDatatype: async function (datatypeId, container) {
+    return Client._getDatatype(datatypeId, container)
+  },
+
+  createDatatype: async function (title, description, container, propName, propValue) {
+    return Client._createDatatype(title, description, container, propName, propValue)
+  },
+
+  deleteDatatype: async function (datatypeId, container) {
+    return Client._deleteDatatype(datatypeId, container)
+  },
+
+  //mixins signature
+
+  listMixins: async function (limit = null, start = null, orderBy = null, container = null) {
+    const result = await this._listMixins(limit, start, orderBy, container)
+    return (result)
+  },
+
+  getMixin: async function (mixinId, container) {
+    const result = await this._getMixin(mixinId, container)
+    return (result)
+  },
+
+  createMixin: async function (classId, title, description, container, propName, propValue, organization) {
+    const result = await this._createMixin(classId, title, description, container, propName, propValue, organization)
+    return (result)
+  },
+
+  deleteMixin: async function (mixinId, container) {
+    const result = await this._deleteMixin(mixinId, container)
+    return (result)
+  },
+
+
+  //schemas signature
+
+  createSchema: async function (mixin, title, description, baseClass, container) {
+    return Client._createSchema(mixin, title, description, baseClass, container)
+  },
+
+  listSchemas: async function (limit = null, start = null, orderBy = null, container = null) {
+    const result = await this._listSchemas(limit, start, orderBy, container)
+    return (result)
+  },
+
+  getSchema: async function (schemaId, container) {
+    const result = await this._getSchema(schemaId, container)
+    return (result)
+  },
+
+  deleteSchema: async function (schemaId, container) {
+    const result = await this._deleteSchema(schemaId, container)
+    return (result)
+  },
+
+  listStats: async function () {
+    const result = await this._listStats()
     return (result)
   },
 
@@ -127,6 +240,30 @@ let Client = {
     })
   },
 
+  _createDataset: async function (name, description, xdm) {
+    request.post({
+      headers: {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': 'application/json',
+      },
+      url: new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`).toString(),
+      body: JSON.stringify({
+        name: name,
+        description: description,
+        schemaRef:
+          {
+            id: xdm,
+            contentType: 'application/vnd.adobe.xed-full+json; version=1',
+          },
+      }),
+    }, function (error, response, body) {
+      console.log(body)
+    })
+  },
+
   _getDataset: async function (datasetId) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}` + datasetId)
     return this.get(`${baseUrl.toString()}`, endPoints.datasets.contentType).then((res) => {
@@ -145,27 +282,7 @@ let Client = {
     })
   },
 
-  //batches signature
 
-  listBatches: async function (limit = null, start = null, orderBy = null) {
-    const result = await this._listBatches(limit, start, orderBy)
-    return (result)
-  },
-
-  getBatch: async function (batchId) {
-    const result = await this._getBatch(batchId)
-    return (result)
-  },
-
-  createBatch: async function (datasetId, fileType) {
-    const result = await this._createBatch(datasetId, fileType)
-    return (result)
-  },
-
-  deleteBatch: async function (batchId) {
-    const result = await this._deleteBatch(batchId)
-    return (result)
-  },
 
   //batches implementation
 
@@ -188,26 +305,20 @@ let Client = {
   },
 
   _createBatch: async function (datasetId, fileType) {
-    request.post({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-      },
-      url: new URL(`${catalogBaseUrl}${endPoints.batches.resourcePath}`),
-      body: JSON.stringify({
-        datasetId: datasetId,
-        status: `active`,
-        inputFormat:
-          {
-            format: fileType,
-          },
-      }),
-    }, function (error, response, body) {
-      console.log(body)
+    const createBatchUrl = new URL(`${catalogBaseUrl}${endPoints.batches.resourcePath}`)
+    const body = {
+      datasetId: datasetId,
+      status: `active`,
+      inputFormat:
+        {
+          format: fileType,
+        },
+    }
+    return this.post(`${createBatchUrl.toString()}`, endPoints.batches.contentType, body).then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot create batch: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
+
   },
 
   _getBatch: async function (batchId) {
@@ -228,23 +339,6 @@ let Client = {
     })
   },
 
-  //classes signature
-
-  listClasses: async function (limit = null, start = null, orderBy = null, container = null) {
-    return Client._listClasses(limit, start, orderBy, container)
-  },
-
-  getClass: async function (classId, container) {
-    return Client._getClass(classId, container)
-  },
-
-  createClass: async function (mixin, title, description, baseClass, container) {
-    return Client._createClass(mixin, title, description, baseClass, container)
-  },
-
-  deleteClass: async function (classId, container) {
-    return Client._deleteClass(classId, container)
-  },
 
   //classes implementaion
 
@@ -259,36 +353,18 @@ let Client = {
     if (orderBy) {
       baseUrl.searchParams.append(endPoints.batches.parameters.orderBy, orderBy)
     }
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full+json',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    return this.get(`${baseUrl.toString()}`, endPoints.batches.contentType, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource classes: ${res.url} (${res.status} ${res.statusText})`)
     })
   },
 
   _createClass: async function (mixin, title, description, baseClass, container) {
     var metaExtends = [mixin, baseClass]
     var metExtend = 'meta:extends'
-    request.post({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full+json',
-      },
-      url: new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}`),
-      body: JSON.stringify({
+    const url =  new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}`)
+      const body = {
         title: title,
         description: description,
         type: 'object',
@@ -301,30 +377,32 @@ let Client = {
             $ref: baseClass,
             properties: {},
           }],
-      }),
-    }, function (error, response, body) {
-      const object = JSON.parse(body)
-      console.dir(object, {depth: null, colors: true})
+      }
+    return this.post(`${url.toString()}`, endPoints.batches.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot create class: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
+
   },
 
   _getClass: async function (classId, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}${classId}`)
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    return this.get(`${baseUrl.toString()}`, endPoints.classes.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource classes: ${res.url} (${res.status} ${res.statusText} ${res.toString()}`)
     })
   },
+
+
+  // _deleteClass: async function (classId, container) {
+  //   let baseUrl = new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}${classId}`)
+  //   return this.delete(`${baseUrl.toString()}`, endPoints.classes.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
+  //     if (res.status === 204 || res.status === 200) {
+  //       console.log('Successfully deleted class ' + classId)
+  //     } else throw new Error(`Cannot fulfill request on resource classes: ${res.url} (${res.status} ${res.statusText}`)
+  //   })
+  // },
 
   _deleteClass: async function (classId, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}${classId}`)
@@ -346,24 +424,6 @@ let Client = {
         console.dir(object, {depth: null, colors: true})
       }
     })
-  },
-
-  //datatypes signature
-
-  listDatatypes: async function (limit = null, start = null, orderBy = null, container = null) {
-    return Client._listDatatypes(limit, start, orderBy, container)
-  },
-
-  getDatatype: async function (datatypeId, container) {
-    return Client._getDatatype(datatypeId, container)
-  },
-
-  createDatatype: async function ( title, description, container, propName, propValue) {
-    return Client._createDatatype(title, description,  container, propName, propValue)
-  },
-
-  deleteDatatype: async function (datatypeId, container) {
-    return Client._deleteDatatype(datatypeId, container)
   },
 
   //datatypes definition
@@ -394,7 +454,6 @@ let Client = {
     })
   },
 
-
   _createDatatype: async function (title, description, container, propName, propValue) {
     var metExtend = 'meta:extensible'
     var metAbstract = 'meta:abstract'
@@ -408,7 +467,7 @@ let Client = {
       allOf: [{
         properties: {
           [propName]: {
-            type: propValue
+            type: propValue,
           },
         },
       }],
@@ -471,27 +530,9 @@ let Client = {
     })
   },
 
-  //mixins signature
 
-  listMixins: async function (limit = null, start = null, orderBy = null, container = null) {
-    const result = await this._listMixins(limit, start, orderBy, container)
-    return (result)
-  },
 
-  getMixin: async function (mixinId, container) {
-    const result = await this._getMixin(mixinId, container)
-    return (result)
-  },
 
-  createMixin: async function (classId, title, description, container, propName, propValue, organization) {
-    const result = await this._createMixin(classId, title, description, container, propName, propValue, organization)
-    return (result)
-  },
-
-  deleteMixin: async function (mixinId, container) {
-    const result = await this._deleteMixin(mixinId, container)
-    return (result)
-  },
 
   ////mixins implementation
 
@@ -518,22 +559,22 @@ let Client = {
         [meta]: true,
         [metExtend]: [classId],
         definitions: {
-      [propName]: {
-      properties: {
-        [organization]: {
-          // type:'object',
-          properties: {
-            [propName]: {
-              type: propValue,
-              }
-            }
-          }
-        }
-      }
-    },
+          [propName]: {
+            properties: {
+              [organization]: {
+                // type:'object',
+                properties: {
+                  [propName]: {
+                    type: propValue,
+                  },
+                },
+              },
+            },
+          },
+        },
         allOf: [
           {
-            $ref: "#/definitions/"+ propName,
+            $ref: '#/definitions/' + propName,
           },
 
         ],
@@ -611,40 +652,13 @@ let Client = {
     })
   },
 
-  //schemas definition
-
-  createSchema: async function (mixin, title, description, baseClass, container) {
-    return Client._createSchema(mixin, title, description, baseClass, container)
-  },
-
-
-  listSchemas: async function (limit = null, start = null, orderBy = null, container = null) {
-    const result = await this._listSchemas(limit, start, orderBy, container)
-    return (result)
-  },
-
-  getSchema: async function (schemaId, container) {
-    const result = await this._getSchema(schemaId, container)
-    return (result)
-  },
-
-
-  deleteSchema: async function (schemaId, container) {
-    const result = await this._deleteSchema(schemaId, container)
-    return (result)
-  },
-
-  listStats: async function () {
-    const result = await this._listStats()
-    return (result)
-  },
 
 //schemas implementation
 
   _createSchema: async function (mixin, title, description, baseClass, container) {
     var metaExtends = [baseClass]
     var metExtend = 'meta:extends'
-    var unionSchema ='meta:immutableTags'
+    var unionSchema = 'meta:immutableTags'
     request.post({
       headers: {
         'authorization': `Bearer ` + this.accessToken,

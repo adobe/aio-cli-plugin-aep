@@ -15,13 +15,23 @@ getApiKey,
   getTenantName,
  */
 const helpers = require('../../../../src/aep-service-core/helpers')
-const ListBatchesCommand = require('../../../../src/commands/aep/batches/list')
-const GetBatchesCommand = require('../../../../src/commands/aep/batches/get')
-const CreateBatchesCommand = require('../../../../src/commands/aep/batches/create')
-const DeleteBatchesCommand = require('../../../../src/commands/aep/batches/delete')
+const ListClassesCommand = require('../../../../src/commands/aep/classes/list')
+const GetClassesCommand = require('../../../../src/commands/aep/classes/get')
+const CreateClassesCommand = require('../../../../src/commands/aep/classes/create')
+const DeleteClassesCommand = require('../../../../src/commands/aep/classes/delete')
 const config = require('@adobe/aio-cli-config')
 
-let mockedBatchPayload = {
+let mockedClassPayload = {
+
+}
+
+let mockConfig = {
+  client_id: 'aep-clientId',
+  access_token: 'aep-accessToken',
+  tenantName: 'aep-tenantName',
+}
+
+let mockClassPayload = {
   '5df181f034742b18a81ec7cf': {
     'status': 'active',
     'inputFormat': {
@@ -37,47 +47,38 @@ let mockedBatchPayload = {
   },
 }
 
-let mockConfig = {
-    client_id: 'aep-clientId',
-    access_token: 'aep-accessToken',
-    tenantName: 'aep-tenantName',
-}
-
-
-test('list-batches - missing config', async () => {
+test('list-classes - missing config', async () => {
   expect.assertions(2)
-  let runResult = ListBatchesCommand.run([])
+  let runResult = ListClassesCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
 
 
-test('list-and-get-batch-with-and-without-filter-params-success', async () => {
+test('list-and-get-class-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
-   expect.assertions(2)
-  let runResult = ListBatchesCommand.run([])
-  await expect(runResult).resolves.toEqual(mockedBatchPayload)
-  runResult = GetBatchesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockedBatchPayload)
+  expect.assertions(2)
+  let runResult = ListClassesCommand.run([])
+  await expect(runResult).resolves.toEqual(mockClassPayload)
+  runResult = GetClassesCommand.run(['-i=abc'])
+  await expect(runResult).resolves.toEqual(mockClassPayload)
 })
 
 
-test('create-batch-success', async () => {
+test('create-class-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
-  expect.assertions(1)
-  let runResult = CreateBatchesCommand.run(['-i=abc', '-f=json'])
+  let runResult = CreateClassesCommand.run(['-b=https://ns.adobe.com/xdm/data/record',  '-d=TestIgnore',  '-c=tenant',  '-t=testIgnore4'])
+  await expect(runResult).resolves.toEqual(mockClassPayload)
+})
+
+test('delete-class-success', async () => {
+  config.get.mockImplementation(() => {
+    return mockConfig
+  })
+  runResult = DeleteClassesCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual()
-})
-
-test('delete-batch-success', async () => {
-  config.get.mockImplementation(() => {
-    return mockConfig
-  })
-  expect.assertions(1)
-  runResult = DeleteBatchesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockedBatchPayload)
 })

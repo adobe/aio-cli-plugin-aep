@@ -33,6 +33,9 @@ class DeleteClassesCommand extends BaseCommand {
 DeleteClassesCommand.description = 'Delete this dataset.'
 DeleteClassesCommand.hidden = false
 DeleteClassesCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
   classId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
   container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
 }

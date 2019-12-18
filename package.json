@@ -50,6 +50,7 @@
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
     "fetch-mock": "^7.3.3",
+    "mock-request": "^0.1.2",
     "jest": "^24.1.0",
     "jest-cli": "^24.8.0",
     "jest-junit": "^6.3.0",
@@ -93,7 +94,7 @@
   "repository": "https://git.corp.adobe.com/bgaurav/aio-cli-plugin-aep/",
   "scripts": {
     "eslint": "eslint .",
-    "test": "npm run eslint && npm run unit-tests",
+    "test": "jest --coverage",
     "unit-tests": "jest --ci -w=2",
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "postpack": "rm -f oclif.manifest.json",

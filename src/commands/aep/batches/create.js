@@ -19,6 +19,7 @@ class CreateBatchesCommand extends BaseCommand {
 
     try {
        result = await this.createBatch(flags.datasetId, flags.fileType)
+       this.printObject(result);
     } catch (error) {
       this.error(error.message)
     }
