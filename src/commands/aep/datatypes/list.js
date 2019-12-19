@@ -18,6 +18,7 @@ class ListDatatypesCommand extends BaseCommand {
 
     try {
       result = await this.listDatatypes(flags.limit, flags.start, flags.orderBy, flags.container)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }
@@ -32,6 +33,9 @@ class ListDatatypesCommand extends BaseCommand {
 ListDatatypesCommand.description = 'Retrieve the list of datatypes associated with this organization'
 ListDatatypesCommand.hidden = false
 ListDatatypesCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
   limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),
   orderBy: flags.string({ char: 'o', description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.' }),
   start: flags.string({ char: 's', description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..' }),

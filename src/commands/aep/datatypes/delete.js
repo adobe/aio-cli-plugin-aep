@@ -19,6 +19,7 @@ class DeleteDatatypesCommand extends BaseCommand {
 
     try {
       result = await this.deleteDatatype(flags.datatypeId, flags.container)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }
@@ -33,6 +34,9 @@ class DeleteDatatypesCommand extends BaseCommand {
 DeleteDatatypesCommand.description = 'Delete this datatypes.'
 DeleteDatatypesCommand.hidden = false
 DeleteDatatypesCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
   datatypeId: flags.string({char: 'i', description: 'The meta:altId of the datatype.', required: true}),
   container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
 }

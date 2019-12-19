@@ -19,6 +19,7 @@ class GetDatatypesCommand extends BaseCommand {
 
     try {
       result = await this.getDatatype(flags.datatypeId, flags.container)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }
@@ -33,6 +34,9 @@ class GetDatatypesCommand extends BaseCommand {
 GetDatatypesCommand.description = 'Retrieve the detail of one datatypes'
 GetDatatypesCommand.hidden = false
 GetDatatypesCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
   datatypeId: flags.string({char: 'i', description: 'The meta:altId of the datatypes.', required: true}),
   container: flags.string( {char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
 }

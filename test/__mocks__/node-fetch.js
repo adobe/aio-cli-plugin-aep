@@ -59,3 +59,9 @@ mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForBatch)
 fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/classes/', mockResponseForBatch)
 fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', mockResponseForBatch)
+
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/', 'GET', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/abc', 'GET', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForBatch)
+fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/datatypes/', mockResponseForBatch)
+fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/abc', mockResponseForBatch)

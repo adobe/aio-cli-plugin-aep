@@ -397,7 +397,7 @@ let Client = {
 
   // _deleteClass: async function (classId, container) {
   //   let baseUrl = new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}${classId}`)
-  //   return this.delete(`${baseUrl.toString()}`, endPoints.classes.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
+  //   return this.delete(`${baseUrl.toString()}`, endPoints.classes.contentType, 'application/vnd.adobe.xed-full+json').then((res) => {
   //     if (res.status === 204 || res.status === 200) {
   //       console.log('Successfully deleted class ' + classId)
   //     } else throw new Error(`Cannot fulfill request on resource classes: ${res.url} (${res.status} ${res.statusText}`)
@@ -427,6 +427,7 @@ let Client = {
   },
 
   //datatypes definition
+
   _listDatatypes: async function (limit, start, orderBy, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datatypes.resourcePath}${container}${endPoints.datatypes.resourceType}`)
     if (limit) {
@@ -438,27 +439,18 @@ let Client = {
     if (orderBy) {
       baseUrl.searchParams.append(endPoints.batches.parameters.orderBy, orderBy)
     }
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full+json',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    return this.get(`${baseUrl.toString()}`, endPoints.datatypes.contentType, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource classes: ${res.url} (${res.status} ${res.statusText})`)
     })
   },
 
   _createDatatype: async function (title, description, container, propName, propValue) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datatypes.resourcePath}${container}${endPoints.datatypes.resourceType}`)
     var metExtend = 'meta:extensible'
     var metAbstract = 'meta:abstract'
-
-    var payLoad = {
+    const body = {
       title: title,
       description: description,
       type: 'object',
@@ -472,39 +464,19 @@ let Client = {
         },
       }],
     }
-    request.post({
-
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full+json',
-      },
-      url: new URL(`${catalogBaseUrl}${endPoints.datatypes.resourcePath}${container}${endPoints.datatypes.resourceType}`),
-      body: JSON.stringify(payLoad),
-    }, function (error, response, body) {
-      const object = JSON.parse(body)
-      console.dir(object, {depth: null, colors: true})
+    return this.post(`${baseUrl.toString()}`, endPoints.datatypes.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot create datatype: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
+
   },
 
   _getDatatype: async function (datatypeId, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datatypes.resourcePath}${container}${endPoints.datatypes.resourceType}${datatypeId}`)
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    return this.get(`${baseUrl.toString()}`, endPoints.classes.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource datatype: ${res.url} (${res.status} ${res.statusText} ${res.toString()}`)
     })
   },
 
@@ -529,10 +501,6 @@ let Client = {
       }
     })
   },
-
-
-
-
 
   ////mixins implementation
 

@@ -22,6 +22,7 @@ class CreateDatatypesCommand extends BaseCommand {
       var propName = property[0]
       var propValue = property[1]
       result = await this.createDatatypes(flags.title, flags.description, flags.container, propName, propValue)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }
@@ -36,6 +37,9 @@ class CreateDatatypesCommand extends BaseCommand {
 CreateDatatypesCommand.description = 'Create a datatype. '
 CreateDatatypesCommand.hidden = false
 CreateDatatypesCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
   title: flags.string({char: 't', description: 'Title of datatype.', required: true}),
   description: flags.string({char: 'd', description: 'Description of datatype.', required: true}),
   container: flags.string({
