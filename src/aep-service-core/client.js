@@ -505,21 +505,11 @@ let Client = {
   ////mixins implementation
 
   _createMixin: async function (classId, title, description, container, propName, propValue, organization) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}`)
     var metExtend = 'meta:intendedToExtend'
     var ext = 'meta:extensible'
     var meta = 'meta:abstract'
-    console.log(organization)
-    request.post({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full+json',
-      },
-      url: new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}`),
-      body: JSON.stringify({
+      const body = {
         title: title,
         description: description,
         type: 'object',
@@ -530,7 +520,6 @@ let Client = {
           [propName]: {
             properties: {
               [organization]: {
-                // type:'object',
                 properties: {
                   [propName]: {
                     type: propValue,
@@ -546,55 +535,37 @@ let Client = {
           },
 
         ],
-      }),
-    }, function (error, response, body) {
-      const object = JSON.parse(body)
-      console.dir(object, {depth: null, colors: true})
+      }
+    return this.post(`${baseUrl.toString()}`, endPoints.datatypes.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot create datatype: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
   },
 
   _listMixins: async function (limit, start, orderBy, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}`)
     if (limit) {
-      baseUrl.searchParams.append(endPoints.batches.parameters.limit, limit)
+      baseUrl.searchParams.append(endPoints.mixins.parameters.limit, limit)
     }
     if (start) {
-      baseUrl.searchParams.append(endPoints.batches.parameters.start, start)
+      baseUrl.searchParams.append(endPoints.mixins.parameters.start, start)
     }
     if (orderBy) {
-      baseUrl.searchParams.append(endPoints.batches.parameters.orderBy, orderBy)
+      baseUrl.searchParams.append(endPoints.mixins.parameters.orderBy, orderBy)
     }
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full+json',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    return this.get(`${baseUrl.toString()}`, endPoints.mixins.contentType, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource mixins: ${res.url} (${res.status} ${res.statusText})`)
     })
   },
 
   _getMixin: async function (mixinId, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}${mixinId}`)
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    return this.get(`${baseUrl.toString()}`, endPoints.mixins.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource datatype: ${res.url} (${res.status} ${res.statusText} ${res.toString()}`)
     })
   },
 

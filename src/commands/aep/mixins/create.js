@@ -36,6 +36,9 @@ class CreateMixinsCommand extends BaseCommand {
 CreateMixinsCommand.description = 'Create a dataset. '
 CreateMixinsCommand.hidden = false
 CreateMixinsCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
   class: flags.string({
     char: 'i',
     description: 'The type of class this mixin would like to extend.',

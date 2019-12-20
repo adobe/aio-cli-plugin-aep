@@ -15,10 +15,10 @@ getApiKey,
   getTenantName,
  */
 const helpers = require('../../../../src/aep-service-core/helpers')
-const ListDatatypesCommand = require('../../../../src/commands/aep/datatypes/list')
-const GetDatatypesCommand = require('../../../../src/commands/aep/datatypes/get')
-const CreateDatatypesCommand = require('../../../../src/commands/aep/datatypes/create')
-const DeleteDatatypesCommand = require('../../../../src/commands/aep/datatypes/delete')
+const ListMixinsCommand = require('../../../../src/commands/aep/mixins/list')
+const GetMixinsCommand = require('../../../../src/commands/aep/mixins/get')
+const CreateMixinsCommand = require('../../../../src/commands/aep/mixins/create')
+const DeleteMixinsCommand = require('../../../../src/commands/aep/mixins/delete')
 const config = require('@adobe/aio-cli-config')
 
 let mockedClassPayload = {
@@ -31,7 +31,7 @@ let mockConfig = {
   tenantName: 'aep-tenantName',
 }
 
-let mockDatatypesPayload = {
+let mockMixinsPayload = {
   "abc": {
     "status": "active",
     "inputFormat": {
@@ -47,38 +47,38 @@ let mockDatatypesPayload = {
   },
 }
 
-test('list-datatypes - missing config', async () => {
+test('list-mixins - missing config', async () => {
   expect.assertions(2)
-  let runResult = ListDatatypesCommand.run([])
+  let runResult = ListMixinsCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
 
 
-test('list-and-get-datatype-with-and-without-filter-params-success', async () => {
+test('list-and-get-mixin-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
   expect.assertions(2)
-  let runResult = ListDatatypesCommand.run([])
-  await expect(runResult).resolves.toEqual(mockDatatypesPayload)
-  runResult = GetDatatypesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockDatatypesPayload)
+  let runResult = ListMixinsCommand.run([])
+  await expect(runResult).resolves.toEqual(mockMixinsPayload)
+  runResult = GetMixinsCommand.run(['-i=abc'])
+  await expect(runResult).resolves.toEqual(mockMixinsPayload)
 })
 
 
-test('create-datatype-success', async () => {
+test('create-mixin-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
-  let runResult = CreateDatatypesCommand.run(['-d=TestIgnore3', '-c=tenant', '-t=testIgnore3', '-y', '-p=location*string'])
-  await expect(runResult).resolves.toEqual(mockDatatypesPayload)
+  let runResult = CreateMixinsCommand.run(['-c=tenant', '-i=https://ns.adobe.com/xdm/context/profile', '-p=location*string', '-o=abc', '-t=title', '-d=description'])
+  await expect(runResult).resolves.toEqual(mockMixinsPayload)
 })
 
-test('delete-datatype-success', async () => {
+test('delete-mixin-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
-  runResult = DeleteDatatypesCommand.run(['-i=abc'])
+  runResult = DeleteMixinsCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual()
 })

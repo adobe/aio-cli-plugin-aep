@@ -23,30 +23,30 @@ function mockResponseWithMethod (url, method, response) {
 function mockResponseWithMethodBody (url, method, body, response) {
   fetchMock.mock((u, opts) => u === url && opts.method === method && opts.body === body, response)
 }
-let mockResponseForBatch =  {
-  "5df181f034742b18a81ec7cf": {
+let mockResponseForApi =  {
+  "abc": {
     "status": "active",
     "inputFormat": {
       "format": "parquet"
     },
-    "createdUser": "0D076CEB5DD32E7A0A495C06@techacct.adobe.com",
-    "imsOrg": "C37C0A125B0458C20A495D95@AdobeOrg",
-    "createdClient": "b9ceb3ffbb44415aaec53647b083eb00",
-    "updatedUser": "0D076CEB5DD32E7A0A495C06@techacct.adobe.com",
+    "createdUser": "abc@techacct.adobe.com",
+    "imsOrg": "abc@AdobeOrg",
+    "createdClient": "abc",
+    "updatedUser": "abc@techacct.adobe.com",
     "version": "1.0.0",
     "created": 1576108528538,
     "updated": 1576108528538
   },
 }
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/', 'GET', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/', 'GET', mockResponseForApi)
 
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForApi)
 
-fetchMock.get('https://platform.adobe.io/data/foundation/catalog/batches/abc', mockResponseForBatch)
+fetchMock.get('https://platform.adobe.io/data/foundation/catalog/batches/abc', mockResponseForApi)
 
-fetchMock.delete('https://platform.adobe.io/data/foundation/catalog/batches/abc', mockResponseForBatch)
+fetchMock.delete('https://platform.adobe.io/data/foundation/catalog/batches/abc', mockResponseForApi)
 
-fetchMock.post('https://platform.adobe.io/data/foundation/catalog/batches/', mockResponseForBatch)
+fetchMock.post('https://platform.adobe.io/data/foundation/catalog/batches/', mockResponseForApi)
 
 //classes
 // fetchMock.get('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/', mockResponseForBatch)
@@ -54,14 +54,20 @@ fetchMock.post('https://platform.adobe.io/data/foundation/catalog/batches/', moc
 // fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', mockResponseForBatch)
 //
 // fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/', mockResponseForBatch)
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/', 'GET', mockResponseForBatch)
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', 'GET', mockResponseForBatch)
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForBatch)
-fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/classes/', mockResponseForBatch)
-fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/', 'GET', mockResponseForApi)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', 'GET', mockResponseForApi)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForApi)
+fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/classes/', mockResponseForApi)
+fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', mockResponseForApi)
 
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/', 'GET', mockResponseForBatch)
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/abc', 'GET', mockResponseForBatch)
-mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForBatch)
-fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/datatypes/', mockResponseForBatch)
-fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/abc', mockResponseForBatch)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/', 'GET', mockResponseForApi)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/abc', 'GET', mockResponseForApi)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForApi)
+fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/datatypes/', mockResponseForApi)
+fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/datatypes/abc', mockResponseForApi)
+
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/mixins/', 'GET', mockResponseForApi)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/mixins/abc', 'GET', mockResponseForApi)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/mixins/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForApi)
+fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/mixins/', mockResponseForApi)
+fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/mixins/abc', mockResponseForApi)

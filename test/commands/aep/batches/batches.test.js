@@ -22,18 +22,18 @@ const DeleteBatchesCommand = require('../../../../src/commands/aep/batches/delet
 const config = require('@adobe/aio-cli-config')
 
 let mockedBatchPayload = {
-  '5df181f034742b18a81ec7cf': {
-    'status': 'active',
-    'inputFormat': {
-      'format': 'parquet',
+  "abc": {
+    "status": "active",
+    "inputFormat": {
+      "format": "parquet"
     },
-    'createdUser': '0D076CEB5DD32E7A0A495C06@techacct.adobe.com',
-    'imsOrg': 'C37C0A125B0458C20A495D95@AdobeOrg',
-    'createdClient': 'b9ceb3ffbb44415aaec53647b083eb00',
-    'updatedUser': '0D076CEB5DD32E7A0A495C06@techacct.adobe.com',
-    'version': '1.0.0',
-    'created': 1576108528538,
-    'updated': 1576108528538,
+    "createdUser": "abc@techacct.adobe.com",
+    "imsOrg": "abc@AdobeOrg",
+    "createdClient": "abc",
+    "updatedUser": "abc@techacct.adobe.com",
+    "version": "1.0.0",
+    "created": 1576108528538,
+    "updated": 1576108528538
   },
 }
 
