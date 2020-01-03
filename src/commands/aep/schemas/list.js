@@ -18,6 +18,7 @@ class ListSchemasCommand extends BaseCommand {
 
     try {
       result = await this.listSchemas(flags.limit, flags.start, flags.orderBy, flags.container)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }

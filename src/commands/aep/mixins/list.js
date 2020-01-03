@@ -18,6 +18,7 @@ class ListMixinsCommand extends BaseCommand {
 
     try {
       result = await this.listMixins(flags.limit, flags.start, flags.orderBy, flags.container)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }

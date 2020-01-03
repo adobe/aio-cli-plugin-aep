@@ -22,6 +22,7 @@ class CreateMixinsCommand extends BaseCommand {
       var propName = property[0]
       var propValue = property[1]
       result = await this.createMixin(flags.class, flags.title, flags.description, flags.container, propName, propValue, flags.organization)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }

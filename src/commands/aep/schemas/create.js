@@ -19,6 +19,7 @@ class CreateSchemasCommand extends BaseCommand {
 
     try {
       result = await this.createSchema(flags.mixin, flags.title, flags.description, flags.base_class, flags.container, flags.unionschema)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }
@@ -33,6 +34,9 @@ class CreateSchemasCommand extends BaseCommand {
 CreateSchemasCommand.description = 'Create a dataset. '
 CreateSchemasCommand.hidden = false
 CreateSchemasCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
   title: flags.string({char: 't', description: 'Title of class.', required: true}),
   description: flags.string({char: 'd', description: 'Description of class.', required: true}),
   base_class: flags.string({char: 'b', description: 'Base class id.', required: false}),

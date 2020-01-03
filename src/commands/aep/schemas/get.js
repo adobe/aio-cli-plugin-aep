@@ -16,9 +16,9 @@ class GetSchemasCommand extends BaseCommand {
   async run() {
     const {flags} = this.parse(GetSchemasCommand)
     let result
-
     try {
       result = await this.getSchema(flags.schemaId, flags.container)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }

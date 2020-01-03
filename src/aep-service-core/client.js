@@ -595,20 +595,11 @@ let Client = {
 //schemas implementation
 
   _createSchema: async function (mixin, title, description, baseClass, container) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}`)
     var metaExtends = [baseClass]
     var metExtend = 'meta:extends'
     var unionSchema = 'meta:immutableTags'
-    request.post({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full+json',
-      },
-      url: new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}`),
-      body: JSON.stringify({
+    const body = {
         title: title,
         description: description,
         type: 'object',
@@ -619,55 +610,37 @@ let Client = {
             $ref: baseClass,
             properties: {},
           }],
-      }),
-    }, function (error, response, body) {
-      const object = JSON.parse(body)
-      console.dir(object, {depth: null, colors: true})
+      }
+      return this.post(`${baseUrl.toString()}`, endPoints.schemas.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot create schema: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
   },
 
   _listSchemas: async function (limit, start, orderBy, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}`)
     if (limit) {
-      baseUrl.searchParams.append(endPoints.batches.parameters.limit, limit)
+      baseUrl.searchParams.append(endPoints.schemas.parameters.limit, limit)
     }
     if (start) {
-      baseUrl.searchParams.append(endPoints.batches.parameters.start, start)
+      baseUrl.searchParams.append(endPoints.schemas.parameters.start, start)
     }
     if (orderBy) {
-      baseUrl.searchParams.append(endPoints.batches.parameters.orderBy, orderBy)
+      baseUrl.searchParams.append(endPoints.schemas.parameters.orderBy, orderBy)
     }
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full+json',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    return this.get(`${baseUrl.toString()}`, endPoints.schemas.contentType, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource schemas: ${res.url} (${res.status} ${res.statusText})`)
     })
   },
 
   _getSchema: async function (schemaId, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}${schemaId}`)
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    return this.get(`${baseUrl.toString()}`, endPoints.schemas.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource schemas: ${res.url} (${res.status} ${res.statusText} ${res.toString()}`)
     })
   },
 
@@ -684,7 +657,7 @@ let Client = {
       },
       url: baseUrl,
     }, function (error, response, body) {
-      if (response.statusCode == 204 || response.statusCode == 200) {
+      if (response.statusCode === 204 || response.statusCode === 200) {
         console.log('Successfully deleted schema ' + schemaId)
       } else {
         const object = JSON.parse(body)

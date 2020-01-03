@@ -19,6 +19,7 @@ class GetMixinsCommand extends BaseCommand {
 
     try {
       result = await this.getMixin(flags.mixinId, flags.container)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }
