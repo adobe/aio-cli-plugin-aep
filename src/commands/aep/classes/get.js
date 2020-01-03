@@ -35,10 +35,16 @@ GetClassesCommand.description = 'Retrieve the detail of one dataset'
 GetClassesCommand.hidden = false
 GetClassesCommand.flags = {
   ...BaseCommand.flags,
-  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
-  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   classId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 GetClassesCommand.aliases = [

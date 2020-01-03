@@ -35,10 +35,16 @@ DeleteDatatypesCommand.description = 'Delete this datatypes.'
 DeleteDatatypesCommand.hidden = false
 DeleteDatatypesCommand.flags = {
   ...BaseCommand.flags,
-  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
-  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   datatypeId: flags.string({char: 'i', description: 'The meta:altId of the datatype.', required: true}),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 DeleteDatatypesCommand.aliases = [

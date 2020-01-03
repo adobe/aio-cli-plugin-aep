@@ -9,11 +9,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const BaseCommand = require('../about')
-const { flags } = require('@oclif/command')
-const { cli } = require('cli-ux')
+const {flags} = require('@oclif/command')
+const {cli} = require('cli-ux')
+
 class ListDatatypesCommand extends BaseCommand {
-  async run () {
-    const { flags } = this.parse(ListDatatypesCommand)
+  async run() {
+    const {flags} = this.parse(ListDatatypesCommand)
     let result
 
     try {
@@ -25,7 +26,7 @@ class ListDatatypesCommand extends BaseCommand {
     return result
   }
 
-  async listDatatypes (limit = null, start = null, orderBy = null, container = null) {
+  async listDatatypes(limit = null, start = null, orderBy = null, container = null) {
     return this.getAdobeAep().listDatatypes(limit, start, orderBy, container)
   }
 }
@@ -34,12 +35,27 @@ ListDatatypesCommand.description = 'Retrieve the list of datatypes associated wi
 ListDatatypesCommand.hidden = false
 ListDatatypesCommand.flags = {
   ...BaseCommand.flags,
-  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
-  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
-  limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),
-  orderBy: flags.string({ char: 'o', description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.' }),
-  start: flags.string({ char: 's', description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..' }),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
+  limit: flags.string({
+    char: 'l',
+    description: 'Limit response to a specified positive number of objects. Ex. limit=10.',
+  }),
+  orderBy: flags.string({
+    char: 'o',
+    description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.',
+  }),
+  start: flags.string({
+    char: 's',
+    description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..',
+  }),
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 ListDatatypesCommand.aliases = [

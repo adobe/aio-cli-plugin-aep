@@ -9,18 +9,12 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-/*
-getApiKey,
-  getAccessToken,
-  getTenantName,
- */
-const helpers = require('../../../../src/aep-service-core/helpers')
+
 const ListDatasetCommand = require('../../../../src/commands/aep/ds/list')
 const GetDatasetCommand = require('../../../../src/commands/aep/ds/get')
 const CreateDatasetCommand = require('../../../../src/commands/aep/ds/create')
 const DeleteDatasetCommand = require('../../../../src/commands/aep/ds/delete')
 const config = require('@adobe/aio-cli-config')
-
 
 let mockConfig = {
   client_id: 'aep-clientId',
@@ -29,18 +23,18 @@ let mockConfig = {
 }
 
 let mockDatasetPayload = {
-  "abc": {
-    "status": "active",
-    "inputFormat": {
-      "format": "parquet"
+  'abc': {
+    'status': 'active',
+    'inputFormat': {
+      'format': 'parquet',
     },
-    "createdUser": "abc@techacct.adobe.com",
-    "imsOrg": "abc@AdobeOrg",
-    "createdClient": "abc",
-    "updatedUser": "abc@techacct.adobe.com",
-    "version": "1.0.0",
-    "created": 1576108528538,
-    "updated": 1576108528538
+    'createdUser': 'abc@techacct.adobe.com',
+    'imsOrg': 'abc@AdobeOrg',
+    'createdClient': 'abc',
+    'updatedUser': 'abc@techacct.adobe.com',
+    'version': '1.0.0',
+    'created': 1576108528538,
+    'updated': 1576108528538,
   },
 }
 
@@ -50,7 +44,6 @@ test('list-ds - missing config', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
-
 
 test('list-and-get-ds-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
@@ -62,7 +55,6 @@ test('list-and-get-ds-with-and-without-filter-params-success', async () => {
   runResult = GetDatasetCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual(mockDatasetPayload)
 })
-
 
 test('create-ds-success', async () => {
   config.get.mockImplementation(() => {

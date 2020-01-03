@@ -34,7 +34,13 @@ GetSchemasCommand.description = 'Retrieve the detail of one dataset'
 GetSchemasCommand.hidden = false
 GetSchemasCommand.flags = {
   schemaId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 GetSchemasCommand.aliases = [

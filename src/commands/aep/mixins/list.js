@@ -9,11 +9,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const BaseCommand = require('../about')
-const { flags } = require('@oclif/command')
-const { cli } = require('cli-ux')
+const {flags} = require('@oclif/command')
+const {cli} = require('cli-ux')
+
 class ListMixinsCommand extends BaseCommand {
-  async run () {
-    const { flags } = this.parse(ListMixinsCommand)
+  async run() {
+    const {flags} = this.parse(ListMixinsCommand)
     let result
 
     try {
@@ -25,7 +26,7 @@ class ListMixinsCommand extends BaseCommand {
     return result
   }
 
-  async listMixins (limit = null, start = null, orderBy = null, container = null) {
+  async listMixins(limit = null, start = null, orderBy = null, container = null) {
     return this.getAdobeAep().listMixins(limit, start, orderBy, container)
   }
 }
@@ -33,10 +34,25 @@ class ListMixinsCommand extends BaseCommand {
 ListMixinsCommand.description = 'Retrieve the list of mixins associated with this organization'
 ListMixinsCommand.hidden = false
 ListMixinsCommand.flags = {
-  limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),
-  orderBy: flags.string({ char: 'o', description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.' }),
-  start: flags.string({ char: 's', description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..' }),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+  limit: flags.string({
+    char: 'l',
+    description: 'Limit response to a specified positive number of objects. Ex. limit=10.',
+  }),
+  orderBy: flags.string({
+    char: 'o',
+    description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.',
+  }),
+  start: flags.string({
+    char: 's',
+    description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..',
+  }),
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 ListMixinsCommand.aliases = [

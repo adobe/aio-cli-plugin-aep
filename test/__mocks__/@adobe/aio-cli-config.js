@@ -14,7 +14,7 @@ const mockConfig = {
   delete: jest.fn(),
   reload: jest.fn(),
   dotenv: jest.fn(),
-  getPipedData: jest.fn()
+  getPipedData: jest.fn(),
 }
 
 module.exports = mockConfig

@@ -9,11 +9,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const BaseCommand = require('../about')
-const { flags } = require('@oclif/command')
-const { cli } = require('cli-ux')
+const {flags} = require('@oclif/command')
+const {cli} = require('cli-ux')
+
 class ListDatasourcesCommand extends BaseCommand {
-  async run () {
-    const { flags } = this.parse(ListDatasourcesCommand)
+  async run() {
+    const {flags} = this.parse(ListDatasourcesCommand)
     let result
 
     try {
@@ -25,7 +26,7 @@ class ListDatasourcesCommand extends BaseCommand {
     return result
   }
 
-  async listDatasets (limit = null, start = null, orderBy = null) {
+  async listDatasets(limit = null, start = null, orderBy = null) {
     return this.getAdobeAep().listDatasets(limit, start, orderBy)
   }
 }
@@ -33,9 +34,18 @@ class ListDatasourcesCommand extends BaseCommand {
 ListDatasourcesCommand.description = 'Retrieve the list of datasources associated with this organization'
 ListDatasourcesCommand.hidden = false
 ListDatasourcesCommand.flags = {
-  limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),
-  orderBy: flags.string({ char: 'o', description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.' }),
-  start: flags.string({ char: 's', description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..' })
+  limit: flags.string({
+    char: 'l',
+    description: 'Limit response to a specified positive number of objects. Ex. limit=10.',
+  }),
+  orderBy: flags.string({
+    char: 'o',
+    description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.',
+  }),
+  start: flags.string({
+    char: 's',
+    description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..',
+  }),
 }
 
 ListDatasourcesCommand.aliases = [

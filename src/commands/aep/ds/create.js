@@ -9,11 +9,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const BaseCommand = require('../about')
-const { flags } = require('@oclif/command')
-const { cli } = require('cli-ux')
+const {flags} = require('@oclif/command')
+const {cli} = require('cli-ux')
+
 class CreateDatasourceCommand extends BaseCommand {
-  async run () {
-    const { flags } = this.parse(CreateDatasourceCommand)
+  async run() {
+    const {flags} = this.parse(CreateDatasourceCommand)
     let result
 
     try {
@@ -25,7 +26,7 @@ class CreateDatasourceCommand extends BaseCommand {
     return result
   }
 
-  async createDataset (name, description, xdm) {
+  async createDataset(name, description, xdm) {
     return this.getAdobeAep().createDataset(name, description, xdm)
   }
 }
@@ -33,9 +34,9 @@ class CreateDatasourceCommand extends BaseCommand {
 CreateDatasourceCommand.description = 'Create a dataset. '
 CreateDatasourceCommand.hidden = false
 CreateDatasourceCommand.flags = {
-  name: flags.string({ char: 'n', description: 'Name of dataset.', required: true }),
-  description: flags.string({ char: 'd', description: 'Description of dataset.', required: true }),
-  xdm: flags.string({ char: 'x', description: 'Xdm schema ID.', required: true }),
+  name: flags.string({char: 'n', description: 'Name of dataset.', required: true}),
+  description: flags.string({char: 'd', description: 'Description of dataset.', required: true}),
+  xdm: flags.string({char: 'x', description: 'Xdm schema ID.', required: true}),
 }
 
 CreateDatasourceCommand.aliases = [

@@ -9,11 +9,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const BaseCommand = require('../about')
-const { flags } = require('@oclif/command')
-const { cli } = require('cli-ux')
+const {flags} = require('@oclif/command')
+const {cli} = require('cli-ux')
+
 class ListStatsCommand extends BaseCommand {
-  async run () {
-    const { flags } = this.parse(ListStatsCommand)
+  async run() {
+    const {flags} = this.parse(ListStatsCommand)
     let result
 
     try {
@@ -25,7 +26,7 @@ class ListStatsCommand extends BaseCommand {
     return result
   }
 
-  async listStats (limit = null, start = null, orderBy) {
+  async listStats(limit = null, start = null, orderBy) {
     return this.getAdobeAep().listStats(limit, start, orderBy)
   }
 }
@@ -34,11 +35,20 @@ ListStatsCommand.description = 'Returns details about the given IMS Org'
 ListStatsCommand.hidden = false
 ListStatsCommand.flags = {
   ...BaseCommand.flags,
-  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
-  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
-  limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),
-  orderBy: flags.string({ char: 'o', description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.' }),
-  start: flags.string({ char: 's', description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..' }),
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
+  limit: flags.string({
+    char: 'l',
+    description: 'Limit response to a specified positive number of objects. Ex. limit=10.',
+  }),
+  orderBy: flags.string({
+    char: 'o',
+    description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.',
+  }),
+  start: flags.string({
+    char: 's',
+    description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..',
+  }),
 }
 ListStatsCommand.aliases = [
   'aep:stats:ls',

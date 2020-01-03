@@ -35,8 +35,8 @@ CreateClassesCommand.description = 'Create a dataset. '
 CreateClassesCommand.hidden = false
 CreateClassesCommand.flags = {
   ...BaseCommand.flags,
-  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
-  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   mixin: flags.string({
     char: 'm',
     description: 'The type of mixin. One of   https://ns.adobe.com/xdm/data/record,  https://ns.adobe.com/xdm/data/time-series,  https://ns.adobe.com/xdm/data/adhoc',

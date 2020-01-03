@@ -35,7 +35,13 @@ GetMixinsCommand.description = 'Retrieve the detail of one dataset'
 GetMixinsCommand.hidden = false
 GetMixinsCommand.flags = {
   mixinId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 GetMixinsCommand.aliases = [

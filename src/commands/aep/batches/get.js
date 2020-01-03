@@ -35,8 +35,8 @@ GetBatchesCommand.description = 'Retrieve the detail of one dataset'
 GetBatchesCommand.hidden = false
 GetBatchesCommand.flags = {
   ...BaseCommand.flags,
-  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
-  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   batchId: flags.string({char: 'i', description: 'The ID of the batch.', required: true}),
 }
 

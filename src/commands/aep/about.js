@@ -12,25 +12,27 @@ const {Command, flags} = require('@oclif/command')
 const AdobeAep = require('../../aep-service-core/service')
 const hjson = require('hjson')
 const yaml = require('js-yaml')
+
 class BaseCommand extends Command {
   getAdobeAep() {
     AdobeAep.init()
     return AdobeAep
   }
+
   async run() {
-    const { flags } = this.parse(BaseCommand)
-    console.warn('For enabling autocomplete run this command -> '+'\'printf "$(aio autocomplete:script bash)" >> ~/.bashrc; source ~/.bashrc\'')
-     if(flags.verbose) {
-       console.log(this.config)
-     }
-     else {
+    const {flags} = this.parse(BaseCommand)
+    console.warn('For enabling autocomplete run this command -> ' + '\'printf "$(aio autocomplete:script bash)" >> ~/.bashrc; source ~/.bashrc\'')
+    if (flags.verbose) {
+      console.log(this.config)
+    } else {
       console.log('Plugin = ' + this.config.name)
       console.log('Version = ' + this.config.version)
       console.log('Contributors = ' + 'bgaurav@adobe.com')
-     }
+    }
   }
+
   printObject(obj) {
-    const { flags } = this.parse(this.constructor)
+    const {flags} = this.parse(this.constructor)
 
     let format = 'hjson'
     if (flags.yaml) format = 'yaml'
@@ -38,9 +40,9 @@ class BaseCommand extends Command {
 
     const print = (obj) => {
       if (format === 'json') {
-        this.log(JSON.stringify(obj, null, " "))
+        this.log(JSON.stringify(obj, null, ' '))
       } else if (format === 'yaml') {
-        this.log(yaml.safeDump(obj, { sortKeys: true, lineWidth: 1024, noCompatMode: true }))
+        this.log(yaml.safeDump(obj, {sortKeys: true, lineWidth: 1024, noCompatMode: true}))
       } else {
         if (typeof obj !== 'object') {
           this.log(obj)
@@ -51,7 +53,8 @@ class BaseCommand extends Command {
             separator: true,
             bracesSameLine: true,
             multiline: 'off',
-            colors: false }))
+            colors: false,
+          }))
         }
       }
     }
@@ -68,9 +71,9 @@ BaseCommand.hidden = false
 BaseCommand.description = 'Print plugin details'
 
 BaseCommand.flags = {
-  verbose: flags.boolean({ char: 'v', description: 'Verbose output', default: false, hidden: true }),
-  json: flags.boolean({ char: 'j', hidden: true, exclusive: ['yaml'] }),
-  yaml: flags.boolean({ char: 'y', hidden: true, exclusive: ['json'] })
+  verbose: flags.boolean({char: 'v', description: 'Verbose output', default: false, hidden: true}),
+  json: flags.boolean({char: 'j', hidden: true, exclusive: ['yaml']}),
+  yaml: flags.boolean({char: 'y', hidden: true, exclusive: ['json']}),
 }
 
 module.exports = BaseCommand

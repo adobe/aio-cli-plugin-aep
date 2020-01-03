@@ -9,13 +9,12 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const { Command } = require('@oclif/command')
-
+const {Command} = require('@oclif/command')
 
 class MixinsCommand extends Command {
 
   async run() {
-    this._help();
+    this._help()
   }
 
 }
@@ -26,7 +25,5 @@ MixinsCommand.examples = [
   '$ aio aep:mixins:ls',
 
 ]
-
-
 
 module.exports = MixinsCommand

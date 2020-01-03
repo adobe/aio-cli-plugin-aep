@@ -8,7 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const { getApiKey, getAccessToken, getTenantName } = require('./helpers')
+const {getApiKey, getAccessToken, getTenantName} = require('./helpers')
 const Client = require('./client')
 
 let AdobeAep = {
@@ -17,7 +17,7 @@ let AdobeAep = {
     const config = {
       tenantName: getTenantName(),
       accessToken: getAccessToken(),
-      apiKey: getApiKey()
+      apiKey: getApiKey(),
     }
     Client.init(config)
     return true
@@ -41,7 +41,7 @@ let AdobeAep = {
     return Client.deleteDataset(datasetId)
   },
 
- //batches
+  //batches
 
   listBatches: async function (limit = null, start = null, orderBy = null) {
     return Client.listBatches(limit, start, orderBy)
@@ -77,7 +77,6 @@ let AdobeAep = {
     return Client.deleteClass(classId, container)
   },
 
-
   //datatypes
 
   listDatatypes: async function (limit = null, start = null, orderBy = null, container = null) {
@@ -89,7 +88,7 @@ let AdobeAep = {
   },
 
   createDatatype: async function (title, description, container, propName, propValue) {
-    return Client.createDatatype(title, description,  container, propName, propValue)
+    return Client.createDatatype(title, description, container, propName, propValue)
   },
 
   deleteDatatype: async function (datatypeId, container) {
@@ -132,7 +131,7 @@ let AdobeAep = {
   },
   listStats: async function (limit = null, start = null, orderBy = null) {
     return Client.listStats(limit, start, orderBy)
-  }
+  },
 }
 
 module.exports = AdobeAep

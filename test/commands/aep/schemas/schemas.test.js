@@ -17,7 +17,6 @@ const CreateSchemasCommand = require('../../../../src/commands/aep/schemas/creat
 const DeleteSchemasCommand = require('../../../../src/commands/aep/schemas/delete')
 const config = require('@adobe/aio-cli-config')
 
-
 let mockConfig = {
   client_id: 'aep-clientId',
   access_token: 'aep-accessToken',
@@ -25,18 +24,18 @@ let mockConfig = {
 }
 
 let mockSchemasPayload = {
-  "abc": {
-    "status": "active",
-    "inputFormat": {
-      "format": "parquet"
+  'abc': {
+    'status': 'active',
+    'inputFormat': {
+      'format': 'parquet',
     },
-    "createdUser": "abc@techacct.adobe.com",
-    "imsOrg": "abc@AdobeOrg",
-    "createdClient": "abc",
-    "updatedUser": "abc@techacct.adobe.com",
-    "version": "1.0.0",
-    "created": 1576108528538,
-    "updated": 1576108528538
+    'createdUser': 'abc@techacct.adobe.com',
+    'imsOrg': 'abc@AdobeOrg',
+    'createdClient': 'abc',
+    'updatedUser': 'abc@techacct.adobe.com',
+    'version': '1.0.0',
+    'created': 1576108528538,
+    'updated': 1576108528538,
   },
 }
 
@@ -46,7 +45,6 @@ test('list-schemas - missing config', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
-
 
 test('list-and-get-schema-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
@@ -58,7 +56,6 @@ test('list-and-get-schema-with-and-without-filter-params-success', async () => {
   runResult = GetSchemasCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual(mockSchemasPayload)
 })
-
 
 test('create-schema-success', async () => {
   config.get.mockImplementation(() => {

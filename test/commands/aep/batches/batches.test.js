@@ -9,12 +9,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-/*
-getApiKey,
-  getAccessToken,
-  getTenantName,
- */
-const helpers = require('../../../../src/aep-service-core/helpers')
+
 const ListBatchesCommand = require('../../../../src/commands/aep/batches/list')
 const GetBatchesCommand = require('../../../../src/commands/aep/batches/get')
 const CreateBatchesCommand = require('../../../../src/commands/aep/batches/create')
@@ -22,27 +17,26 @@ const DeleteBatchesCommand = require('../../../../src/commands/aep/batches/delet
 const config = require('@adobe/aio-cli-config')
 
 let mockedBatchPayload = {
-  "abc": {
-    "status": "active",
-    "inputFormat": {
-      "format": "parquet"
+  'abc': {
+    'status': 'active',
+    'inputFormat': {
+      'format': 'parquet',
     },
-    "createdUser": "abc@techacct.adobe.com",
-    "imsOrg": "abc@AdobeOrg",
-    "createdClient": "abc",
-    "updatedUser": "abc@techacct.adobe.com",
-    "version": "1.0.0",
-    "created": 1576108528538,
-    "updated": 1576108528538
+    'createdUser': 'abc@techacct.adobe.com',
+    'imsOrg': 'abc@AdobeOrg',
+    'createdClient': 'abc',
+    'updatedUser': 'abc@techacct.adobe.com',
+    'version': '1.0.0',
+    'created': 1576108528538,
+    'updated': 1576108528538,
   },
 }
 
 let mockConfig = {
-    client_id: 'aep-clientId',
-    access_token: 'aep-accessToken',
-    tenantName: 'aep-tenantName',
+  client_id: 'aep-clientId',
+  access_token: 'aep-accessToken',
+  tenantName: 'aep-tenantName',
 }
-
 
 test('list-batches - missing config', async () => {
   expect.assertions(2)
@@ -51,18 +45,16 @@ test('list-batches - missing config', async () => {
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
 
-
 test('list-and-get-batch-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
-   expect.assertions(2)
+  expect.assertions(2)
   let runResult = ListBatchesCommand.run([])
   await expect(runResult).resolves.toEqual(mockedBatchPayload)
   runResult = GetBatchesCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual(mockedBatchPayload)
 })
-
 
 test('create-batch-success', async () => {
   config.get.mockImplementation(() => {

@@ -18,8 +18,8 @@ class CreateBatchesCommand extends BaseCommand {
     let result
 
     try {
-       result = await this.createBatch(flags.datasetId, flags.fileType)
-       this.printObject(result);
+      result = await this.createBatch(flags.datasetId, flags.fileType)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }
@@ -35,10 +35,16 @@ CreateBatchesCommand.description = 'Create a batch. '
 CreateBatchesCommand.hidden = false
 CreateBatchesCommand.flags = {
   ...BaseCommand.flags,
-  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
-  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
-  fileType: flags.string({char: 'f', description: 'The type of file to be ingested in this batch. One of parquet, csv, json', options: ['json', 'parquet', 'csv'], default: 'parquet', required: false}),
+  fileType: flags.string({
+    char: 'f',
+    description: 'The type of file to be ingested in this batch. One of parquet, csv, json',
+    options: ['json', 'parquet', 'csv'],
+    default: 'parquet',
+    required: false,
+  }),
 }
 
 CreateBatchesCommand.aliases = [

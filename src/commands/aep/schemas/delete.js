@@ -34,7 +34,13 @@ DeleteSchemaCommand.description = 'Delete this dataset.'
 DeleteSchemaCommand.hidden = false
 DeleteSchemaCommand.flags = {
   schemaId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
-  container: flags.string({char: 'c', description: 'The type of container. One of  global, tenant', options: ['global', 'tenant'], default: 'global', required: false})
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 DeleteSchemaCommand.aliases = [

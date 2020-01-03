@@ -12,30 +12,31 @@ const nodeFetch = jest.requireActual('node-fetch')
 const fetchMock = require('fetch-mock').sandbox()
 
 Object.assign(fetchMock.config, nodeFetch, {
-  fetch: nodeFetch
+  fetch: nodeFetch,
 })
 module.exports = fetchMock
 
-function mockResponseWithMethod (url, method, response) {
+function mockResponseWithMethod(url, method, response) {
   fetchMock.mock((u, opts) => u === url && opts.method === method, response)
 }
 
-function mockResponseWithMethodBody (url, method, body, response) {
+function mockResponseWithMethodBody(url, method, body, response) {
   fetchMock.mock((u, opts) => u === url && opts.method === method && opts.body === body, response)
 }
-let mockResponseForApi =  {
-  "abc": {
-    "status": "active",
-    "inputFormat": {
-      "format": "parquet"
+
+let mockResponseForApi = {
+  'abc': {
+    'status': 'active',
+    'inputFormat': {
+      'format': 'parquet',
     },
-    "createdUser": "abc@techacct.adobe.com",
-    "imsOrg": "abc@AdobeOrg",
-    "createdClient": "abc",
-    "updatedUser": "abc@techacct.adobe.com",
-    "version": "1.0.0",
-    "created": 1576108528538,
-    "updated": 1576108528538
+    'createdUser': 'abc@techacct.adobe.com',
+    'imsOrg': 'abc@AdobeOrg',
+    'createdClient': 'abc',
+    'updatedUser': 'abc@techacct.adobe.com',
+    'version': '1.0.0',
+    'created': 1576108528538,
+    'updated': 1576108528538,
   },
 }
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batches/', 'GET', mockResponseForApi)
@@ -43,7 +44,6 @@ mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/batche
 fetchMock.get('https://platform.adobe.io/data/foundation/catalog/batches/abc', mockResponseForApi)
 fetchMock.delete('https://platform.adobe.io/data/foundation/catalog/batches/abc', mockResponseForApi)
 fetchMock.post('https://platform.adobe.io/data/foundation/catalog/batches/', mockResponseForApi)
-
 
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/', 'GET', mockResponseForApi)
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/classes/abc', 'GET', mockResponseForApi)
@@ -68,7 +68,6 @@ mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/schemas/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForApi)
 fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/schemas/', mockResponseForApi)
 fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/schemas/abc', mockResponseForApi)
-
 
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/dataSets/', 'GET', mockResponseForApi)
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/dataSets/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForApi)

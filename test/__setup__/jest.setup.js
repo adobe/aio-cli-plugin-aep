@@ -8,8 +8,12 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const { stdout } = require('stdout-stderr')
+const {stdout} = require('stdout-stderr')
 
 jest.setTimeout(30000)
-beforeEach(() => { stdout.start() })
-afterEach(() => { stdout.stop() })
+beforeEach(() => {
+  stdout.start()
+})
+afterEach(() => {
+  stdout.stop()
+})

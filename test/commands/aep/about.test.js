@@ -16,21 +16,29 @@ beforeEach(() => {
 
 test('getAdobeAep', () => {
   config.get.mockImplementation(() => null)
-  expect(function testGetAep () { new BaseCommand().getAdobeAep() }).toThrow(new Error('missing config data: org'))
-  config.get.mockImplementation(() => { return {} })
-  expect(function testGetAep () { new BaseCommand().getAdobeAep() }).toThrow(new Error('missing config data: jwt-auth.client_id'))
+  expect(function testGetAep() {
+    new BaseCommand().getAdobeAep()
+  }).toThrow(new Error('missing config data: org'))
   config.get.mockImplementation(() => {
-    return {
-      'tenantName': 'aep-tenantName',
-      'access_token': 'aep-accessToken'
-    }
+    return {}
   })
-  expect(function testGetAep () { new BaseCommand().getAdobeAep() }).toThrow(new Error('missing config data: jwt-auth.client_id'))
+  expect(function testGetAep() {
+    new BaseCommand().getAdobeAep()
+  }).toThrow(new Error('missing config data: jwt-auth.client_id'))
   config.get.mockImplementation(() => {
     return {
       'tenantName': 'aep-tenantName',
       'access_token': 'aep-accessToken',
-      'client_id': 'aep-clientId'
+    }
+  })
+  expect(function testGetAep() {
+    new BaseCommand().getAdobeAep()
+  }).toThrow(new Error('missing config data: jwt-auth.client_id'))
+  config.get.mockImplementation(() => {
+    return {
+      'tenantName': 'aep-tenantName',
+      'access_token': 'aep-accessToken',
+      'client_id': 'aep-clientId',
     }
   })
   expect(new BaseCommand().getAdobeAep()).toBeTruthy()

@@ -9,21 +9,14 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-/*
-getApiKey,
-  getAccessToken,
-  getTenantName,
- */
-const helpers = require('../../../../src/aep-service-core/helpers')
+
 const ListMixinsCommand = require('../../../../src/commands/aep/mixins/list')
 const GetMixinsCommand = require('../../../../src/commands/aep/mixins/get')
 const CreateMixinsCommand = require('../../../../src/commands/aep/mixins/create')
 const DeleteMixinsCommand = require('../../../../src/commands/aep/mixins/delete')
 const config = require('@adobe/aio-cli-config')
 
-let mockedClassPayload = {
-
-}
+let mockedClassPayload = {}
 
 let mockConfig = {
   client_id: 'aep-clientId',
@@ -32,18 +25,18 @@ let mockConfig = {
 }
 
 let mockMixinsPayload = {
-  "abc": {
-    "status": "active",
-    "inputFormat": {
-      "format": "parquet"
+  'abc': {
+    'status': 'active',
+    'inputFormat': {
+      'format': 'parquet',
     },
-    "createdUser": "abc@techacct.adobe.com",
-    "imsOrg": "abc@AdobeOrg",
-    "createdClient": "abc",
-    "updatedUser": "abc@techacct.adobe.com",
-    "version": "1.0.0",
-    "created": 1576108528538,
-    "updated": 1576108528538
+    'createdUser': 'abc@techacct.adobe.com',
+    'imsOrg': 'abc@AdobeOrg',
+    'createdClient': 'abc',
+    'updatedUser': 'abc@techacct.adobe.com',
+    'version': '1.0.0',
+    'created': 1576108528538,
+    'updated': 1576108528538,
   },
 }
 
@@ -53,7 +46,6 @@ test('list-mixins - missing config', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
-
 
 test('list-and-get-mixin-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
@@ -65,7 +57,6 @@ test('list-and-get-mixin-with-and-without-filter-params-success', async () => {
   runResult = GetMixinsCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual(mockMixinsPayload)
 })
-
 
 test('create-mixin-success', async () => {
   config.get.mockImplementation(() => {

@@ -88,7 +88,6 @@ let Client = {
     return (result)
   },
 
-
 //datasets signature
 
   listDatasets: async function (limit = null, start = null, orderBy = null) {
@@ -169,7 +168,6 @@ let Client = {
     return (result)
   },
 
-
   //schemas signature
 
   createSchema: async function (mixin, title, description, baseClass, container) {
@@ -220,21 +218,19 @@ let Client = {
 
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`)
     const body = {
-        name: name,
-        description: description,
-        schemaRef:
-          {
-            id: xdm,
-            contentType: 'application/vnd.adobe.xed-full+json; version=1',
-          },
-      }
+      name: name,
+      description: description,
+      schemaRef:
+        {
+          id: xdm,
+          contentType: 'application/vnd.adobe.xed-full+json; version=1',
+        },
+    }
     return this.post(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
       if (res.ok) return res.json()
       else throw new Error(`Cannot create dataset: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
   },
-
-
 
   _getDataset: async function (datasetId) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}` + datasetId)
@@ -253,8 +249,6 @@ let Client = {
       } else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} (${res.status} ${res.statusText}`)
     })
   },
-
-
 
   //batches implementation
 
@@ -311,7 +305,6 @@ let Client = {
     })
   },
 
-
   //classes implementaion
 
   _listClasses: async function (limit, start, orderBy, container) {
@@ -335,21 +328,21 @@ let Client = {
   _createClass: async function (mixin, title, description, baseClass, container) {
     var metaExtends = [mixin, baseClass]
     var metExtend = 'meta:extends'
-    const url =  new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}`)
-      const body = {
-        title: title,
-        description: description,
-        type: 'object',
-        [metExtend]: metaExtends,
-        allOf: [{
-          $ref: mixin,
+    const url = new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}`)
+    const body = {
+      title: title,
+      description: description,
+      type: 'object',
+      [metExtend]: metaExtends,
+      allOf: [{
+        $ref: mixin,
+        properties: {},
+      },
+        {
+          $ref: baseClass,
           properties: {},
-        },
-          {
-            $ref: baseClass,
-            properties: {},
-          }],
-      }
+        }],
+    }
     return this.post(`${url.toString()}`, endPoints.batches.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
       if (res.ok) return res.json()
       else throw new Error(`Cannot create class: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
@@ -471,33 +464,33 @@ let Client = {
     var metExtend = 'meta:intendedToExtend'
     var ext = 'meta:extensible'
     var meta = 'meta:abstract'
-      const body = {
-        title: title,
-        description: description,
-        type: 'object',
-        [ext]: true,
-        [meta]: true,
-        [metExtend]: [classId],
-        definitions: {
-          [propName]: {
-            properties: {
-              [organization]: {
-                properties: {
-                  [propName]: {
-                    type: propValue,
-                  },
+    const body = {
+      title: title,
+      description: description,
+      type: 'object',
+      [ext]: true,
+      [meta]: true,
+      [metExtend]: [classId],
+      definitions: {
+        [propName]: {
+          properties: {
+            [organization]: {
+              properties: {
+                [propName]: {
+                  type: propValue,
                 },
               },
             },
           },
         },
-        allOf: [
-          {
-            $ref: '#/definitions/' + propName,
-          },
+      },
+      allOf: [
+        {
+          $ref: '#/definitions/' + propName,
+        },
 
-        ],
-      }
+      ],
+    }
     return this.post(`${baseUrl.toString()}`, endPoints.datatypes.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
       if (res.ok) return res.json()
       else throw new Error(`Cannot create datatype: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
@@ -553,7 +546,6 @@ let Client = {
     })
   },
 
-
 //schemas implementation
 
   _createSchema: async function (mixin, title, description, baseClass, container) {
@@ -562,18 +554,18 @@ let Client = {
     var metExtend = 'meta:extends'
     var unionSchema = 'meta:immutableTags'
     const body = {
-        title: title,
-        description: description,
-        type: 'object',
-        [unionSchema]: ['union'],
-        [metExtend]: metaExtends,
-        allOf: [
-          {
-            $ref: baseClass,
-            properties: {},
-          }],
-      }
-      return this.post(`${baseUrl.toString()}`, endPoints.schemas.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
+      title: title,
+      description: description,
+      type: 'object',
+      [unionSchema]: ['union'],
+      [metExtend]: metaExtends,
+      allOf: [
+        {
+          $ref: baseClass,
+          properties: {},
+        }],
+    }
+    return this.post(`${baseUrl.toString()}`, endPoints.schemas.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
       if (res.ok) return res.json()
       else throw new Error(`Cannot create schema: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
