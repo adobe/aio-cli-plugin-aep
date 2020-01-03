@@ -18,6 +18,7 @@ class CreateDatasourceCommand extends BaseCommand {
 
     try {
       result = await this.createDataset(flags.name, flags.description, flags.xdm)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }

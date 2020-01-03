@@ -68,3 +68,14 @@ mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/global/schemas/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForApi)
 fetchMock.post('https://platform.adobe.io/data/foundation/schemaregistry/tenant/schemas/', mockResponseForApi)
 fetchMock.delete('https://platform.adobe.io/data/foundation/schemaregistry/global/schemas/abc', mockResponseForApi)
+
+
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/dataSets/', 'GET', mockResponseForApi)
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/catalog/dataSets/?limit=3&start=-id&orderBy=1', 'GET', mockResponseForApi)
+fetchMock.get('https://platform.adobe.io/data/foundation/catalog/dataSets/abc', mockResponseForApi)
+fetchMock.delete('https://platform.adobe.io/data/foundation/catalog/dataSets/abc', mockResponseForApi)
+fetchMock.post('https://platform.adobe.io/data/foundation/catalog/dataSets/', mockResponseForApi)
+
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/stats', 'GET', mockResponseForApi)
+
+

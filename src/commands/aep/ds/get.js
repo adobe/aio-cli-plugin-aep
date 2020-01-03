@@ -19,7 +19,7 @@ class GetDatasourceCommand extends BaseCommand {
 
     try {
       result = await this.getDataset(flags.datasetId)
-      console.log(result)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }

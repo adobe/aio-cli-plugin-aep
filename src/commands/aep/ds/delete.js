@@ -19,7 +19,7 @@ class DeleteDatasourceCommand extends BaseCommand {
 
     try {
       result = await this.deleteDataset(flags.datasetId)
-      console.log(result)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }

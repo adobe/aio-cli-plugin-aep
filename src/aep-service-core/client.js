@@ -191,8 +191,8 @@ let Client = {
     return (result)
   },
 
-  listStats: async function () {
-    const result = await this._listStats()
+  listStats: async function (limit = null, start = null, orderBy = null) {
+    const result = await this._listStats(limit, start, orderBy)
     return (result)
   },
 
@@ -217,16 +217,9 @@ let Client = {
   },
 
   _createDataset: async function (name, description, xdm) {
-    request.post({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-      },
-      url: new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`).toString(),
-      body: JSON.stringify({
+
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`)
+    const body = {
         name: name,
         description: description,
         schemaRef:
@@ -234,35 +227,14 @@ let Client = {
             id: xdm,
             contentType: 'application/vnd.adobe.xed-full+json; version=1',
           },
-      }),
-    }, function (error, response, body) {
-      console.log(body)
+      }
+    return this.post(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot create dataset: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
   },
 
-  _createDataset: async function (name, description, xdm) {
-    request.post({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-      },
-      url: new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`).toString(),
-      body: JSON.stringify({
-        name: name,
-        description: description,
-        schemaRef:
-          {
-            id: xdm,
-            contentType: 'application/vnd.adobe.xed-full+json; version=1',
-          },
-      }),
-    }, function (error, response, body) {
-      console.log(body)
-    })
-  },
+
 
   _getDataset: async function (datasetId) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}` + datasetId)
@@ -393,16 +365,6 @@ let Client = {
       } else throw new Error(`Cannot fulfill request on resource classes: ${res.url} (${res.status} ${res.statusText} ${res.toString()}`)
     })
   },
-
-
-  // _deleteClass: async function (classId, container) {
-  //   let baseUrl = new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}${classId}`)
-  //   return this.delete(`${baseUrl.toString()}`, endPoints.classes.contentType, 'application/vnd.adobe.xed-full+json').then((res) => {
-  //     if (res.status === 204 || res.status === 200) {
-  //       console.log('Successfully deleted class ' + classId)
-  //     } else throw new Error(`Cannot fulfill request on resource classes: ${res.url} (${res.status} ${res.statusText}`)
-  //   })
-  // },
 
   _deleteClass: async function (classId, container) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.classes.resourcePath}${container}${endPoints.classes.resourceType}${classId}`)
@@ -666,21 +628,21 @@ let Client = {
     })
   },
 
-  _listStats: async function () {
+  _listStats: async function (limit, start, orderBy) {
     let baseUrl = new URL(`${catalogBaseUrl}${endPoints.stats.resourcePath}${endPoints.stats.resourceType}`)
-    request.get({
-      headers: {
-        'authorization': `Bearer ` + this.accessToken,
-        'cache-control': 'no-cache',
-        'x-api-key': this.apiKey,
-        'x-gw-ims-org-id': this.tenantName,
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.adobe.xed-full-notext+json; version=1',
-      },
-      url: baseUrl,
-    }, function (error, response, body) {
-      let json = JSON.parse(body)
-      console.log(json)
+    if (limit) {
+      baseUrl.searchParams.append(endPoints.stats.parameters.limit, limit)
+    }
+    if (start) {
+      baseUrl.searchParams.append(endPoints.stats.parameters.start, start)
+    }
+    if (orderBy) {
+      baseUrl.searchParams.append(endPoints.stats.parameters.orderBy, orderBy)
+    }
+    return this.get(`${baseUrl.toString()}`, endPoints.stats.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource schemas: ${res.url} (${res.status} ${res.statusText})`)
     })
   },
 

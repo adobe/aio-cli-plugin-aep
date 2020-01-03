@@ -18,7 +18,7 @@ class ListDatasourcesCommand extends BaseCommand {
 
     try {
       result = await this.listDatasets(flags.limit, flags.start, flags.orderBy)
-      console.log(result);
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }

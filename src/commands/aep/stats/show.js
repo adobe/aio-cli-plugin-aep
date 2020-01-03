@@ -17,21 +17,29 @@ class ListStatsCommand extends BaseCommand {
     let result
 
     try {
-      result = await this.listStats()
+      result = await this.listStats(flags.limit, flags.start, flags.orderBy)
+      this.printObject(result)
     } catch (error) {
       this.error(error.message)
     }
     return result
   }
 
-  async listStats () {
-    return this.getAdobeAep().listStats()
+  async listStats (limit = null, start = null, orderBy) {
+    return this.getAdobeAep().listStats(limit, start, orderBy)
   }
 }
 
 ListStatsCommand.description = 'Returns details about the given IMS Org'
 ListStatsCommand.hidden = false
-
+ListStatsCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({ char: 'j', hidden: false, description: 'value as json' }),
+  yaml: flags.boolean({ char: 'y', hidden: false, description: 'value as yaml' }),
+  limit: flags.string({ char: 'l', description: 'Limit response to a specified positive number of objects. Ex. limit=10.' }),
+  orderBy: flags.string({ char: 'o', description: 'Sort parameter and direction for sorting the response. Ex. orderBy=asc:created,updated.' }),
+  start: flags.string({ char: 's', description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..' }),
+}
 ListStatsCommand.aliases = [
   'aep:stats:ls',
   'aep:stats:list']
