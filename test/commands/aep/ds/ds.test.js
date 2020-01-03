@@ -60,7 +60,7 @@ test('create-ds-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
-  //-n=TestPleaseIgnore112519-2 -d=TestPleaseIgnore112519-2 -x=_xdm.context.profile__union
+
   let runResult = CreateDatasetCommand.run(['-n=TestPleaseIgnore', '-d=TestPleaseIgnore', '-x=_xdm.context.profile__union'])
   await expect(runResult).resolves.toEqual(mockDatasetPayload)
 })

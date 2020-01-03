@@ -16,7 +16,7 @@ const CreateClassesCommand = require('../../../../src/commands/aep/classes/creat
 const DeleteClassesCommand = require('../../../../src/commands/aep/classes/delete')
 const config = require('@adobe/aio-cli-config')
 
-let mockedClassPayload = {}
+
 
 let mockConfig = {
   client_id: 'aep-clientId',
