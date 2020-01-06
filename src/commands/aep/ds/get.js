@@ -34,6 +34,9 @@ class GetDatasourceCommand extends BaseCommand {
 GetDatasourceCommand.description = 'Retrieve the detail of one dataset'
 GetDatasourceCommand.hidden = false
 GetDatasourceCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
 }
 

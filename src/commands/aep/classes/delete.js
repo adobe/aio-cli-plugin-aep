@@ -47,5 +47,5 @@ DeleteClassesCommand.flags = {
 }
 
 DeleteClassesCommand.aliases = [
-  'aep:ds:delete']
+  'aep:classes:delete']
 module.exports = DeleteClassesCommand

@@ -8,7 +8,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const {getApiKey, getAccessToken, getTenantName} = require('./helpers')
+const {getApiKey, getAccessToken, getTenantName, getSandboxId, getSandboxName} = require('./helpers')
 const Client = require('./client')
 
 let AdobeAep = {
@@ -18,6 +18,8 @@ let AdobeAep = {
       tenantName: getTenantName(),
       accessToken: getAccessToken(),
       apiKey: getApiKey(),
+      sandboxId: getSandboxId(),
+      sandboxName: getSandboxName(),
     }
     Client.init(config)
     return true

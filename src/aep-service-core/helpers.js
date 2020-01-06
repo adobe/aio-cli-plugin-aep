@@ -52,8 +52,25 @@ function getTenantName() {
   return tenantName
 }
 
+function getSandboxId() {
+  const sandboxId = config.get('x-sandbox-id')
+  if (!sandboxId) {
+    throw new Error('missing x-sandbox-id')
+  }
+  return sandboxId
+}
+
+function getSandboxName() {
+  const sandboxName = config.get('x-sandbox-name')
+  if (!sandboxName) {
+    throw new Error('missing x-sandbox-name')
+  }
+  return sandboxName
+}
 module.exports = {
   getApiKey,
   getAccessToken,
   getTenantName,
+  getSandboxId,
+  getSandboxName
 }

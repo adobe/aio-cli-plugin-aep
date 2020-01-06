@@ -17,12 +17,15 @@ let Client = {
   tenantName: null,
   accessToken: null,
   apiKey: null,
-
+  sandboxId: null,
+  sandboxName: null,
   init: function (config = null) {
     if (config) {
       this.tenantName = config.tenantName
       this.accessToken = config.accessToken
       this.apiKey = config.apiKey
+      this.sandboxId = config.sandboxId
+      this.sandboxName = config.sandboxName
     }
     return true
   },
@@ -35,6 +38,8 @@ let Client = {
       'x-gw-ims-org-id': this.tenantName,
       'Content-Type': contentType,
       'Accept': accept,
+     // 'x-sandbox-id': this.sandboxId,
+      'x-sandbox-name': 'PROD'
     }
     return headers
   },
@@ -397,7 +402,7 @@ let Client = {
     return this.get(`${baseUrl.toString()}`, endPoints.datatypes.contentType, 'application/vnd.adobe.xed-full+json').then((res) => {
       if (res.ok) {
         return res.json()
-      } else throw new Error(`Cannot fulfill request on resource classes: ${res.url} (${res.status} ${res.statusText})`)
+      } else throw new Error(`Cannot fulfill request on resource datatypes: ${res.url} (${res.status} ${res.statusText})`)
     })
   },
 

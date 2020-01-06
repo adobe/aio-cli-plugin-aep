@@ -48,5 +48,5 @@ GetClassesCommand.flags = {
 }
 
 GetClassesCommand.aliases = [
-  'aep:ds:get']
+  'aep:classes:get']
 module.exports = GetClassesCommand
