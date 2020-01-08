@@ -53,9 +53,13 @@ A plugin for CRUD operations on aep resources
 
 5. ```$ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration}```
 
+6. ```$ aio config:set x-sandbox-id ${your_sanbox_id}```
+
+7. ```$ aio config:set x-sandbox-name ${your_sanbox_name}```
+
  I have noticed sometimes access_token is not generated from aio-cli-config module and is a lazy load after the first command. So fire this please:
  
-6. ```$ aio console:list-integrations```
+8. ```$ aio console:list-integrations```
 
 ## Finally run this simple command to list datasets in your org
 
