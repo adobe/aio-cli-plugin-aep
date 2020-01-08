@@ -12,7 +12,7 @@ A plugin for CRUD operations on aep resources
 
 
 
-## Set up necessary adobe I/O dependencies
+## 1. _Set up necessary adobe I/O dependencies_
  
 1. ```$ npm install -g @adobe/aio-cli```
 
@@ -26,7 +26,7 @@ A plugin for CRUD operations on aep resources
 
 6. ```$ aio plugins:link```
 
-## Set up adobe I/O production integration
+## 2. _Set up adobe I/O production integration_
 
 1. Go to  https://console.adobe.io/integrations and create a production integration for test
 
@@ -61,7 +61,7 @@ A plugin for CRUD operations on aep resources
  
 8. ```$ aio console:list-integrations```
 
-## Finally run this simple command to list datasets in your org
+## 3. _Finally run this simple command to list datasets in your org_
 
    ```$ aio aep:ds:list```
  
