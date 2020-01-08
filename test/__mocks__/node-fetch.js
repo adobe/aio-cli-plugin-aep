@@ -77,4 +77,6 @@ fetchMock.post('https://platform.adobe.io/data/foundation/catalog/dataSets/', mo
 
 mockResponseWithMethod('https://platform.adobe.io/data/foundation/schemaregistry/stats', 'GET', mockResponseForApi)
 
+mockResponseWithMethod('https://platform.adobe.io/data/foundation/sandbox-management/sandboxes', 'GET', mockResponseForApi)
+
 

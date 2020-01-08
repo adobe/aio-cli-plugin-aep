@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 const {Command} = require('@oclif/command')
 
-class SchemasCommand extends Command {
+class SandboxesCommand extends Command {
 
   async run() {
     this._help()
@@ -19,11 +19,11 @@ class SchemasCommand extends Command {
 
 }
 
-SchemasCommand.description = 'CRUD on schemas.'
+SandboxesCommand.description = 'Get list of all sandboxes related to this IMS org.'
 
-SchemasCommand.examples = [
-  '$ aio aep:schemas:ls -c=tenant',
+SandboxesCommand.examples = [
+  '$ aio aep:sandboxes:ls',
 
 ]
 
-module.exports = SchemasCommand
+module.exports = SandboxesCommand

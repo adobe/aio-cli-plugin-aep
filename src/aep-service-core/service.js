@@ -131,8 +131,15 @@ let AdobeAep = {
   deleteSchema: async function (schemaId, container) {
     return Client.deleteSchema(schemaId, container)
   },
+
+  //stats
   listStats: async function (limit = null, start = null, orderBy = null) {
     return Client.listStats(limit, start, orderBy)
+  },
+
+  //sandboxes
+  listSandboxes: async function (limit = null, start = null, orderBy = null) {
+    return Client.listSandboxes(limit, start, orderBy)
   },
 }
 

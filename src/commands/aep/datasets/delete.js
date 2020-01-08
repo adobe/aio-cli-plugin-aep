@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class GetDatasourceCommand extends BaseCommand {
+class DeleteDatasourceCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(GetDatasourceCommand)
+    const {flags} = this.parse(DeleteDatasourceCommand)
     let result
 
     try {
-      result = await this.getDataset(flags.datasetId)
+      result = await this.deleteDataset(flags.datasetId)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,20 +26,17 @@ class GetDatasourceCommand extends BaseCommand {
     return result
   }
 
-  async getDataset(datasetId) {
-    return this.getAdobeAep().getDataset(datasetId)
+  async deleteDataset(datasetId) {
+    return this.getAdobeAep().deleteDataset(datasetId)
   }
 }
 
-GetDatasourceCommand.description = 'Retrieve the detail of one dataset'
-GetDatasourceCommand.hidden = false
-GetDatasourceCommand.flags = {
-  ...BaseCommand.flags,
-  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
-  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
+DeleteDatasourceCommand.description = 'Delete this dataset.'
+DeleteDatasourceCommand.hidden = false
+DeleteDatasourceCommand.flags = {
   datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
 }
 
-GetDatasourceCommand.aliases = [
-  'aep:ds:get']
-module.exports = GetDatasourceCommand
+DeleteDatasourceCommand.aliases = [
+  'aep:datasets:delete']
+module.exports = DeleteDatasourceCommand

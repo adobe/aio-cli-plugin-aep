@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class ListMixinsCommand extends BaseCommand {
+class ListDatasourcesCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(ListMixinsCommand)
+    const {flags} = this.parse(ListDatasourcesCommand)
     let result
 
     try {
-      result = await this.listMixins(flags.limit, flags.start, flags.orderBy, flags.container)
+      result = await this.listDatasets(flags.limit, flags.start, flags.orderBy)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,14 +26,14 @@ class ListMixinsCommand extends BaseCommand {
     return result
   }
 
-  async listMixins(limit = null, start = null, orderBy = null, container = null) {
-    return this.getAdobeAep().listMixins(limit, start, orderBy, container)
+  async listDatasets(limit = null, start = null, orderBy = null) {
+    return this.getAdobeAep().listDatasets(limit, start, orderBy)
   }
 }
 
-ListMixinsCommand.description = 'Retrieve the list of mixins associated with this organization'
-ListMixinsCommand.hidden = false
-ListMixinsCommand.flags = {
+ListDatasourcesCommand.description = 'Retrieve the list of datasources associated with this organization'
+ListDatasourcesCommand.hidden = false
+ListDatasourcesCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
@@ -49,16 +49,9 @@ ListMixinsCommand.flags = {
     char: 's',
     description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..',
   }),
-  container: flags.string({
-    char: 'c',
-    description: 'The type of container. One of  global, tenant',
-    options: ['global', 'tenant'],
-    default: 'global',
-    required: false,
-  }),
 }
 
-ListMixinsCommand.aliases = [
-  'aep:mixins:ls',
-  'aep:mixins:list']
-module.exports = ListMixinsCommand
+ListDatasourcesCommand.aliases = [
+  'aep:datasets:ls',
+  'aep:datasets:list']
+module.exports = ListDatasourcesCommand

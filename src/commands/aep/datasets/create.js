@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class DeleteDatasourceCommand extends BaseCommand {
+class CreateDatasourceCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(DeleteDatasourceCommand)
+    const {flags} = this.parse(CreateDatasourceCommand)
     let result
 
     try {
-      result = await this.deleteDataset(flags.datasetId)
+      result = await this.createDataset(flags.name, flags.description, flags.xdm)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,17 +26,20 @@ class DeleteDatasourceCommand extends BaseCommand {
     return result
   }
 
-  async deleteDataset(datasetId) {
-    return this.getAdobeAep().deleteDataset(datasetId)
+  async createDataset(name, description, xdm) {
+    return this.getAdobeAep().createDataset(name, description, xdm)
   }
 }
 
-DeleteDatasourceCommand.description = 'Delete this dataset.'
-DeleteDatasourceCommand.hidden = false
-DeleteDatasourceCommand.flags = {
-  datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
+CreateDatasourceCommand.description = 'Create a dataset. '
+CreateDatasourceCommand.hidden = false
+CreateDatasourceCommand.flags = {
+  name: flags.string({char: 'n', description: 'Name of dataset.', required: true}),
+  description: flags.string({char: 'd', description: 'Description of dataset.', required: true}),
+  xdm: flags.string({char: 'x', description: 'Xdm schema ID.', required: true}),
 }
 
-DeleteDatasourceCommand.aliases = [
-  'aep:ds:delete']
-module.exports = DeleteDatasourceCommand
+CreateDatasourceCommand.aliases = [
+  'aep:datasets:create',
+  'aep:datasets:new']
+module.exports = CreateDatasourceCommand

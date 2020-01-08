@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const ShowStatsCommand = require('../../../../src/commands/aep/stats/show')
+const ListSandboxesCommand = require('../../../../src/commands/aep/sandboxes/list')
 const config = require('@adobe/aio-cli-config')
 
 let mockConfig = {
@@ -19,7 +19,7 @@ let mockConfig = {
   tenantName: 'aep-tenantName',
 }
 
-let mockStatsPayload = {
+let mockSandboxesPayload = {
   'abc': {
     'status': 'active',
     'inputFormat': {
@@ -35,18 +35,18 @@ let mockStatsPayload = {
   },
 }
 
-test('show-stats - missing config', async () => {
+test('list-sandboxes - missing config', async () => {
   expect.assertions(2)
-  let runResult = ShowStatsCommand.run([])
+  let runResult = ListSandboxesCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
 
-test('show-stats-success', async () => {
+test('list-sandboxes-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
   expect.assertions(1)
-  let runResult = ShowStatsCommand.run([])
-  await expect(runResult).resolves.toEqual(mockStatsPayload)
+  let runResult = ListSandboxesCommand.run([])
+  await expect(runResult).resolves.toEqual(mockSandboxesPayload)
 })

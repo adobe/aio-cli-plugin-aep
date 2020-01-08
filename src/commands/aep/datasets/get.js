@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class CreateDatasourceCommand extends BaseCommand {
+class GetDatasourceCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(CreateDatasourceCommand)
+    const {flags} = this.parse(GetDatasourceCommand)
     let result
 
     try {
-      result = await this.createDataset(flags.name, flags.description, flags.xdm)
+      result = await this.getDataset(flags.datasetId)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,20 +26,20 @@ class CreateDatasourceCommand extends BaseCommand {
     return result
   }
 
-  async createDataset(name, description, xdm) {
-    return this.getAdobeAep().createDataset(name, description, xdm)
+  async getDataset(datasetId) {
+    return this.getAdobeAep().getDataset(datasetId)
   }
 }
 
-CreateDatasourceCommand.description = 'Create a dataset. '
-CreateDatasourceCommand.hidden = false
-CreateDatasourceCommand.flags = {
-  name: flags.string({char: 'n', description: 'Name of dataset.', required: true}),
-  description: flags.string({char: 'd', description: 'Description of dataset.', required: true}),
-  xdm: flags.string({char: 'x', description: 'Xdm schema ID.', required: true}),
+GetDatasourceCommand.description = 'Retrieve the detail of one dataset'
+GetDatasourceCommand.hidden = false
+GetDatasourceCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
+  datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
 }
 
-CreateDatasourceCommand.aliases = [
-  'aep:ds:create',
-  'aep:ds:new']
-module.exports = CreateDatasourceCommand
+GetDatasourceCommand.aliases = [
+  'aep:datasets:get']
+module.exports = GetDatasourceCommand

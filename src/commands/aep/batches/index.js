@@ -26,6 +26,5 @@ BatchCommand.examples = [
 
 ]
 
-//BatchCommand.flags = commonFlags.global
 
 module.exports = BatchCommand

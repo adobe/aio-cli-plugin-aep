@@ -73,6 +73,21 @@ module.exports = {
       resourcePath: '/schemaregistry/',
       resourceType: 'stats',
       contentType: 'application/json',
+      parameters: {
+        limit: 'limit',
+        start: 'start',
+        orderBy: 'orderBy',
+      },
+    },
+    sandboxes: {
+      resourcePath: '/sandbox-management/',
+      resourceType: 'sandboxes',
+      contentType: 'application/json',
+      parameters: {
+        limit: 'limit',
+        start: 'start',
+        orderBy: 'orderBy',
+      },
     },
   },
 }

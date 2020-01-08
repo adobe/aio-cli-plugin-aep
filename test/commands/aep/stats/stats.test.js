@@ -10,10 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const ListDatasetCommand = require('../../../../src/commands/aep/datasets/list')
-const GetDatasetCommand = require('../../../../src/commands/aep/datasets/get')
-const CreateDatasetCommand = require('../../../../src/commands/aep/datasets/create')
-const DeleteDatasetCommand = require('../../../../src/commands/aep/datasets/delete')
+const ShowStatsCommand = require('../../../../src/commands/aep/stats/list')
 const config = require('@adobe/aio-cli-config')
 
 let mockConfig = {
@@ -22,7 +19,7 @@ let mockConfig = {
   tenantName: 'aep-tenantName',
 }
 
-let mockDatasetPayload = {
+let mockStatsPayload = {
   'abc': {
     'status': 'active',
     'inputFormat': {
@@ -38,37 +35,18 @@ let mockDatasetPayload = {
   },
 }
 
-test('list-ds - missing config', async () => {
+test('show-stats - missing config', async () => {
   expect.assertions(2)
-  let runResult = ListDatasetCommand.run([])
+  let runResult = ShowStatsCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
 
-test('list-and-get-ds-with-and-without-filter-params-success', async () => {
+test('show-stats-success', async () => {
   config.get.mockImplementation(() => {
     return mockConfig
   })
-  expect.assertions(2)
-  let runResult = ListDatasetCommand.run([])
-  await expect(runResult).resolves.toEqual(mockDatasetPayload)
-  runResult = GetDatasetCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockDatasetPayload)
-})
-
-test('create-ds-success', async () => {
-  config.get.mockImplementation(() => {
-    return mockConfig
-  })
-
-  let runResult = CreateDatasetCommand.run(['-n=TestPleaseIgnore', '-d=TestPleaseIgnore', '-x=_xdm.context.profile__union'])
-  await expect(runResult).resolves.toEqual(mockDatasetPayload)
-})
-
-test('delete-ds-success', async () => {
-  config.get.mockImplementation(() => {
-    return mockConfig
-  })
-  runResult = DeleteDatasetCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockDatasetPayload)
+  expect.assertions(1)
+  let runResult = ShowStatsCommand.run([])
+  await expect(runResult).resolves.toEqual(mockStatsPayload)
 })

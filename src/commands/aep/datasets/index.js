@@ -22,7 +22,7 @@ class DatasetsCommand extends Command {
 DatasetsCommand.description = 'CRUD on datasets.'
 
 DatasetsCommand.examples = [
-  '$ aio aep:ds:ls',
+  '$ aio aep:datasets:ls',
 
 ]
 

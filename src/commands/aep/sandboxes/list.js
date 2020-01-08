@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class ListDatasourcesCommand extends BaseCommand {
+class ListSandboxesCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(ListDatasourcesCommand)
+    const {flags} = this.parse(ListSandboxesCommand)
     let result
 
     try {
-      result = await this.listDatasets(flags.limit, flags.start, flags.orderBy)
+      result = await this.listSandboxes(flags.limit, flags.start, flags.orderBy)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,14 +26,17 @@ class ListDatasourcesCommand extends BaseCommand {
     return result
   }
 
-  async listDatasets(limit = null, start = null, orderBy = null) {
-    return this.getAdobeAep().listDatasets(limit, start, orderBy)
+  async listSandboxes(limit = null, start = null, orderBy = null) {
+    return this.getAdobeAep().listSandboxes(limit, start, orderBy)
   }
 }
 
-ListDatasourcesCommand.description = 'Retrieve the list of datasources associated with this organization'
-ListDatasourcesCommand.hidden = false
-ListDatasourcesCommand.flags = {
+ListSandboxesCommand.description = 'Returns details about the given IMS Org'
+ListSandboxesCommand.hidden = false
+ListSandboxesCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   limit: flags.string({
     char: 'l',
     description: 'Limit response to a specified positive number of objects. Ex. limit=10.',
@@ -47,8 +50,7 @@ ListDatasourcesCommand.flags = {
     description: 'Returns results from a specific offset of objects. This was previously called offset. Ex. start=3..',
   }),
 }
-
-ListDatasourcesCommand.aliases = [
-  'aep:ds:ls',
-  'aep:ds:list']
-module.exports = ListDatasourcesCommand
+ListSandboxesCommand.aliases = [
+  'aep:sandboxes:ls',
+  'aep:sandboxes:list']
+module.exports = ListSandboxesCommand

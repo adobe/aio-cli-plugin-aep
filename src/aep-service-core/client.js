@@ -199,6 +199,13 @@ let Client = {
     return (result)
   },
 
+  listSandboxes: async function (limit = null, start = null, orderBy = null) {
+    const result = await this._listSandBoxes(limit, start, orderBy)
+    return (result)
+  },
+
+
+
 //datasets implementation
 
   _listDatasets: async function (limit, start, orderBy) {
@@ -639,7 +646,25 @@ let Client = {
     return this.get(`${baseUrl.toString()}`, endPoints.stats.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
       if (res.ok) {
         return res.json()
-      } else throw new Error(`Cannot fulfill request on resource schemas: ${res.url} (${res.status} ${res.statusText})`)
+      } else throw new Error(`Cannot fulfill request on resource statistics: ${res.url} (${res.status} ${res.statusText})`)
+    })
+  },
+
+  _listSandBoxes: async function (limit, start, orderBy) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.sandboxes.resourcePath}${endPoints.sandboxes.resourceType}`)
+    if (limit) {
+      baseUrl.searchParams.append(endPoints.sandboxes.parameters.limit, limit)
+    }
+    if (start) {
+      baseUrl.searchParams.append(endPoints.sandboxes.parameters.start, start)
+    }
+    if (orderBy) {
+      baseUrl.searchParams.append(endPoints.sandboxes.parameters.orderBy, orderBy)
+    }
+    return this.get(`${baseUrl.toString()}`, endPoints.sandboxes.contentType, endPoints.sandboxes.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource sandboxes: ${res.url} (${res.status} ${res.statusText})`)
     })
   },
 
