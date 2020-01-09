@@ -85,39 +85,48 @@ Run the following commands now (no particular order)
  Output would look something like...  
   
    ```javascript 1.8
-{ 'abc':
-   { tags:
-      { targetDataSetId: [ 'abc' ],
-        'aep/siphon/partitions': [],
-        'adobe/pqs/table': [ 'abc' ],
-        sandboxId: [ 'abc' ],
-        mappingId: [ 'abc' ],
-        acp_validationContext: [ 'enabled' ] },
-     imsOrg: 'abc@AdobeOrg',
-     name: 'Mapping DataSet_abc',
-     namespace: 'ACP',
-     state: 'DRAFT',
-     lastBatchId: 'abc',
-     lastBatchStatus: 'success',
-     version: '1.0.3',
-     created: 1573866068596,
-     updated: 1573866132606,
-     createdClient: 'acp_foundation_connectors',
-     createdUser: 'abc@AdobeID',
-     updatedUser: 'acp_foundation_dataTracker@AdobeID',
-     lastSuccessfulBatch: 'abc',
-     viewId: 'abc',
-     aspect: 'production',
-     status: 'enabled',
-     fileDescription: { persisted: false },
-     files:
-      '@/dataSets/abc/views/abc/files',
-     schemaMetadata: { primaryKey: [], delta: [], dule: [], gdpr: [] },
-     schemaRef:
-      { id:
-         'https://ns.adobe.com/acponboarding/schemas/bac62b237c00c26bd5767d7c55a28fa4',
-        contentType: 'application/vnd.adobe.xed-full+json;version=1' },
-     streamingIngestionEnabled: 'false' },
+{
+	'abc': {
+		tags: {
+			targetDataSetId: ['abc'],
+			'aep/siphon/partitions': [],
+			'adobe/pqs/table': ['abc'],
+			sandboxId: ['abc'],
+			mappingId: ['abc'],
+			acp_validationContext: ['enabled']
+		},
+		imsOrg: 'abc@AdobeOrg',
+		name: 'Mapping DataSet_abc',
+		namespace: 'ACP',
+		state: 'DRAFT',
+		lastBatchId: 'abc',
+		lastBatchStatus: 'success',
+		version: '1.0.3',
+		created: 1573866068596,
+		updated: 1573866132606,
+		createdClient: 'acp_foundation_connectors',
+		createdUser: 'abc@AdobeID',
+		updatedUser: 'acp_foundation_dataTracker@AdobeID',
+		lastSuccessfulBatch: 'abc',
+		viewId: 'abc',
+		aspect: 'production',
+		status: 'enabled',
+		fileDescription: {
+			persisted: false
+		},
+		files: '@/dataSets/abc/views/abc/files',
+		schemaMetadata: {
+			primaryKey: [],
+			delta: [],
+			dule: [],
+			gdpr: []
+		},
+		schemaRef: {
+			id: 'https://ns.adobe.com/acponboarding/schemas/bac62b237c00c26bd5767d7c55a28fa4',
+			contentType: 'application/vnd.adobe.xed-full+json;version=1'
+		},
+		streamingIngestionEnabled: 'false'
+	},
 
 ...
 ```
