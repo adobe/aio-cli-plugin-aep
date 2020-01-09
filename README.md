@@ -70,15 +70,15 @@ Run the following commands now (no particular order)
 
 1. Follow the same setup as PROD but with STG/INT URL's in the config.json file in step 3 above
 
-2. **_Additionally_** after step #4 set the 'access_token' value in config with the following command. You can get the access_token value from STG/INT Adobe I/O portal https://console-stage.adobe.io/.
+2. **_Additionally_** after step #4 set the '**_access_token_**' value in config with the following command. You can get the access_token value from STG/INT Adobe I/O portal https://console-stage.adobe.io/.
    Please follow the instructions as suggested in this article, to get the access_token https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md#generate-access-token 
 
    ```$ aio config:set jwt-auth.access_token ${your_access_token_generated_through_adobeI/O_integration}```
  
-3. No need to run any ```aio console``` commands like in PROD setting, since aio console plugin is tied to production URL's
+3. No need to run any ```aio console``` commands like in PROD setting, since ```aio console``` plugin is tied to production URL's
 
-4. If you notice a **401 _Unauthorized_** in any resource CRUD command, please regenarate your access_token as advised in step# 2 in the STG/INT sections.
-## 3. **_Finally run this simple command to list datasets in your org_**
+4. If you notice a **_401 _Unauthorized__** in any resource CRUD command, please regenarate your **_access_token_** as advised in step# 2 in the STG/INT sections.
+## 3. **_Finally run this simple command to list datasets in your org to make sure the configuration is all correct_**
 
    ```$ aio aep:ds:list```
  
