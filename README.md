@@ -26,7 +26,9 @@ A plugin for CRUD operations on aep resources
 
 6. ```$ aio plugins:link```
 
-## 2. **_Set up adobe I/O production integration_**
+## 2. **_Set up adobe I/O (PROD/STG/INT) integration_**
+      
+##      **For PROD**
 
 1. Go to  https://console.adobe.io/integrations and create a production integration for test
 
@@ -48,7 +50,10 @@ A plugin for CRUD operations on aep resources
   },
   "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/"
 }
+
 ```
+Run the following commands now (no particular order)
+
 4. ```$ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json```
 
 5. ```$ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration}```
@@ -57,10 +62,22 @@ A plugin for CRUD operations on aep resources
 
 7. ```$ aio config:set x-sandbox-name ${your_sanbox_name}```
 
- I have noticed sometimes access_token is not generated from aio-cli-config module and is a lazy load after the first command. So fire this please:
+8. I have noticed sometimes access_token is not generated from aio-cli-config module and is a lazy load after the first command. So fire this please:
  
-8. ```$ aio console:list-integrations```
+   ```$ aio console:list-integrations```
 
+##      **For STG/INT**
+
+1. Follow the same setup as PROD but with STG/INT URL's in the config.json file in step 3 above
+
+2. **_Additionally_** after step #4 set the 'access_token' value in config with the following command. You can get the access_token value from STG/INT Adobe I/O portal https://console-stage.adobe.io/.
+   Please follow the instructions as suggested in this article, to get the access_token https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md#generate-access-token 
+
+   ```$ aio config:set jwt-auth.access_token ${your_access_token_generated_through_adobeI/O_integration}```
+ 
+3. No need to run any ```aio console``` commands like in PROD setting, since aio console plugin is tied to production URL's
+
+4. If you notice a **401 _Unauthorized_** in any resource CRUD command, please regenarate your access_token as advised in step# 2 in the STG/INT sections.
 ## 3. **_Finally run this simple command to list datasets in your org_**
 
    ```$ aio aep:ds:list```
@@ -105,4 +122,9 @@ A plugin for CRUD operations on aep resources
 ...
 ```
 
+## 4. **_To run unit tests from the root folder of the project run the commands in following order_**
+```$ npm install```
 
+```$ jest```
+
+```$ jest --coverage``` (to see coverage report)
