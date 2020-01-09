@@ -68,7 +68,7 @@ Run the following commands now (no particular order)
 
 ##      **For STG/INT**
 
-1. Follow the same setup as PROD but with STG/INT URL's in the config.json file in step 3 above
+1. Follow the same setup as PROD but with STG/INT URL's in the config.json file in step#3 of PROD integration
 
 2. **_Additionally_** after step #4 set the '**_access_token_**' value in config with the following command. You can get the access_token value from STG/INT Adobe I/O portal https://console-stage.adobe.io/.
    Please follow the instructions as suggested in this article, to get the access_token https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md#generate-access-token 
