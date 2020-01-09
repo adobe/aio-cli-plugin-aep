@@ -34,6 +34,9 @@ class ListSchemasCommand extends BaseCommand {
 ListSchemasCommand.description = 'Retrieve the list of mixins associated with this organization'
 ListSchemasCommand.hidden = false
 ListSchemasCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   limit: flags.string({
     char: 'l',
     description: 'Limit response to a specified positive number of objects. Ex. limit=10.',

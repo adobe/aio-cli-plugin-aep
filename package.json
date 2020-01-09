@@ -28,7 +28,8 @@
     "@adobe/aio-lib-core-config": "^1.0.15",
     "jsonpath": "^1.0.2",
     "hjson": "^3.1.2",
-    "js-yaml": "^3.13.0"
+    "js-yaml": "^3.13.0",
+    "url-parse": "^1.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
@@ -55,7 +56,8 @@
     "jest-cli": "^24.8.0",
     "jest-junit": "^6.3.0",
     "jest-plugin-fs": "^2.9.0",
-    "stdout-stderr": "^0.1.9"
+    "stdout-stderr": "^0.1.9",
+    "url-parse": "^1.4.7"
   },
   "engines": {
     "node": ">=8.0.0"

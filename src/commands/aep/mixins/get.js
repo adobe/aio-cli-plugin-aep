@@ -34,6 +34,9 @@ class GetMixinsCommand extends BaseCommand {
 GetMixinsCommand.description = 'Retrieve the detail of one dataset'
 GetMixinsCommand.hidden = false
 GetMixinsCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   mixinId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
   container: flags.string({
     char: 'c',

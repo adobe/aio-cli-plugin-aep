@@ -9,6 +9,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const config = require('@adobe/aio-cli-config')
+var Url = require('url-parse')
 
 function isEmpty(s) {
   return s === null || s === undefined || s.length === 0
@@ -26,13 +27,13 @@ function getApiKey() {
   return apiKey
 }
 
-//
+
 function getAccessToken() {
   const jwtAuth = config.get('jwt-auth')
   if (!jwtAuth) {
     throw new Error('missing config data: jwt-auth')
   }
-  // const accessToken = jwtAuth.access_token
+
   const accessToken = config.get('jwt-auth.access_token')
   if (!accessToken) {
     throw new Error('missing config data: jwt-auth.access_token')
@@ -67,10 +68,28 @@ function getSandboxName() {
   }
   return sandboxName
 }
+
+function getEnv() {
+  const configUrl = config.get('jwt-auth.jwt_payload.aud')
+  //TODO: Fix this for the UT to work in different environments
+  // if (!configUrl) {
+  //   throw new Error('missing token refresh URL: aud')
+  // }
+  var urlWithEnv = Url(configUrl, true)
+  if (urlWithEnv.host.includes('-int')) {
+    return 'https://platform-int.adobe.io/data/foundation'
+  }
+  else if (urlWithEnv.host.includes('-stg1')) {
+    return 'https://platform-stage.adobe.io/data/foundation'
+  }
+  else return 'https://platform.adobe.io/data/foundation'
+}
+
 module.exports = {
   getApiKey,
   getAccessToken,
   getTenantName,
   getSandboxId,
-  getSandboxName
+  getSandboxName,
+  getEnv
 }

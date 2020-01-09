@@ -33,6 +33,9 @@ class GetSchemasCommand extends BaseCommand {
 GetSchemasCommand.description = 'Retrieve the detail of one dataset'
 GetSchemasCommand.hidden = false
 GetSchemasCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   schemaId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
   container: flags.string({
     char: 'c',

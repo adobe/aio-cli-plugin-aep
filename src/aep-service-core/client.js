@@ -11,14 +11,13 @@ governing permissions and limitations under the License.
 const fetch = require('node-fetch')
 const request = require('request')
 const {endPoints, catalogBaseUrl} = require('./constants')
-//const BaseCommand = require('../../../src/commands/aep/about')
-// printf "$(aio autocomplete:script bash)" >> ~/.bashrc; source ~/.bashrc
 let Client = {
   tenantName: null,
   accessToken: null,
   apiKey: null,
   sandboxId: null,
   sandboxName: null,
+  env: null,
   init: function (config = null) {
     if (config) {
       this.tenantName = config.tenantName
@@ -26,6 +25,7 @@ let Client = {
       this.apiKey = config.apiKey
       this.sandboxId = config.sandboxId
       this.sandboxName = config.sandboxName
+      this.env = config.env
     }
     return true
   },
@@ -38,8 +38,9 @@ let Client = {
       'x-gw-ims-org-id': this.tenantName,
       'Content-Type': contentType,
       'Accept': accept,
+      //TODO: To include or not to include the following 2 headers right now
      // 'x-sandbox-id': this.sandboxId,
-      'x-sandbox-name': 'PROD'
+    //  'x-sandbox-name': this.sandboxName
     }
     return headers
   },
@@ -651,7 +652,9 @@ let Client = {
   },
 
   _listSandBoxes: async function (limit, start, orderBy) {
-    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.sandboxes.resourcePath}${endPoints.sandboxes.resourceType}`)
+   // let baseUrl = new URL(`${catalogBaseUrl}${endPoints.sandboxes.resourcePath}${endPoints.sandboxes.resourceType}`)
+    //TODO: Differentiate between the 2 different baseURL's
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.sandboxes.resourcePath}`)
     if (limit) {
       baseUrl.searchParams.append(endPoints.sandboxes.parameters.limit, limit)
     }
