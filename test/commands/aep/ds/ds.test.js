@@ -15,28 +15,7 @@ const GetDatasetCommand = require('../../../../src/commands/aep/datasets/get')
 const CreateDatasetCommand = require('../../../../src/commands/aep/datasets/create')
 const DeleteDatasetCommand = require('../../../../src/commands/aep/datasets/delete')
 const config = require('@adobe/aio-cli-config')
-
-let mockConfig = {
-  client_id: 'aep-clientId',
-  access_token: 'aep-accessToken',
-  tenantName: 'aep-tenantName',
-}
-
-let mockDatasetPayload = {
-  'abc': {
-    'status': 'active',
-    'inputFormat': {
-      'format': 'parquet',
-    },
-    'createdUser': 'abc@techacct.adobe.com',
-    'imsOrg': 'abc@AdobeOrg',
-    'createdClient': 'abc',
-    'updatedUser': 'abc@techacct.adobe.com',
-    'version': '1.0.0',
-    'created': 1576108528538,
-    'updated': 1576108528538,
-  },
-}
+var constants = require('../../../__mocks__/constants.js')
 
 test('list-ds - missing config', async () => {
   expect.assertions(2)
@@ -47,28 +26,28 @@ test('list-ds - missing config', async () => {
 
 test('list-and-get-ds-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(2)
   let runResult = ListDatasetCommand.run([])
-  await expect(runResult).resolves.toEqual(mockDatasetPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
   runResult = GetDatasetCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockDatasetPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('create-ds-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
 
   let runResult = CreateDatasetCommand.run(['-n=TestPleaseIgnore', '-d=TestPleaseIgnore', '-x=_xdm.context.profile__union'])
-  await expect(runResult).resolves.toEqual(mockDatasetPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('delete-ds-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   runResult = DeleteDatasetCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockDatasetPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })

@@ -15,28 +15,7 @@ const GetBatchesCommand = require('../../../../src/commands/aep/batches/get')
 const CreateBatchesCommand = require('../../../../src/commands/aep/batches/create')
 const DeleteBatchesCommand = require('../../../../src/commands/aep/batches/delete')
 const config = require('@adobe/aio-cli-config')
-
-let mockedBatchPayload = {
-  'abc': {
-    'status': 'active',
-    'inputFormat': {
-      'format': 'parquet',
-    },
-    'createdUser': 'abc@techacct.adobe.com',
-    'imsOrg': 'abc@AdobeOrg',
-    'createdClient': 'abc',
-    'updatedUser': 'abc@techacct.adobe.com',
-    'version': '1.0.0',
-    'created': 1576108528538,
-    'updated': 1576108528538,
-  },
-}
-
-let mockConfig = {
-  client_id: 'aep-clientId',
-  access_token: 'aep-accessToken',
-  tenantName: 'aep-tenantName',
-}
+var constants = require('../../../__mocks__/constants.js')
 
 test('list-batches - missing config', async () => {
   expect.assertions(2)
@@ -47,29 +26,29 @@ test('list-batches - missing config', async () => {
 
 test('list-and-get-batch-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(2)
   let runResult = ListBatchesCommand.run([])
-  await expect(runResult).resolves.toEqual(mockedBatchPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
   runResult = GetBatchesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockedBatchPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('create-batch-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(1)
   let runResult = CreateBatchesCommand.run(['-i=abc', '-f=json'])
-  await expect(runResult).resolves.toEqual(mockedBatchPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('delete-batch-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(1)
   runResult = DeleteBatchesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockedBatchPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })

@@ -12,28 +12,7 @@ governing permissions and limitations under the License.
 
 const ShowStatsCommand = require('../../../../src/commands/aep/stats/list')
 const config = require('@adobe/aio-cli-config')
-
-let mockConfig = {
-  client_id: 'aep-clientId',
-  access_token: 'aep-accessToken',
-  tenantName: 'aep-tenantName',
-}
-
-let mockStatsPayload = {
-  'abc': {
-    'status': 'active',
-    'inputFormat': {
-      'format': 'parquet',
-    },
-    'createdUser': 'abc@techacct.adobe.com',
-    'imsOrg': 'abc@AdobeOrg',
-    'createdClient': 'abc',
-    'updatedUser': 'abc@techacct.adobe.com',
-    'version': '1.0.0',
-    'created': 1576108528538,
-    'updated': 1576108528538,
-  },
-}
+var constants = require('../../../__mocks__/constants.js')
 
 test('show-stats - missing config', async () => {
   expect.assertions(2)
@@ -44,9 +23,9 @@ test('show-stats - missing config', async () => {
 
 test('show-stats-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(1)
   let runResult = ShowStatsCommand.run([])
-  await expect(runResult).resolves.toEqual(mockStatsPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })

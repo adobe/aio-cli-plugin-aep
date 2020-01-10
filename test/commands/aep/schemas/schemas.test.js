@@ -16,28 +16,7 @@ const GetSchemasCommand = require('../../../../src/commands/aep/schemas/get')
 const CreateSchemasCommand = require('../../../../src/commands/aep/schemas/create')
 const DeleteSchemasCommand = require('../../../../src/commands/aep/schemas/delete')
 const config = require('@adobe/aio-cli-config')
-
-let mockConfig = {
-  client_id: 'aep-clientId',
-  access_token: 'aep-accessToken',
-  tenantName: 'aep-tenantName',
-}
-
-let mockSchemasPayload = {
-  'abc': {
-    'status': 'active',
-    'inputFormat': {
-      'format': 'parquet',
-    },
-    'createdUser': 'abc@techacct.adobe.com',
-    'imsOrg': 'abc@AdobeOrg',
-    'createdClient': 'abc',
-    'updatedUser': 'abc@techacct.adobe.com',
-    'version': '1.0.0',
-    'created': 1576108528538,
-    'updated': 1576108528538,
-  },
-}
+var constants = require('../../../__mocks__/constants.js')
 
 test('list-schemas - missing config', async () => {
   expect.assertions(2)
@@ -48,26 +27,26 @@ test('list-schemas - missing config', async () => {
 
 test('list-and-get-schema-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(2)
   let runResult = ListSchemasCommand.run([])
-  await expect(runResult).resolves.toEqual(mockSchemasPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
   runResult = GetSchemasCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockSchemasPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('create-schema-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   let runResult = CreateSchemasCommand.run(['-c=tenant', '-b=https://ns.adobe.com/xdm/context/experienceevent', '-u', '-t=title', '-d=description'])
-  await expect(runResult).resolves.toEqual(mockSchemasPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('delete-schema-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   runResult = DeleteSchemasCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual()

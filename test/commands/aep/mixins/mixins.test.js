@@ -15,30 +15,7 @@ const GetMixinsCommand = require('../../../../src/commands/aep/mixins/get')
 const CreateMixinsCommand = require('../../../../src/commands/aep/mixins/create')
 const DeleteMixinsCommand = require('../../../../src/commands/aep/mixins/delete')
 const config = require('@adobe/aio-cli-config')
-
-let mockedClassPayload = {}
-
-let mockConfig = {
-  client_id: 'aep-clientId',
-  access_token: 'aep-accessToken',
-  tenantName: 'aep-tenantName',
-}
-
-let mockMixinsPayload = {
-  'abc': {
-    'status': 'active',
-    'inputFormat': {
-      'format': 'parquet',
-    },
-    'createdUser': 'abc@techacct.adobe.com',
-    'imsOrg': 'abc@AdobeOrg',
-    'createdClient': 'abc',
-    'updatedUser': 'abc@techacct.adobe.com',
-    'version': '1.0.0',
-    'created': 1576108528538,
-    'updated': 1576108528538,
-  },
-}
+var constants = require('../../../__mocks__/constants.js')
 
 test('list-mixins - missing config', async () => {
   expect.assertions(2)
@@ -49,26 +26,26 @@ test('list-mixins - missing config', async () => {
 
 test('list-and-get-mixin-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(2)
   let runResult = ListMixinsCommand.run([])
-  await expect(runResult).resolves.toEqual(mockMixinsPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
   runResult = GetMixinsCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockMixinsPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('create-mixin-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   let runResult = CreateMixinsCommand.run(['-c=tenant', '-i=https://ns.adobe.com/xdm/context/profile', '-p=location*string', '-o=abc', '-t=title', '-d=description'])
-  await expect(runResult).resolves.toEqual(mockMixinsPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('delete-mixin-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   runResult = DeleteMixinsCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual()

@@ -15,30 +15,8 @@ const GetClassesCommand = require('../../../../src/commands/aep/classes/get')
 const CreateClassesCommand = require('../../../../src/commands/aep/classes/create')
 const DeleteClassesCommand = require('../../../../src/commands/aep/classes/delete')
 const config = require('@adobe/aio-cli-config')
+var constants = require('../../../__mocks__/constants.js')
 
-
-
-let mockConfig = {
-  client_id: 'aep-clientId',
-  access_token: 'aep-accessToken',
-  tenantName: 'aep-tenantName',
-}
-
-let mockClassPayload = {
-  'abc': {
-    'status': 'active',
-    'inputFormat': {
-      'format': 'parquet',
-    },
-    'createdUser': 'abc@techacct.adobe.com',
-    'imsOrg': 'abc@AdobeOrg',
-    'createdClient': 'abc',
-    'updatedUser': 'abc@techacct.adobe.com',
-    'version': '1.0.0',
-    'created': 1576108528538,
-    'updated': 1576108528538,
-  },
-}
 
 test('list-classes - missing config', async () => {
   expect.assertions(2)
@@ -49,26 +27,26 @@ test('list-classes - missing config', async () => {
 
 test('list-and-get-class-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(2)
   let runResult = ListClassesCommand.run([])
-  await expect(runResult).resolves.toEqual(mockClassPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
   runResult = GetClassesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockClassPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('create-class-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   let runResult = CreateClassesCommand.run(['-b=https://ns.adobe.com/xdm/data/record', '-d=TestIgnore', '-c=tenant', '-t=testIgnore4'])
-  await expect(runResult).resolves.toEqual(mockClassPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('delete-class-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   runResult = DeleteClassesCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual()

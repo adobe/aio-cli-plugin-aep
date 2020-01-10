@@ -15,30 +15,8 @@ const GetDatatypesCommand = require('../../../../src/commands/aep/datatypes/get'
 const CreateDatatypesCommand = require('../../../../src/commands/aep/datatypes/create')
 const DeleteDatatypesCommand = require('../../../../src/commands/aep/datatypes/delete')
 const config = require('@adobe/aio-cli-config')
+var constants = require('../../../__mocks__/constants.js')
 
-let mockedClassPayload = {}
-
-let mockConfig = {
-  client_id: 'aep-clientId',
-  access_token: 'aep-accessToken',
-  tenantName: 'aep-tenantName',
-}
-
-let mockDatatypesPayload = {
-  'abc': {
-    'status': 'active',
-    'inputFormat': {
-      'format': 'parquet',
-    },
-    'createdUser': 'abc@techacct.adobe.com',
-    'imsOrg': 'abc@AdobeOrg',
-    'createdClient': 'abc',
-    'updatedUser': 'abc@techacct.adobe.com',
-    'version': '1.0.0',
-    'created': 1576108528538,
-    'updated': 1576108528538,
-  },
-}
 
 test('list-datatypes - missing config', async () => {
   expect.assertions(2)
@@ -49,26 +27,26 @@ test('list-datatypes - missing config', async () => {
 
 test('list-and-get-datatype-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   expect.assertions(2)
   let runResult = ListDatatypesCommand.run([])
-  await expect(runResult).resolves.toEqual(mockDatatypesPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
   runResult = GetDatatypesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(mockDatatypesPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('create-datatype-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   let runResult = CreateDatatypesCommand.run(['-d=TestIgnore3', '-c=tenant', '-t=testIgnore3', '-y', '-p=location*string'])
-  await expect(runResult).resolves.toEqual(mockDatatypesPayload)
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
 test('delete-datatype-success', async () => {
   config.get.mockImplementation(() => {
-    return mockConfig
+    return constants.mockConfig
   })
   runResult = DeleteDatatypesCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual()
