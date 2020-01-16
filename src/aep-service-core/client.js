@@ -11,6 +11,12 @@ governing permissions and limitations under the License.
 const fetch = require('node-fetch')
 const request = require('request')
 const {endPoints, catalogBaseUrl} = require('./constants')
+const SINGLE_FILE_UPLOAD_LIMIT = 256 * 1000 * 1000;
+const CHUNK_RETRIES = 2;
+const PARALLEL_REQUESTS = 5;
+const fs = require('fs')
+const BinaryFile = require('binary-file');
+var http = require("https");
 let Client = {
   tenantName: null,
   accessToken: null,
@@ -30,29 +36,48 @@ let Client = {
     return true
   },
 
-  prepareHeader: function (contentType = null, accept = null) {
-    headers = {
-      'authorization': `Bearer ` + this.accessToken,
-      'cache-control': 'no-cache',
-      'x-api-key': this.apiKey,
-      'x-gw-ims-org-id': this.tenantName,
-      'Content-Type': contentType,
-      'Accept': accept,
-      //TODO: To include or not to include the following 2 headers right now
+  prepareHeader: function (method = null , contentType = null, accept = null) {
+ if(method === 'PUT') {
+   headers = {
+     'authorization': `Bearer ` + this.accessToken,
+     'cache-control': 'no-cache',
+     'x-api-key': this.apiKey,
+     'x-gw-ims-org-id': this.tenantName,
+     'Content-Type': contentType,
+     //TODO: To include or not to include the following 2 headers right now
      // 'x-sandbox-id': this.sandboxId,
-    //  'x-sandbox-name': this.sandboxName
-    }
+     //  'x-sandbox-name': this.sandboxName
+   }
+ }
+ else {
+   headers = {
+     'authorization': `Bearer ` + this.accessToken,
+     'cache-control': 'no-cache',
+     'x-api-key': this.apiKey,
+     'x-gw-ims-org-id': this.tenantName,
+     'Content-Type': contentType,
+     'Accept': accept,
+     //TODO: To include or not to include the following 2 headers right now
+     // 'x-sandbox-id': this.sandboxId,
+     //  'x-sandbox-name': this.sandboxName
+   }
+ }
     return headers
   },
 
   _doRequest: async function (path, method, contentType, body = null, accept = null) {
+
     const options = {
       method: method,
-      headers: this.prepareHeader(contentType, accept),
+      headers: this.prepareHeader(method, contentType, accept),
     }
     if (method !== 'GET' && (body !== null || body !== undefined)) {
       options.body = JSON.stringify(body)
     }
+    if(method === 'PUT') {
+
+    }
+   // console.log("headers "+options.headers.Accept)
     return fetch(path, options)
   },
 
@@ -60,8 +85,8 @@ let Client = {
     return this._doRequest(path, 'GET', contentType, null, accept)
   },
 
-  put: async function (path, contentType, body) {
-    return this._doRequest(path, 'PUT', contentType, body)
+  put: async function (path, contentType, body, accept = null) {
+    return this._doRequest(path, 'PUT', contentType, body, accept)
   },
 
   post: async function (path, contentType, body, accept = null) {
@@ -91,6 +116,11 @@ let Client = {
 
   deleteBatch: async function (batchId) {
     const result = await this._deleteBatch(batchId)
+    return (result)
+  },
+
+  uploadToBatch: async function (datasetId, batchId, fileType, file, batchExists, name) {
+    const result = await this._uploadToBatch(datasetId, batchId, fileType, file, batchExists, name)
     return (result)
   },
 
@@ -204,8 +234,6 @@ let Client = {
     const result = await this._listSandBoxes(limit, start, orderBy)
     return (result)
   },
-
-
 
 //datasets implementation
 
@@ -652,9 +680,7 @@ let Client = {
   },
 
   _listSandBoxes: async function (limit, start, orderBy) {
-   // let baseUrl = new URL(`${catalogBaseUrl}${endPoints.sandboxes.resourcePath}${endPoints.sandboxes.resourceType}`)
-    //TODO: Differentiate between the 2 different baseURL's
-    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.sandboxes.resourcePath}`)
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.sandboxes.resourcePath}${endPoints.sandboxes.resourceType}`)
     if (limit) {
       baseUrl.searchParams.append(endPoints.sandboxes.parameters.limit, limit)
     }
@@ -671,6 +697,71 @@ let Client = {
     })
   },
 
+  _uploadToBatch: async function (datasetId, batchId, fileType, file, batchExists, name) {
+    console.log("here 1")
+    /*if (!batchExists) {
+      return this.createBatchForBulkUpload(datasetId, fileType)
+    }*/
+    const contentType = 'application/octet-stream'
+  //  if (file.size < SINGLE_FILE_UPLOAD_LIMIT) {
+      const baseUrl = new URL(`${catalogBaseUrl}${endPoints.bulkUploads.resourcePath}${endPoints.bulkUploads.resourceType}${batchId}/datasets/${datasetId}/files/${name}`)
+      const body = Buffer.from(file)
+      return this.put(`${baseUrl.toString()}`, 'application/octet-stream', body).then((res) => {
+        if (res.ok) {
+          console.log("It is OK !!" + res.toString())
+          return res.json()
+        }
+        else throw new Error(`Cannot upload file to batch: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+      })
+  //  }
+  },
+
+  createBatchForBulkUpload: async function (datasetId, fileType) {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.bulkUploads.resourcePath}${endPoints.bulkUploads.resourceType}`)
+    const body = {
+      datasetId: datasetId,
+      inputFormat:
+        {
+          format: fileType,
+        },
+    }
+    return this.post(`${baseUrl.toString()}`, endPoints.bulkUploads.contentType, body, 'application/json').then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot register batch for bulk upload: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
+  },
+
+  uploadFileToBatch: async function (batchId, datasetId, file) {
+    const contentType = 'application/octet-stream'
+    if (file.size < SINGLE_FILE_UPLOAD_LIMIT) {
+      const baseUrl = new URL(`${catalogBaseUrl}${endPoints.bulkUploads.resourcePath}${endPoints.bulkUploads.resourceType}${batchId}/datasets/${datasetId}/files/${file.name}`)
+      const bodyData = fs.createReadStream(file.path)
+      const body = bodyData
+      return this.put(`${baseUrl.toString()}`, contentType, body, 'application/json').then((res) => {
+        if (res.ok) return res.json()
+        else throw new Error(`Cannot upload file to batch: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+      })
+    }
+  },
+
+  getByteArray: function(filePath){
+  let fileData = fs.readFileSync(filePath).toString('hex');
+  let result = []
+  for (var i = 0; i < fileData.length; i+=2)
+    result.push('0x'+fileData[i]+''+fileData[i+1])
+  return result;
+},
+
 }
 
 module.exports = Client
+
+// const bodyData = fs.createReadStream(req.file.path) // file stored locally on disk
+// return fetch(uploadEndpoint, {
+//   method: 'POST',
+//   headers: {
+//     'Authorization': `Bearer ${token}`,
+//     'Content-Type': req.file.mimetype
+//   },
+//   body: bodyData
+// })

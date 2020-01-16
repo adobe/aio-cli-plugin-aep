@@ -80,7 +80,7 @@ function getEnv() {
     return 'https://platform-int.adobe.io/data/foundation'
   }
   else if (urlWithEnv.host.includes('-stg1')) {
-    return 'https://platform-stage.adobe.io/data/foundation'
+    return 'https://platform-int.adobe.io/data/foundation'
   }
   else return 'https://platform.adobe.io/data/foundation'
 }

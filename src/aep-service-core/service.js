@@ -10,7 +10,7 @@ governing permissions and limitations under the License.
 */
 const {getApiKey, getAccessToken, getTenantName, getSandboxId, getSandboxName, getEnv} = require('./helpers')
 const Client = require('./client')
-
+const fs = require('fs')
 let AdobeAep = {
 
   init: function () {
@@ -60,6 +60,11 @@ let AdobeAep = {
 
   deleteBatch: async function (batchId) {
     return Client.deleteBatch(batchId)
+  },
+
+  uploadToBatch: async function(datasetId, batchId, fileType, file, batchExists, name) {
+  //  var f = fs.readFileSync(file)
+    return Client.uploadToBatch(datasetId, batchId, fileType, file, batchExists,name)
   },
 
   //classes

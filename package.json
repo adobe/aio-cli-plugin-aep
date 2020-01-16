@@ -29,7 +29,8 @@
     "jsonpath": "^1.0.2",
     "hjson": "^3.1.2",
     "js-yaml": "^3.13.0",
-    "url-parse": "^1.4.7"
+    "url-parse": "^1.4.7",
+    "binary-file": "^0.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
@@ -57,7 +58,9 @@
     "jest-junit": "^6.3.0",
     "jest-plugin-fs": "^2.9.0",
     "stdout-stderr": "^0.1.9",
-    "url-parse": "^1.4.7"
+    "url-parse": "^1.4.7",
+    "fs": "^0.0.1-security",
+    "binary-file": "^0.2.1"
   },
   "engines": {
     "node": ">=8.0.0"

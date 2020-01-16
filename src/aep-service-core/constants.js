@@ -91,5 +91,18 @@ module.exports = {
         orderBy: 'orderBy',
       },
     },
+    bulkUploads: {
+      resourcePath: '/import/',
+      resourceType: 'batches/',
+      contentType: 'application/json',
+      contentTypeBinary: 'application/octet-stream',
+      parameters: {
+        start: 'START',
+        complete: 'COMPLETE',
+        abort: 'ABORT',
+        revert: 'REVERT'
+
+      },
+    },
   },
 }
