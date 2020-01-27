@@ -18,7 +18,7 @@ class CreateDatasourceCommand extends BaseCommand {
     let result
 
     try {
-      result = await this.createDataset(flags.name, flags.description, flags.xdm)
+      result = await this.createDataset(flags.name, flags.description, flags.xdm, flags.fileType, flags.isProfileEnabled, flags.isIdentityEnabled)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,17 +26,29 @@ class CreateDatasourceCommand extends BaseCommand {
     return result
   }
 
-  async createDataset(name, description, xdm) {
-    return this.getAdobeAep().createDataset(name, description, xdm)
+  async createDataset(name, description, xdm, fileType, isProfileEnabled, isIdentityEnabled) {
+    return this.getAdobeAep().createDataset(name, description, xdm, fileType, isProfileEnabled, isIdentityEnabled)
   }
 }
 
 CreateDatasourceCommand.description = 'Create a dataset. '
 CreateDatasourceCommand.hidden = false
 CreateDatasourceCommand.flags = {
+  ...BaseCommand.flags,
+  json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
+  yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   name: flags.string({char: 'n', description: 'Name of dataset.', required: true}),
   description: flags.string({char: 'd', description: 'Description of dataset.', required: true}),
   xdm: flags.string({char: 'x', description: 'Xdm schema ID.', required: true}),
+  fileType: flags.string({
+    char: 't',
+    description: 'The type of file to be ingested in this batch. One of parquet, csv, json',
+    options: ['json', 'parquet', 'csv'],
+    default: 'parquet',
+    required: false,
+  }),
+  isProfileEnabled: flags.boolean({char: 'p', hidden: false, description: 'should profile be enabled', default : false}),
+  isIdentityEnabled: flags.boolean({char: 'i', hidden: false, description: 'should identity be enabled', default : false}),
 }
 
 CreateDatasourceCommand.aliases = [

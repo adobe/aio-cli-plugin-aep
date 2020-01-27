@@ -11,12 +11,13 @@ governing permissions and limitations under the License.
 const fetch = require('node-fetch')
 const request = require('request')
 const {endPoints, catalogBaseUrl} = require('./constants')
-const SINGLE_FILE_UPLOAD_LIMIT = 256 * 1000 * 1000;
-const CHUNK_RETRIES = 2;
-const PARALLEL_REQUESTS = 5;
+const SINGLE_FILE_UPLOAD_LIMIT = 256 * 1000 * 1000
+const CHUNK_RETRIES = 2
+const PARALLEL_REQUESTS = 5
 const fs = require('fs')
-const BinaryFile = require('binary-file');
-var http = require("https");
+const BinaryFile = require('binary-file')
+var http = require('https')
+const FormData = require('form-data')
 let Client = {
   tenantName: null,
   accessToken: null,
@@ -36,32 +37,31 @@ let Client = {
     return true
   },
 
-  prepareHeader: function (method = null , contentType = null, accept = null) {
- if(method === 'PUT') {
-   headers = {
-     'authorization': `Bearer ` + this.accessToken,
-     'cache-control': 'no-cache',
-     'x-api-key': this.apiKey,
-     'x-gw-ims-org-id': this.tenantName,
-     'Content-Type': contentType,
-     //TODO: To include or not to include the following 2 headers right now
-     // 'x-sandbox-id': this.sandboxId,
-     //  'x-sandbox-name': this.sandboxName
-   }
- }
- else {
-   headers = {
-     'authorization': `Bearer ` + this.accessToken,
-     'cache-control': 'no-cache',
-     'x-api-key': this.apiKey,
-     'x-gw-ims-org-id': this.tenantName,
-     'Content-Type': contentType,
-     'Accept': accept,
-     //TODO: To include or not to include the following 2 headers right now
-     // 'x-sandbox-id': this.sandboxId,
-     //  'x-sandbox-name': this.sandboxName
-   }
- }
+  prepareHeader: function (method = null, contentType = null, accept = null) {
+    if (method === 'PUT') {
+      headers = {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': contentType,
+        //TODO: To include or not to include the following 2 headers right now
+        // 'x-sandbox-id': this.sandboxId,
+        //  'x-sandbox-name': this.sandboxName
+      }
+    } else {
+      headers = {
+        'authorization': `Bearer ` + this.accessToken,
+        'cache-control': 'no-cache',
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.tenantName,
+        'Content-Type': contentType,
+        'Accept': accept,
+        //TODO: To include or not to include the following 2 headers right now
+        // 'x-sandbox-id': this.sandboxId,
+        //  'x-sandbox-name': this.sandboxName
+      }
+    }
     return headers
   },
 
@@ -74,10 +74,10 @@ let Client = {
     if (method !== 'GET' && (body !== null || body !== undefined)) {
       options.body = JSON.stringify(body)
     }
-    if(method === 'PUT') {
+    if (method === 'PUT') {
 
     }
-   // console.log("headers "+options.headers.Accept)
+    // console.log("headers "+options.headers.Accept)
     return fetch(path, options)
   },
 
@@ -136,8 +136,8 @@ let Client = {
     return (result)
   },
 
-  createDataset: async function (name, description, xdm) {
-    const result = await this._createDataset(name, description, xdm)
+  createDataset: async function (name, description, xdm, fileType, isProfileEnabled, isIdentityEnabled) {
+    const result = await this._createDataset(name, description, xdm, fileType, isProfileEnabled, isIdentityEnabled)
     return (result)
   },
 
@@ -255,16 +255,22 @@ let Client = {
     })
   },
 
-  _createDataset: async function (name, description, xdm) {
-
+  _createDataset: async function (name, description, xdm, fileType, isProfileEnabled, isIdentityEnabled) {
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`)
+    const unifiedProfileEnabled = 'enabled' + ':' + isProfileEnabled
+    const unifiedIdentityEnabled = 'enabled' + ':' + isIdentityEnabled
     const body = {
       name: name,
       description: description,
-      schemaRef:
+      fields: [],
+      schemaRef: {
+        id: xdm,
+        contentType: 'application/vnd.adobe.xed-full+json; version=1',
+      },
+      tags:
         {
-          id: xdm,
-          contentType: 'application/vnd.adobe.xed-full+json; version=1',
+          unifiedProfile: [unifiedProfileEnabled],
+          unifiedIdentity: [unifiedIdentityEnabled],
         },
     }
     return this.post(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
@@ -698,22 +704,19 @@ let Client = {
   },
 
   _uploadToBatch: async function (datasetId, batchId, fileType, file, batchExists, name) {
-    console.log("here 1")
-    /*if (!batchExists) {
-      return this.createBatchForBulkUpload(datasetId, fileType)
-    }*/
-    const contentType = 'application/octet-stream'
-  //  if (file.size < SINGLE_FILE_UPLOAD_LIMIT) {
-      const baseUrl = new URL(`${catalogBaseUrl}${endPoints.bulkUploads.resourcePath}${endPoints.bulkUploads.resourceType}${batchId}/datasets/${datasetId}/files/${name}`)
-      const body = Buffer.from(file)
-      return this.put(`${baseUrl.toString()}`, 'application/octet-stream', body).then((res) => {
-        if (res.ok) {
-          console.log("It is OK !!" + res.toString())
-          return res.json()
-        }
-        else throw new Error(`Cannot upload file to batch: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
-      })
-  //  }
+    request({
+      url: new URL(`${catalogBaseUrl}${endPoints.bulkUploads.resourcePath}${endPoints.bulkUploads.resourceType}${batchId}/datasets/${datasetId}/files/${name}`).toString(),
+      method: 'PUT',
+      headers: this.prepareHeader('PUT', 'application/octet-stream', null),
+      body: fs.createReadStream(file),
+    }, (error, response, body) => {
+      if (error) {
+        return res.json({name: error})
+      } else {
+        console.log('File uploaded to batch ' + batchId + ' with status ' + response.statusCode)
+        return body
+      }
+    })
   },
 
   createBatchForBulkUpload: async function (datasetId, fileType) {
@@ -731,37 +734,18 @@ let Client = {
     })
   },
 
-  uploadFileToBatch: async function (batchId, datasetId, file) {
-    const contentType = 'application/octet-stream'
-    if (file.size < SINGLE_FILE_UPLOAD_LIMIT) {
-      const baseUrl = new URL(`${catalogBaseUrl}${endPoints.bulkUploads.resourcePath}${endPoints.bulkUploads.resourceType}${batchId}/datasets/${datasetId}/files/${file.name}`)
-      const bodyData = fs.createReadStream(file.path)
-      const body = bodyData
-      return this.put(`${baseUrl.toString()}`, contentType, body, 'application/json').then((res) => {
-        if (res.ok) return res.json()
-        else throw new Error(`Cannot upload file to batch: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
-      })
-    }
-  },
+  completeBatchForBulkUpload: async function (batchId) {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.bulkUploads.resourcePath}${endPoints.bulkUploads.resourceType}${batchId}?action=COMPLETE`)
 
-  getByteArray: function(filePath){
-  let fileData = fs.readFileSync(filePath).toString('hex');
-  let result = []
-  for (var i = 0; i < fileData.length; i+=2)
-    result.push('0x'+fileData[i]+''+fileData[i+1])
-  return result;
-},
+    return this.post(`${baseUrl.toString()}`, endPoints.bulkUploads.contentType, null, 'application/json').then((res) => {
+      if (res.ok) {
+        console.log('The batch with id ' + batchId + ' is marked complete')
+        return res
+      } else throw new Error(`Cannot register batch for bulk upload: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
+  },
 
 }
 
 module.exports = Client
 
-// const bodyData = fs.createReadStream(req.file.path) // file stored locally on disk
-// return fetch(uploadEndpoint, {
-//   method: 'POST',
-//   headers: {
-//     'Authorization': `Bearer ${token}`,
-//     'Content-Type': req.file.mimetype
-//   },
-//   body: bodyData
-// })

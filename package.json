@@ -30,7 +30,8 @@
     "hjson": "^3.1.2",
     "js-yaml": "^3.13.0",
     "url-parse": "^1.4.7",
-    "binary-file": "^0.2.1"
+    "binary-file": "^0.2.1",
+    "form-data": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
@@ -60,7 +61,8 @@
     "stdout-stderr": "^0.1.9",
     "url-parse": "^1.4.7",
     "fs": "^0.0.1-security",
-    "binary-file": "^0.2.1"
+    "binary-file": "^0.2.1",
+    "form-data": "^3.0.0"
   },
   "engines": {
     "node": ">=8.0.0"

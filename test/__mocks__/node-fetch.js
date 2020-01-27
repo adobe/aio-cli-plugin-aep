@@ -77,8 +77,14 @@ fetchMock.get(url + '/catalog/dataSets/abc', mockResponseForApi)
 fetchMock.delete(url + '/catalog/dataSets/abc', mockResponseForApi)
 fetchMock.post(url + '/catalog/dataSets/', mockResponseForApi)
 
+
+mockResponseWithMethod(url + '/import/batches/', 'POST', mockResponseForApi)
+mockResponseWithMethod(url + '/import/batches/abc?action=COMPLETE', 'POST', mockResponseForApi)
+mockResponseWithMethod(url + '/import/batches/datasets/abc/files/abc', 'PUT', mockResponseForApi)
+fetchMock.post(url + '/import/batches/', mockResponseForApi)
+
 mockResponseWithMethod(url + '/schemaregistry/stats', 'GET', mockResponseForApi)
 
-mockResponseWithMethod(url + '/sandbox-management/', 'GET', mockResponseForApi)
+mockResponseWithMethod(url + '/sandbox-management/sandboxes', 'GET', mockResponseForApi)
 
 

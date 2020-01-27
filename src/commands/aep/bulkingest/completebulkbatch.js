@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class CreateBatchesCommand extends BaseCommand {
+class CompleteBulkBatchCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(CreateBatchesCommand)
+    const {flags} = this.parse(CompleteBulkBatchCommand)
     let result
 
     try {
-      result = await this.createBatch(flags.datasetId, flags.fileType)
+      result = await this.completeBatchForBulkUpload(flags.batchId)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,33 +26,26 @@ class CreateBatchesCommand extends BaseCommand {
     return result
   }
 
-  async createBatch(datasetId, fileType) {
-    return this.getAdobeAep().createBatch(datasetId, fileType)
+  async completeBatchForBulkUpload(batchId) {
+    return this.getAdobeAep().completeBatchForBulkUpload(batchId)
   }
 }
 
-CreateBatchesCommand.description = 'Create a batch. '
-CreateBatchesCommand.hidden = false
-CreateBatchesCommand.flags = {
+CompleteBulkBatchCommand.description = 'Create a batch. '
+CompleteBulkBatchCommand.hidden = false
+CompleteBulkBatchCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
-  datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
-  fileType: flags.string({
-    char: 't',
-    description: 'The type of file to be ingested in this batch. One of parquet, csv, json',
-    options: ['json', 'parquet', 'csv'],
-    default: 'parquet',
-    required: false,
-  }),
+  batchId: flags.string({char: 'b', description: 'The ID of the batch.', required: true}),
 }
 
-CreateBatchesCommand.aliases = [
-  'aep:batches:create',
-  'aep:batches:new']
+CompleteBulkBatchCommand.aliases = [
+  'aep:bulkingest:complete'
+]
 
-CreateBatchesCommand.examples = [
-  '$ aio aep:batches:create -i=abcd1234 -t=json',
+CompleteBulkBatchCommand.examples = [
+  '$ aio aep:bulkingest:complete -b=abcd1234',
 
 ]
-module.exports = CreateBatchesCommand
+module.exports = CompleteBulkBatchCommand

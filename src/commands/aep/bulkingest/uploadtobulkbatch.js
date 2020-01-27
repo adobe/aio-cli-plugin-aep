@@ -9,16 +9,16 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const BaseCommand = require('../about')
-const {flags} = require('@oclif/command')
-const {cli} = require('cli-ux')
+const {flags} = require('@oclif/command/lib/index')
+const {cli} = require('cli-ux/lib/index')
 
-class CreateBatchesCommand extends BaseCommand {
+class UploadToBatchesCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(CreateBatchesCommand)
+    const {flags} = this.parse(UploadToBatchesCommand)
     let result
 
     try {
-      result = await this.createBatch(flags.datasetId, flags.fileType)
+      result = await this.uploadToBatch(flags.datasetId, flags.batchId, flags.fileType, flags.file, flags.batchExists, flags.fileName)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,33 +26,34 @@ class CreateBatchesCommand extends BaseCommand {
     return result
   }
 
-  async createBatch(datasetId, fileType) {
-    return this.getAdobeAep().createBatch(datasetId, fileType)
+  async uploadToBatch(datasetId, batchId, fileType, file, batchExists, name) {
+    return this.getAdobeAep().uploadToBatch(datasetId, batchId, fileType, file, batchExists, name)
   }
 }
 
-CreateBatchesCommand.description = 'Create a batch. '
-CreateBatchesCommand.hidden = false
-CreateBatchesCommand.flags = {
+UploadToBatchesCommand.description = 'Bulk Ingest upload files command'
+UploadToBatchesCommand.hidden = false
+UploadToBatchesCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
+  batchId: flags.string({char: 'b', description: 'The ID of the batch.', required: true}),
+  fileName: flags.string({char: 'n', description: 'The name of the file.', required: true}),
   fileType: flags.string({
     char: 't',
     description: 'The type of file to be ingested in this batch. One of parquet, csv, json',
     options: ['json', 'parquet', 'csv'],
-    default: 'parquet',
-    required: false,
+    default: 'parquet'
   }),
+  file: flags.string({
+    char: 'f',
+    description: 'The actual file path to be uploaded to the batch'
+  }),
+  batchExists: flags.boolean({char: 'e', hidden: false, description: 'Does the batch exist. If false first a new batch is registered for bulk upload', default: true}),
 }
 
-CreateBatchesCommand.aliases = [
-  'aep:batches:create',
-  'aep:batches:new']
-
-CreateBatchesCommand.examples = [
-  '$ aio aep:batches:create -i=abcd1234 -t=json',
-
+UploadToBatchesCommand.aliases = [
+  'aep:bulkingest:upload'
 ]
-module.exports = CreateBatchesCommand
+module.exports = UploadToBatchesCommand

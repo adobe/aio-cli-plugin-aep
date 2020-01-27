@@ -10,45 +10,42 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const ListBatchesCommand = require('../../../../src/commands/aep/batches/list')
-const GetBatchesCommand = require('../../../../src/commands/aep/batches/get')
-const CreateBatchesCommand = require('../../../../src/commands/aep/batches/create')
-const DeleteBatchesCommand = require('../../../../src/commands/aep/batches/delete')
+const CreateBulkBatch = require('../../../../src/commands/aep/bulkingest/createbulkbatch')
+const UploadtoBulkBatch = require('../../../../src/commands/aep/bulkingest/uploadtobulkbatch')
+const CompleteBulkBatch = require('../../../../src/commands/aep/bulkingest/completebulkbatch')
 const config = require('@adobe/aio-cli-config')
 var constants = require('../../../__mocks__/constants.js')
 
-test('list-batches - missing config', async () => {
+test('create-batch-bulk-upload - missing config', async () => {
   expect.assertions(2)
-  let runResult = ListBatchesCommand.run([])
+  let runResult = CreateBulkBatch.run(['-i=abc'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
 
-test('list-and-get-batch-with-and-without-filter-params-success', async () => {
-  config.get.mockImplementation(() => {
-    return constants.mockConfig
-  })
-  expect.assertions(2)
-  let runResult = ListBatchesCommand.run([])
-  await expect(runResult).resolves.toEqual(constants.mockPayload)
-  runResult = GetBatchesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(constants.mockPayload)
-})
-
-test('create-batch-success', async () => {
+test('create-batch-bulk-upload-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
     return constants.mockConfig
   })
   expect.assertions(1)
-  let runResult = CreateBatchesCommand.run(['-i=abc', '-t=json'])
+  runResult = CreateBulkBatch.run(['-i=abc'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
-test('delete-batch-success', async () => {
+test('upload-batch-bulk-success', async () => {
   config.get.mockImplementation(() => {
     return constants.mockConfig
   })
   expect.assertions(1)
-  runResult = DeleteBatchesCommand.run(['-i=abc'])
-  await expect(runResult).resolves.toEqual(constants.mockPayload)
+  let runResult = UploadtoBulkBatch.run(['-f=/Users/bgaurav/workspaceRepos/ocliff-plugin/aio-cli-plugin-bk/aio-cli-plugin-aep/test/commands/aep/about.test.js',  '-i=abc',  '-b=abc',  '-n=abc'])
+  await expect(runResult).resolves.toEqual(undefined)
+})
+
+test('complete-batch-bulk-success', async () => {
+  config.get.mockImplementation(() => {
+    return constants.mockConfig
+  })
+//  expect.assertions(1)
+  runResult = CompleteBulkBatch.run(['-b=abc'])
+  await  expect(runResult).resolves.toJSON
 })

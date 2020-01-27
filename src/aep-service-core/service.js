@@ -36,8 +36,8 @@ let AdobeAep = {
     return Client.listDatasets(limit, start, orderBy)
   },
 
-  createDataset: async function (name, description, xdm) {
-    return Client.createDataset(name, description, xdm)
+  createDataset: async function (name, description, xdm, fileType, isProfileEnabled, isIdentityEnabled) {
+    return Client.createDataset(name, description, xdm, fileType, isProfileEnabled, isIdentityEnabled)
   },
 
   deleteDataset: async function (datasetId) {
@@ -61,10 +61,18 @@ let AdobeAep = {
   deleteBatch: async function (batchId) {
     return Client.deleteBatch(batchId)
   },
+//bulk upload in batch
 
   uploadToBatch: async function(datasetId, batchId, fileType, file, batchExists, name) {
-  //  var f = fs.readFileSync(file)
     return Client.uploadToBatch(datasetId, batchId, fileType, file, batchExists,name)
+  },
+
+  createBatchForBulkUpload: async function(datasetId, fileType) {
+    return Client.createBatchForBulkUpload(datasetId, fileType)
+  },
+
+  completeBatchForBulkUpload : async function(batchId) {
+    return Client.completeBatchForBulkUpload(batchId)
   },
 
   //classes
