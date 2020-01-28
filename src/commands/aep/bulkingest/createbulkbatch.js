@@ -52,7 +52,7 @@ CreateBulkBatchCommand.aliases = [
   'aep:bulkingest:new']
 
 CreateBulkBatchCommand.examples = [
-  '$ aio aep:bulkingest:create -i=abcd1234 -f=json',
+  '$ aio aep:bulkingest:create -i=abcd1234 -t=json',
 
 ]
 module.exports = CreateBulkBatchCommand

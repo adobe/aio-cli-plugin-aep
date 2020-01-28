@@ -15,9 +15,7 @@ const SINGLE_FILE_UPLOAD_LIMIT = 256 * 1000 * 1000
 const CHUNK_RETRIES = 2
 const PARALLEL_REQUESTS = 5
 const fs = require('fs')
-const BinaryFile = require('binary-file')
 var http = require('https')
-const FormData = require('form-data')
 let Client = {
   tenantName: null,
   accessToken: null,
