@@ -122,7 +122,7 @@ Run the following commands now (no particular order)
 			gdpr: []
 		},
 		schemaRef: {
-			id: 'https://ns.adobe.com/acponboarding/schemas/bac62b237c00c26bd5767d7c55a28fa4',
+			id: 'https://ns.adobe.com/acponboarding/schemas/abc',
 			contentType: 'application/vnd.adobe.xed-full+json;version=1'
 		},
 		streamingIngestionEnabled: 'false'
