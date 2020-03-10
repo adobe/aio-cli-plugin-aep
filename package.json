@@ -1,15 +1,18 @@
 {
   "name": "@adobe/aio-cli-plugin-aep",
   "description": "A plugin for CRUD operations on aep resources",
-  "version": "1.1.1",
-  "author": "Adobe",
-  "contributors": [
-    "Bibhuti Gurav"
-  ],
-  "bugs": "https://github.com/bgaurav/aio-cli-plugin-aep/issues",
+  "version": "1.0.0",
+  "author": "Adobe Inc.",
+  "bugs": "https://github.com/adobe/aio-cli-plugin-aep/issues",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@adobe/aio-cli-plugin-jwt-auth": "^2.0.3",
     "@adobe/aio-cli-config": "^1.0.7",
+    "@adobe/aio-cli-plugin-runtime": "^1.4.0",
+    "@adobe/aio-lib-core-config": "^1.0.15",
+    "@adobe/aio-app-scripts": "^0.6.0",
     "@oclif/command": "^1.5.12",
     "@oclif/config": "^1.12.12",
     "@oclif/plugin-help": "^2.1.4",
@@ -19,14 +22,7 @@
     "@oclif/plugin-not-found": "^1.2.0",
     "cli-ux": "^5.2.1",
     "node-fetch": "^2.3.0",
-    "tempy": "^0.2.1",
-    "term-img": "^4.1.0",
     "debug": "^4.1.0",
-    "mustache": "^3.1.0",
-    "winston": "^3.2.1",
-    "@adobe/aio-app-scripts": "^0.6.0",
-    "@adobe/aio-lib-core-config": "^1.0.15",
-    "jsonpath": "^1.0.2",
     "js-yaml": "^3.13.0",
     "url-parse": "^1.4.7"
   },
@@ -68,7 +64,7 @@
     "/src",
     "/bin"
   ],
-  "homepage": "https://git.corp.adobe.com/bgaurav/aio-cli-plugin-aep/tree/aep1",
+  "homepage": "https://github.com/adobe/aio-cli-plugin-aep",
   "keywords": [
     "oclif-plugin"
   ],
@@ -93,7 +89,7 @@
       "@anycli/plugin-version"
     ]
   },
-  "repository": "https://git.corp.adobe.com/bgaurav/aio-cli-plugin-aep/",
+  "repository": "https://github.com/adobe/aio-cli-plugin-aep",
   "scripts": {
     "eslint": "eslint .",
     "test": "jest --coverage",
