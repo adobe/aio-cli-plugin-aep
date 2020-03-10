@@ -20,7 +20,7 @@ A plugin for CRUD operations on aep resources
 
 3. ```$ npm install -g @adobe/aio-cli-plugin-console```
 
-4. ```$ git clone git@git.corp.adobe.com:bgaurav/aio-cli-plugin-aep.git -b aep2```
+4. ```$ git clone git@github.com:adobe/aio-cli-plugin-aep.git -b master```
 
 5. ```$ cd ${above downloaded repo path}/aio-cli-plugin-aep``` 
 
