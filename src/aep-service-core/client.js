@@ -782,8 +782,7 @@ let Client = {
     const body = mappingSetPayload
     return this.post(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
       if (res.ok) {
-        console.log('The mappingset is created' + res.toString())
-        return res
+        return res.json()
       } else {
         throw new Error(`The mappingset was not created: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
       }
