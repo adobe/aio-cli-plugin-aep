@@ -20,11 +20,7 @@ A plugin for CRUD operations on aep resources
 
 3. ```$ npm install -g @adobe/aio-cli-plugin-console```
 
-4. ```$ git clone git@github.com:adobe/aio-cli-plugin-aep.git -b master```
-
-5. ```$ cd ${above downloaded repo path}/aio-cli-plugin-aep``` 
-
-6. ```$ aio plugins:link```
+4. ```$ npm install -g @adobe/aio-cli-plugin-aep```
 
 ## 2. **_Set up adobe I/O (PROD/STG/INT) integration_**
       
@@ -80,7 +76,7 @@ Run the following commands now (no particular order)
 4. If you notice a **_401 _Unauthorized__** in any resource CRUD command, please regenarate your **_access_token_** as advised in step# 2 in the STG/INT sections.
 ## 3. **_Finally run this simple command to list datasets in your org to make sure the configuration is all correct_**
 
-   ```$ aio aep:ds:list```
+   ```$ aep aep:ds:list```
  
  Output would look something like...  
   
