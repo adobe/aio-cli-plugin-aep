@@ -774,25 +774,6 @@ let Client = {
     })
   },
 
-/*_createMappingSet: async function (file) {
-  let rawdata = fs.readFileSync(file);
-  let mappingSetPayload = JSON.parse(rawdata);
-  request({
-    url: new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}`),
-    method: 'POST',
-    headers: this.prepareHeader('POST', 'application/json', null),
-   // body: fs.readFileSync(file),
-    body : mappingSetPayload
-  }, (error, response, body) => {
-    if (error) {
-      return res.json({name: error})
-    } else {
-      console.log('Error ' + response.toString())
-      console.log('MappingSets created with status ' + response.statusCode)
-      return body
-    }
-  })
-},*/
 
   _createMappingSet: async function (file) {
     let rawdata = fs.readFileSync(file);
@@ -804,8 +785,7 @@ let Client = {
         console.log('The mappingset is created' + res.toString())
         return res
       } else {
-        console.log('not OK!!' + res.status)
-        throw new Error(`The mappingset is not created: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+        throw new Error(`The mappingset was not created: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
       }
     })
   },
