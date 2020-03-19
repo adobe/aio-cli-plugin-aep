@@ -233,6 +233,17 @@ let Client = {
     return (result)
   },
 
+  //mappingsets signature
+
+  listMappingSets: async function (limit = null, start = null, orderBy = null) {
+    const result = await this._listMappingSets(limit, start, orderBy)
+    return (result)
+  },
+
+  createMappingSet :async function (file) {
+    const result = await this._createMappingSet(file)
+    return (result)
+  },
 //datasets implementation
 
   _listDatasets: async function (limit, start, orderBy) {
@@ -740,6 +751,62 @@ let Client = {
         console.log('The batch with id ' + batchId + ' is marked complete')
         return res
       } else throw new Error(`Cannot register batch for bulk upload: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
+  },
+
+  //mappingSets
+
+  _listMappingSets: async function (limit, start, orderBy) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}`)
+    if (limit) {
+      baseUrl.searchParams.append(endPoints.mappingSets.parameters.limit, limit)
+    }
+    if (start) {
+      baseUrl.searchParams.append(endPoints.mappingSets.parameters.start, start)
+    }
+    if (orderBy) {
+      baseUrl.searchParams.append(endPoints.mappingSets.parameters.orderBy, orderBy)
+    }
+    return this.get(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, endPoints.mappingSets.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource mappingsets: ${res.url} (${res.status} ${res.statusText})`)
+    })
+  },
+
+/*_createMappingSet: async function (file) {
+  let rawdata = fs.readFileSync(file);
+  let mappingSetPayload = JSON.parse(rawdata);
+  request({
+    url: new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}`),
+    method: 'POST',
+    headers: this.prepareHeader('POST', 'application/json', null),
+   // body: fs.readFileSync(file),
+    body : mappingSetPayload
+  }, (error, response, body) => {
+    if (error) {
+      return res.json({name: error})
+    } else {
+      console.log('Error ' + response.toString())
+      console.log('MappingSets created with status ' + response.statusCode)
+      return body
+    }
+  })
+},*/
+
+  _createMappingSet: async function (file) {
+    let rawdata = fs.readFileSync(file);
+    let mappingSetPayload = JSON.parse(rawdata);
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}`)
+    const body = mappingSetPayload
+    return this.post(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
+      if (res.ok) {
+        console.log('The mappingset is created' + res.toString())
+        return res
+      } else {
+        console.log('not OK!!' + res.status)
+        throw new Error(`The mappingset is not created: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+      }
     })
   },
 

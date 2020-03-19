@@ -61,7 +61,8 @@ let AdobeAep = {
   deleteBatch: async function (batchId) {
     return Client.deleteBatch(batchId)
   },
-//bulk upload in batch
+
+  //bulk upload in batch
 
   uploadToBatch: async function(datasetId, batchId, fileType, file, batchExists, name) {
     return Client.uploadToBatch(datasetId, batchId, fileType, file, batchExists,name)
@@ -154,6 +155,15 @@ let AdobeAep = {
   //sandboxes
   listSandboxes: async function (limit = null, start = null, orderBy = null) {
     return Client.listSandboxes(limit, start, orderBy)
+  },
+
+  //mappingsets
+  listMappingSets: async function (limit = null, start = null, orderBy = null) {
+    return Client.listMappingSets(limit, start, orderBy)
+  },
+
+  createMappingSet: async function(file) {
+    return Client.createMappingSet(file)
   },
 }
 

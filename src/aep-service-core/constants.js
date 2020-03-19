@@ -104,5 +104,15 @@ module.exports = {
 
       },
     },
+    mappingSets: {
+      resourcePath: '/conversion/',
+      resourceType: 'mappingSets',
+      contentType: 'application/json',
+      parameters: {
+        limit: 'limit',
+        start: 'start',
+        orderBy: 'orderBy',
+      },
+    },
   },
 }
