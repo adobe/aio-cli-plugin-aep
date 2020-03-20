@@ -244,6 +244,16 @@ let Client = {
     const result = await this._createMappingSet(file)
     return (result)
   },
+
+  getMappingSet: async function (mappingsetId) {
+    const result = await this._getMappingSet(mappingsetId)
+    return (result)
+  },
+
+  createMappings: async function (mappingsetId, sourceSchema, targetSchema, sourceType) {
+    const result = await this._createMappings(mappingsetId, sourceSchema, targetSchema, sourceType)
+    return (result)
+  },
 //datasets implementation
 
   _listDatasets: async function (limit, start, orderBy) {
@@ -784,11 +794,33 @@ let Client = {
       if (res.ok) {
         return res.json()
       } else {
-        throw new Error(`The mappingset was not created: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+        throw new Error(`Cannot fulfill request on resource mappingsets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
       }
     })
   },
 
+  _getMappingSet: async function (mappingsetId) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}`)
+    return this.get(`${baseUrl.toString()}`, endPoints.schemas.contentType, 'application/json').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource mappingset: ${res.url} (${res.status} ${res.statusText} ${res.toString()}`)
+    })
+  },
+
+  _createMappings: async function (mappingsetId, sourceSchema, targetSchema, sourceType) {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}${endPoints.mappingSets.mappingsPath}`)
+    const body = {
+      sourceType: sourceType,
+      source: sourceSchema,
+      destination: targetSchema
+    }
+    return this.post(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot fulfill request on resource mappings: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
+
+  },
 }
 
 module.exports = Client

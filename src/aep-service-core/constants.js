@@ -106,7 +106,8 @@ module.exports = {
     },
     mappingSets: {
       resourcePath: '/conversion/',
-      resourceType: 'mappingSets',
+      resourceType: 'mappingSets/',
+      mappingsPath: '/mappings/',
       contentType: 'application/json',
       parameters: {
         limit: 'limit',

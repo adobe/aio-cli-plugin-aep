@@ -165,6 +165,14 @@ let AdobeAep = {
   createMappingSet: async function(file) {
     return Client.createMappingSet(file)
   },
+
+  getMappingSet: async function(mappingsetId) {
+    return Client.getMappingSet(mappingsetId)
+  },
+
+  createMappings: async function (mappingsetId, sourceSchema, targetSchema, sourceType) {
+    return Client.createMappings(mappingsetId, sourceSchema, targetSchema, sourceType)
+  },
 }
 
 module.exports = AdobeAep
