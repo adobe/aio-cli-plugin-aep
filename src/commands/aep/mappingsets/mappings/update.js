@@ -12,13 +12,13 @@ const BaseCommand = require('../../about')
 const {flags} = require('@oclif/command/lib/index')
 const {cli} = require('cli-ux/lib/index')
 
-class CreateMappingsForMappingSetCommand extends BaseCommand {
+class UpdateMappingInMappingSetCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(CreateMappingsForMappingSetCommand)
+    const {flags} = this.parse(UpdateMappingInMappingSetCommand)
     let result
 
     try {
-      result = await this.createMappings(flags.mappingsetId, flags.sourceSchema, flags.targetSchema, flags.sourceType)
+      result = await this.updateMapping(flags.mappingsetId, flags.mappingId, flags.sourceSchema, flags.targetSchema, flags.sourceType)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,18 +26,19 @@ class CreateMappingsForMappingSetCommand extends BaseCommand {
     return result
   }
 
-  async createMappings(mappingsetId, sourceSchema, targetSchema, sourceType) {
-    return this.getAdobeAep().createMappings(mappingsetId, sourceSchema, targetSchema, sourceType)
+  async updateMapping(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType) {
+    return this.getAdobeAep().updateMapping(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType)
   }
 }
 
-CreateMappingsForMappingSetCommand.description = 'Create a mapping for a mappingset. '
-CreateMappingsForMappingSetCommand.hidden = false
-CreateMappingsForMappingSetCommand.flags = {
+UpdateMappingInMappingSetCommand.description = 'Create a mapping for a mappingset. '
+UpdateMappingInMappingSetCommand.hidden = false
+UpdateMappingInMappingSetCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   mappingsetId: flags.string({char: 'i', description: 'The id of the mappingset.', required: true}),
+  mappingId: flags.string({char: 'm', description: 'The id of the mapping.', required: true}),
   sourceSchema: flags.string({char: 's', description: 'Source XDM schema Id.', required: true}),
   targetSchema: flags.string({char: 'd', description: 'Target XDM schema Id.', required: true}),
   sourceType: flags.string({
@@ -49,12 +50,8 @@ CreateMappingsForMappingSetCommand.flags = {
   }),
 }
 
-CreateMappingsForMappingSetCommand.aliases = [
-  'aep:mappings:create',
-  'aep:mappings:new']
-
-CreateMappingsForMappingSetCommand.examples = [
-  '$ aio aep:mappings:create ',
+UpdateMappingInMappingSetCommand.examples = [
+  '$ aep:mappingsets:mappings:update -i=abc -m=xyz -s=first_name -d=person.name.firstName -t=ATTRIBUTE',
 
 ]
-module.exports = CreateMappingsForMappingSetCommand
+module.exports = UpdateMappingInMappingSetCommand

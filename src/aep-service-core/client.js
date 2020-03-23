@@ -72,10 +72,6 @@ let Client = {
     if (method !== 'GET' && (body !== null || body !== undefined)) {
       options.body = JSON.stringify(body)
     }
-    if (method === 'PUT') {
-
-    }
-    // console.log("headers "+options.headers.Accept)
     return fetch(path, options)
   },
 
@@ -252,6 +248,21 @@ let Client = {
 
   createMappings: async function (mappingsetId, sourceSchema, targetSchema, sourceType) {
     const result = await this._createMappings(mappingsetId, sourceSchema, targetSchema, sourceType)
+    return (result)
+  },
+
+  listMappings :  async function (limit = null, start = null, orderBy = null, mappingsetId) {
+    const result = await this._listMappings(limit, start, orderBy, mappingsetId)
+    return (result)
+  },
+
+  getMapping : async function(mappingsetId, mappingId) {
+    const result = await this._getMapping(mappingsetId, mappingId)
+    return (result)
+  },
+
+  updateMapping: async function(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType) {
+    const result = await this._updateMapping(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType)
     return (result)
   },
 //datasets implementation
@@ -820,6 +831,74 @@ let Client = {
       else throw new Error(`Cannot fulfill request on resource mappings: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
 
+  },
+
+  _listMappings: async function (limit, start, orderBy, mappingsetId) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}${endPoints.mappingSets.mappingsPath}`)
+    if (limit) {
+      baseUrl.searchParams.append(endPoints.mappingSets.parameters.limit, limit)
+    }
+    if (start) {
+      baseUrl.searchParams.append(endPoints.mappingSets.parameters.start, start)
+    }
+    if (orderBy) {
+      baseUrl.searchParams.append(endPoints.mappingSets.parameters.orderBy, orderBy)
+    }
+    return this.get(`${baseUrl.toString()}`, null, endPoints.mappingSets.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        throw new Error(`Cannot fulfill request on resource mappings: ${res.url} (${res.status} ${res.statusText}})`)
+      }
+    })
+  },
+
+  _getMapping: async function (mappingsetId, mappingId) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}${endPoints.mappingSets.mappingsPath}${mappingId}`)
+    return this.get(`${baseUrl.toString()}`, null, endPoints.mappingSets.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        throw new Error(`Cannot fulfill request on resource mappings: ${res.url} (${res.status} ${res.statusText}})`)
+      }
+    })
+  },
+
+  _updateMapping: async function (mappingsetId, mappingId, sourceSchema, targetSchema, sourceType) {
+
+    const body = {
+      sourceType: sourceType,
+      source: sourceSchema,
+      destination: targetSchema
+    }
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}${endPoints.mappingSets.mappingsPath}${mappingId}`)
+
+    return this.put(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        throw new Error(`Cannot fulfill request on resource mappings: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+      }
+    })
+
+
+
+    // var options = {
+    //   method: 'PUT',
+    //   url: new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}${endPoints.mappingSets.mappingsPath}${mappingId}`).toString(),
+    //   headers: this.prepareHeader('PUT', application/json, application/json),
+    //   body: JSON.stringify(resources)
+    // };
+    //
+    // return new Promise(function (resolve, reject) {
+    //   request(options, function (error, response, body) {
+    //     if(error){
+    //       return reject(error);
+    //     }
+    //     console.log(body);
+    //     return resolve(body);
+    //   });
+    // });
   },
 }
 
