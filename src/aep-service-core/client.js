@@ -265,6 +265,11 @@ let Client = {
     const result = await this._updateMapping(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType)
     return (result)
   },
+
+  updateMappingSet:async function (mappingsetId, file) {
+  const result = await this._updateMappingSet(mappingsetId, file)
+  return (result)
+},
 //datasets implementation
 
   _listDatasets: async function (limit, start, orderBy) {
@@ -880,26 +885,21 @@ let Client = {
         throw new Error(`Cannot fulfill request on resource mappings: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
       }
     })
-
-
-
-    // var options = {
-    //   method: 'PUT',
-    //   url: new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}${endPoints.mappingSets.mappingsPath}${mappingId}`).toString(),
-    //   headers: this.prepareHeader('PUT', application/json, application/json),
-    //   body: JSON.stringify(resources)
-    // };
-    //
-    // return new Promise(function (resolve, reject) {
-    //   request(options, function (error, response, body) {
-    //     if(error){
-    //       return reject(error);
-    //     }
-    //     console.log(body);
-    //     return resolve(body);
-    //   });
-    // });
   },
+
+  _updateMappingSet : async function (mappingsetId, file) {
+  let rawdata = fs.readFileSync(file);
+  let mappingSetPayload = JSON.parse(rawdata);
+  const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}`)
+  const body = mappingSetPayload
+  return this.put(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
+    if (res.ok) {
+      return res.json()
+    } else {
+      throw new Error(`Cannot fulfill request on resource mappingsets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    }
+  })
+},
 }
 
 module.exports = Client

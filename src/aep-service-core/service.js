@@ -185,6 +185,10 @@ let AdobeAep = {
   updateMapping: async function(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType) {
     return Client.updateMapping(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType)
   },
+
+  updateMappingSet: async function (mappingsetId, file) {
+    return Client.updateMappingSet(mappingsetId, file)
+  },
 }
 
 module.exports = AdobeAep

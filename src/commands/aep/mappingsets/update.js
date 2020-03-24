@@ -1,3 +1,4 @@
+
 /*
 Copyright 2019 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -12,13 +13,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class CreateMappingSetsCommand extends BaseCommand {
+class UpdateMappingSetCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(CreateMappingSetsCommand)
+    const {flags} = this.parse(UpdateMappingSetCommand)
     let result
 
     try {
-      result = await this.createMappingSet(flags.file)
+      result = await this.updateMappingSet(flags.mappingsetId, flags.file)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,14 +27,14 @@ class CreateMappingSetsCommand extends BaseCommand {
     return result
   }
 
-  async createMappingSet(file) {
-    return this.getAdobeAep().createMappingSet(file)
+  async updateMappingSet(mappingsetId, file) {
+    return this.getAdobeAep().updateMappingSet(mappingsetId, file)
   }
 }
 
-CreateMappingSetsCommand.description = 'Create a mapping set. '
-CreateMappingSetsCommand.hidden = false
-CreateMappingSetsCommand.flags = {
+UpdateMappingSetCommand.description = 'Update a mapping set. '
+UpdateMappingSetCommand.hidden = false
+UpdateMappingSetCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
@@ -41,14 +42,12 @@ CreateMappingSetsCommand.flags = {
     char: 'f',
     description: 'The json file path with mapping set data'
   }),
+  mappingsetId: flags.string({char: 'i', description: 'The id of the mappingset.', required: true})
 }
 
-CreateMappingSetsCommand.aliases = [
-  'aep:mappingsets:create',
-  'aep:mappingsets:new']
 
-CreateMappingSetsCommand.examples = [
-  '$ aio aep:mappingsets:create -f=$filepath',
+UpdateMappingSetCommand.examples = [
+  '$ aio aep:mappingsets:update -f=$filepath',
 
 ]
-module.exports = CreateMappingSetsCommand
+module.exports = UpdateMappingSetCommand
