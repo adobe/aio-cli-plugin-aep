@@ -270,6 +270,16 @@ let Client = {
   const result = await this._updateMappingSet(mappingsetId, file)
   return (result)
 },
+
+  validateExpression: async function (file) {
+    const result = await this._validateExpression(file)
+    return (result)
+  },
+
+  listFunctions: async function() {
+    const result = await this._listFunctions()
+    return (result)
+  },
 //datasets implementation
 
   _listDatasets: async function (limit, start, orderBy) {
@@ -900,6 +910,29 @@ let Client = {
     }
   })
 },
+
+  _validateExpression: async function (file) {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.functionsRootPath}${endPoints.mappingSets.functionsValidate}`)
+    let rawdata = fs.readFileSync(file);
+    let expressionPayload = JSON.parse(rawdata);
+    const body = expressionPayload
+    return this.post(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot fulfill request on resource expression: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
+
+  },
+
+  _listFunctions: async function() {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.functionsRootPath}${endPoints.mappingSets.functionsGetPath}`)
+    return this.get(`${baseUrl.toString()}`, null, endPoints.mappingSets.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        throw new Error(`Cannot fulfill request on resource mappings: ${res.url} (${res.status} ${res.statusText}})`)
+      }
+    })
+  }
 }
 
 module.exports = Client

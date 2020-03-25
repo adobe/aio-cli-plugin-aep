@@ -108,6 +108,9 @@ module.exports = {
       resourcePath: '/conversion/',
       resourceType: 'mappingSets/',
       mappingsPath: '/mappings/',
+      functionsRootPath: 'languages/el/',
+      functionsValidate :'validate',
+      functionsGetPath : 'functions',
       contentType: 'application/json',
       parameters: {
         limit: 'limit',
