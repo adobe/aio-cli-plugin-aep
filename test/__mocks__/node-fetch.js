@@ -87,4 +87,9 @@ mockResponseWithMethod(url + '/schemaregistry/stats', 'GET', mockResponseForApi)
 
 mockResponseWithMethod(url + '/sandbox-management/sandboxes', 'GET', mockResponseForApi)
 
+fetchMock.post(url + '/conversion/mappingSets/', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/mappingSets/', 'POST', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/mappingSets/', 'GET', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/mappingSets/abc', 'GET', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/mappingSets/abc', 'PUT', mockResponseForApi)
 

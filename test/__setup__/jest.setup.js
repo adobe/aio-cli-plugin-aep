@@ -17,3 +17,6 @@ beforeEach(() => {
 afterEach(() => {
   stdout.stop()
 })
+afterEach(() => {
+  delete global.__mobxInstanceCount;
+})

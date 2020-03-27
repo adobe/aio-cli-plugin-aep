@@ -70,20 +70,19 @@ function getSandboxName() {
 }
 
 function getEnv() {
-  const configUrl = config.get('jwt-auth.jwt_payload.aud')
-  //TODO: Fix this for the UT to work in different environments
-  // if (!configUrl) {
-  //   throw new Error('missing token refresh URL: aud')
-  // }
-  var urlWithEnv = Url(configUrl, true)
-  if (urlWithEnv.host.includes('-int')) {
+  if(config === undefined || config === null || config.get('env') === undefined || config.get('env') === null) {
     return 'https://platform-int.adobe.io/data/foundation'
   }
-  else if (urlWithEnv.host.includes('-stg1')) {
+  var env = config.get('env')//.toUpperCase()
+  if (env === 'INT' || env === 'INTEGRATION' || env === 'int') {
     return 'https://platform-int.adobe.io/data/foundation'
+  }
+  else if (env === 'STAGE' || env ==='STG' || env === 'stg' || env === 'stage') {
+    return 'https://platform-stage.adobe.io/data/foundation'
   }
   else return 'https://platform.adobe.io/data/foundation'
 }
+
 
 module.exports = {
   getApiKey,

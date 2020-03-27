@@ -8,21 +8,29 @@ A plugin for CRUD operations on aep resources
 <!-- tocstop -->
 # Follow the steps below to start using this plugin.
 
+## 1. **_Set up necessary dependencies for npm to work_**
+
+1. Install brew: ```$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"```
+
+2. Install npm: ```$ brew install npm```
+
+3. Install yarn: ```$ npm install --global yarn```
+
+4. Upgrade yarn: ```$ npm upgrade --global yarn```
 
 
-
-
-## 1. **_Set up necessary adobe I/O dependencies_**
+## 2. **_Set up necessary adobe I/O dependencies_**
  
-1. ```$ npm install -g @adobe/aio-cli```
+1. Install aio-cli core libraries```$ npm install -g @adobe/aio-cli```
 
-2. ```$ npm install -g @adobe/aio-cli-plugin-config```
+2. Install aep aio plugin```$ npm install -g @adobe/aio-cli-plugin-aep```
 
-3. ```$ npm install -g @adobe/aio-cli-plugin-console```
+3. Link aep with aio ```$ aio plugins:install @adobe/aio-cli-plugin-aep```
 
-4. ```$ npm install -g @adobe/aio-cli-plugin-aep```
+4. When you run ```$ aio -h``` now you should be able to see aep in the list of available plugins
 
-## 2. **_Set up adobe I/O (PROD/STG/INT) integration_**
+
+## 3. **_Set up adobe I/O (PROD/STG/INT) integration_**
       
 ##      **For PROD**
 
@@ -58,7 +66,9 @@ Run the following commands now (no particular order)
 
 7. ```$ aio config:set x-sandbox-name ${your_sanbox_name}```
 
-8. I have noticed sometimes access_token is not generated from aio-cli-config module and is a lazy load after the first command. So fire this please:
+8. ```$ aio config:set env prod```
+
+9. I have noticed sometimes access_token is not generated from aio-cli-config module and is a lazy load after the first command. So fire this please, to refresh the token
  
    ```$ aio console:list-integrations```
 
@@ -73,8 +83,11 @@ Run the following commands now (no particular order)
  
 3. No need to run any ```aio console``` commands like in PROD setting, since ```aio console``` plugin is tied to production URL's
 
+4. Set enviornment to stg/int accordingly. For example: ```$ aio config:set env stg```
+
 4. If you notice a **_401 _Unauthorized__** in any resource CRUD command, please regenarate your **_access_token_** as advised in step# 2 in the STG/INT sections.
-## 3. **_Finally run this simple command to list datasets in your org to make sure the configuration is all correct_**
+
+## 4. **_Finally run this simple command to list datasets in your org to make sure the configuration is all correct_**
 
    ```$ aep aep:ds:list```
  
@@ -127,7 +140,7 @@ Run the following commands now (no particular order)
 ...
 ```
 
-## 4. **_To run unit tests from the root folder of the project run the commands in following order_**
+## 5. (Developers) **_To run unit tests from the root folder of the project run the commands in following order_**
 ```$ npm install```
 
 ```$ jest```

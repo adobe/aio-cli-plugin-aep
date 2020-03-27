@@ -37,7 +37,7 @@ test('upload-batch-bulk-success', async () => {
     return constants.mockConfig
   })
   expect.assertions(1)
-  let runResult = UploadtoBulkBatch.run(['-f=/Users/bgaurav/workspaceRepos/ocliff-plugin/aio-cli-plugin-bk/aio-cli-plugin-aep/test/commands/aep/about.test.js',  '-i=abc',  '-b=abc',  '-n=abc'])
+  let runResult = UploadtoBulkBatch.run(['-f=test/commands/aep/about.test.js',  '-i=abc',  '-b=abc',  '-n=abc'])
   await expect(runResult).resolves.toEqual(undefined)
 })
 
