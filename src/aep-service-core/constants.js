@@ -93,6 +93,9 @@ module.exports = {
     },
     bulkUploads: {
       resourcePath: '/import/',
+      resourcePathExport: '/export/',
+      datasetPath: '/datasets/',
+      pewviewPath: '/preview',
       resourceType: 'batches/',
       contentType: 'application/json',
       contentTypeBinary: 'application/octet-stream',

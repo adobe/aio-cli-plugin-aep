@@ -249,6 +249,11 @@ let Client = {
     return (result)
   },
 
+  previewBatch: async function (batchId, datasetId) {
+    const result = await this._previewBatch(batchId, datasetId)
+    return (result)
+  },
+
   //mappingsets signature
 
   listMappingSets: async function (limit = null, start = null, orderBy = null) {
@@ -989,6 +994,17 @@ let Client = {
     })
 
   },
+
+  _previewBatch: async function (batchId, datasetId) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.bulkUploads.resourcePath}${endPoints.bulkUploads.resourceType}${batchId}${endPoints.bulkUploads.datasetPath}${datasetId}${endPoints.bulkUploads.pewviewPath}`)
+    return this.get(`${baseUrl.toString()}`, endPoints.batches.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource batches: ${res.url} (${res.status} ${res.statusText})`)
+    })
+  },
+
+
 }
 
 module.exports = Client

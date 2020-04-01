@@ -76,6 +76,11 @@ let AdobeAep = {
     return Client.completeBatchForBulkUpload(batchId)
   },
 
+  previewBatch : async function (batchId, datasetId) {
+    return Client.previewBatch(batchId, datasetId)
+  },
+
+
   //classes
 
   listClasses: async function (limit = null, start = null, orderBy = null, container = null) {
