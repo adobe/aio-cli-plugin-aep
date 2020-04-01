@@ -31,7 +31,7 @@ class ListSchemasCommand extends BaseCommand {
   }
 }
 
-ListSchemasCommand.description = 'Retrieve the list of mixins associated with this organization'
+ListSchemasCommand.description = 'Retrieve the list of schemas associated with this organization'
 ListSchemasCommand.hidden = false
 ListSchemasCommand.flags = {
   ...BaseCommand.flags,

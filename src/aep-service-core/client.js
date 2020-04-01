@@ -91,6 +91,10 @@ let Client = {
     return this._doRequest(path, 'DELETE', contentType, null, accept)
   },
 
+  patch: async function (path, contentType, body, accept = null) {
+    return this._doRequest(path, 'PATCH', contentType, body, accept)
+  },
+
   //batches signature
 
   listBatches: async function (limit = null, start = null, orderBy = null) {
@@ -219,6 +223,22 @@ let Client = {
     return (result)
   },
 
+  createSchemaWithPayload: async function (file) {
+    const result = await this._createSchemaWithPayload(file)
+    return (result)
+  },
+
+  createDetaSetWithPayload : async function (file) {
+    const result = await this._createDetaSetWithPayload(file)
+    return (result)
+  },
+
+  patchDetaSetWithPayload  : async function (file, datasetId) {
+    const result = await this._patchDetaSetWithPayload(file, datasetId)
+    return (result)
+  },
+
+  //
   listStats: async function (limit = null, start = null, orderBy = null) {
     const result = await this._listStats(limit, start, orderBy)
     return (result)
@@ -932,7 +952,43 @@ let Client = {
         throw new Error(`Cannot fulfill request on resource mappings: ${res.url} (${res.status} ${res.statusText}})`)
       }
     })
-  }
+  },
+  _createSchemaWithPayload : async function (file) {
+    const container = 'tenant'
+   const baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}`)
+  let rawdata = fs.readFileSync(file);
+  let expressionPayload = JSON.parse(rawdata);
+  const body = expressionPayload
+    return this.post(`${baseUrl.toString()}`, endPoints.schemas.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
+    if (res.ok) return res.json()
+    else throw new Error(`Cannot fulfill request on resource schema: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+  })
+
+},
+
+  _createDetaSetWithPayload  : async function (file) {
+  const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`)
+  let rawdata = fs.readFileSync(file);
+  let expressionPayload = JSON.parse(rawdata);
+  const body = expressionPayload
+    return this.post(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
+    if (res.ok) return res.json()
+    else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+  })
+
+},
+
+  _patchDetaSetWithPayload  : async function (file, datasetId) {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}${datasetId}`)
+    let rawdata = fs.readFileSync(file);
+    let expressionPayload = JSON.parse(rawdata);
+    const body = expressionPayload
+    return this.patch(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
+
+  },
 }
 
 module.exports = Client

@@ -30,7 +30,7 @@ class DeleteSchemaCommand extends BaseCommand {
   }
 }
 
-DeleteSchemaCommand.description = 'Delete this dataset.'
+DeleteSchemaCommand.description = 'Delete this schema.'
 DeleteSchemaCommand.hidden = false
 DeleteSchemaCommand.flags = {
   schemaId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),

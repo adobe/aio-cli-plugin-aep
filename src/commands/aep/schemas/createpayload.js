@@ -12,12 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class GetSchemasCommand extends BaseCommand {
+class CreateSchemasFromPayloadCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(GetSchemasCommand)
+    const {flags} = this.parse(CreateSchemasFromPayloadCommand)
     let result
+
     try {
-      result = await this.getSchema(flags.schemaId, flags.container)
+      result = await this.createSchemaWithPayload(flags.file)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -25,27 +26,28 @@ class GetSchemasCommand extends BaseCommand {
     return result
   }
 
-  async getSchema(schemaId, container) {
-    return this.getAdobeAep().getSchema(schemaId, container)
+  async createSchemaWithPayload(file) {
+    return this.getAdobeAep().createSchemaWithPayload(file)
   }
 }
 
-GetSchemasCommand.description = 'Retrieve the detail of one schema'
-GetSchemasCommand.hidden = false
-GetSchemasCommand.flags = {
+CreateSchemasFromPayloadCommand.description = 'Create a mapping set. '
+CreateSchemasFromPayloadCommand.hidden = false
+CreateSchemasFromPayloadCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
-  schemaId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
-  container: flags.string({
-    char: 'c',
-    description: 'The type of container. One of  global, tenant',
-    options: ['global', 'tenant'],
-    default: 'global',
-    required: false,
+  file: flags.string({
+    char: 'f',
+    description: 'The json file path with schema data'
   }),
 }
 
-GetSchemasCommand.aliases = [
-  'aep:schemas:get']
-module.exports = GetSchemasCommand
+CreateSchemasFromPayloadCommand.aliases = [
+  'aep:schemas:createpayload']
+
+CreateSchemasFromPayloadCommand.examples = [
+  '$ aio aep:schemas:createpayload -f=$filepath',
+
+]
+module.exports = CreateSchemasFromPayloadCommand

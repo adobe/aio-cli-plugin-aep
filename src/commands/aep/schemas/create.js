@@ -31,7 +31,7 @@ class CreateSchemasCommand extends BaseCommand {
   }
 }
 
-CreateSchemasCommand.description = 'Create a dataset. '
+CreateSchemasCommand.description = 'Create a schema. '
 CreateSchemasCommand.hidden = false
 CreateSchemasCommand.flags = {
   ...BaseCommand.flags,
@@ -47,7 +47,7 @@ CreateSchemasCommand.flags = {
     default: 'global',
     required: false,
   }),
-  unionschema: flags.boolean({char: 'u', description: 'Title of class.', required: false, default: false}),
+  unionschema: flags.boolean({char: 'u', description: 'Should union schema be activated.', required: false, default: false}),
 }
 
 CreateSchemasCommand.aliases = [

@@ -147,6 +147,22 @@ let AdobeAep = {
     return Client.deleteSchema(schemaId, container)
   },
 
+  createSchemaWithPayload : async function (file) {
+  return Client.createSchemaWithPayload(file)
+},
+
+  createDetaSetWithPayload : async function (file) {
+  return Client.createDetaSetWithPayload(file)
+},
+
+  patchDetaSetWithPayload: async function (file, datasetId) {
+    return Client.patchDetaSetWithPayload(file, datasetId)
+  },
+
+  createMappingSetWithPayload: async function (file) {
+    return Client.createMappingSetWithPayload(file)
+  },
+
   //stats
   listStats: async function (limit = null, start = null, orderBy = null) {
     return Client.listStats(limit, start, orderBy)

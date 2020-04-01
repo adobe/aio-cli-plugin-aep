@@ -12,12 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class GetSchemasCommand extends BaseCommand {
+class PathDatasetFromPayload extends BaseCommand {
   async run() {
-    const {flags} = this.parse(GetSchemasCommand)
+    const {flags} = this.parse(PathDatasetFromPayload)
     let result
+
     try {
-      result = await this.getSchema(flags.schemaId, flags.container)
+      result = await this.patchDetaSetWithPayload(flags.file, flags.datasetId)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -25,27 +26,29 @@ class GetSchemasCommand extends BaseCommand {
     return result
   }
 
-  async getSchema(schemaId, container) {
-    return this.getAdobeAep().getSchema(schemaId, container)
+  async patchDetaSetWithPayload(file, datasetId) {
+    return this.getAdobeAep().patchDetaSetWithPayload(file, datasetId)
   }
 }
 
-GetSchemasCommand.description = 'Retrieve the detail of one schema'
-GetSchemasCommand.hidden = false
-GetSchemasCommand.flags = {
+PathDatasetFromPayload.description = 'Create a mapping set. '
+PathDatasetFromPayload.hidden = false
+PathDatasetFromPayload.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
-  schemaId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
-  container: flags.string({
-    char: 'c',
-    description: 'The type of container. One of  global, tenant',
-    options: ['global', 'tenant'],
-    default: 'global',
-    required: false,
+  file: flags.string({
+    char: 'f',
+    description: 'The json file path with dataset patch data'
   }),
+  datasetId: flags.string({char: 'i', description: 'The ID of the dataset.', required: true}),
 }
 
-GetSchemasCommand.aliases = [
-  'aep:schemas:get']
-module.exports = GetSchemasCommand
+PathDatasetFromPayload.aliases = [
+  'aep:schemas:createpayload']
+
+PathDatasetFromPayload.examples = [
+  '$ aio aep:schemas:createpayload -f=$filepath',
+
+]
+module.exports = PathDatasetFromPayload
