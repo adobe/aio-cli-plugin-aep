@@ -1,7 +1,7 @@
 {
   "name": "@adobe/aio-cli-plugin-aep",
   "description": "A plugin for CRUD operations on aep resources",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Adobe Inc.",
   "bugs": "https://github.com/adobe/aio-cli-plugin-aep/issues",
   "publishConfig": {
