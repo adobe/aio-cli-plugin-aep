@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class CreateDatasetsFromPayloadCommand extends BaseCommand {
+class CreateMappingSetsFromPayloadCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(CreateDatasetsFromPayloadCommand)
+    const {flags} = this.parse(CreateMappingSetsFromPayloadCommand)
     let result
 
     try {
-      result = await this.createDetaSetWithPayload(flags.file)
+      result = await this.createMappingSetWithPayload(flags.file)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,28 +26,28 @@ class CreateDatasetsFromPayloadCommand extends BaseCommand {
     return result
   }
 
-  async createDetaSetWithPayload(file) {
-    return this.getAdobeAep().createDetaSetWithPayload(file)
+  async createMappingSetWithPayload(file) {
+    return this.getAdobeAep().createMappingSetWithPayload(file)
   }
 }
 
-CreateDatasetsFromPayloadCommand.description = 'Create a dataset from a file. '
-CreateDatasetsFromPayloadCommand.hidden = false
-CreateDatasetsFromPayloadCommand.flags = {
+CreateMappingSetsFromPayloadCommand.description = 'Create a mapping set. '
+CreateMappingSetsFromPayloadCommand.hidden = false
+CreateMappingSetsFromPayloadCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   file: flags.string({
     char: 'f',
-    description: 'The json file path with schema data'
+    description: 'The json file path with mappingset data'
   }),
 }
 
-CreateDatasetsFromPayloadCommand.aliases = [
-  'aep:datasets:createpayload']
+CreateMappingSetsFromPayloadCommand.aliases = [
+  'aep:schemas:create-with-payload']
 
-CreateDatasetsFromPayloadCommand.examples = [
-  '$ aio aep:datasets:createpayload -f=$filepath',
+CreateMappingSetsFromPayloadCommand.examples = [
+  '$ aio aep:schemas:create-with-payload -f=$filepath',
 
 ]
-module.exports = CreateDatasetsFromPayloadCommand
+module.exports = CreateMappingSetsFromPayloadCommand

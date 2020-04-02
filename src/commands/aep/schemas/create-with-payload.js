@@ -44,10 +44,10 @@ CreateSchemasFromPayloadCommand.flags = {
 }
 
 CreateSchemasFromPayloadCommand.aliases = [
-  'aep:schemas:createpayload']
+  'aep:schemas:create-with-payload']
 
 CreateSchemasFromPayloadCommand.examples = [
-  '$ aio aep:schemas:createpayload -f=$filepath',
+  '$ aio aep:schemas:create-with-payload -f=$filepath',
 
 ]
 module.exports = CreateSchemasFromPayloadCommand
