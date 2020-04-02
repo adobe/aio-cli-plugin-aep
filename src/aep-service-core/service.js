@@ -157,11 +157,11 @@ let AdobeAep = {
 },
 
   createDetaSetWithPayload : async function (file) {
-  return Client.createDetaSetWithPayload(file)
+  return Client.createDataSetWithPayload(file)
 },
 
   patchDetaSetWithPayload: async function (file, datasetId) {
-    return Client.patchDetaSetWithPayload(file, datasetId)
+    return Client.patchDataSetWithPayload(file, datasetId)
   },
 
   createMappingSetWithPayload: async function (file) {

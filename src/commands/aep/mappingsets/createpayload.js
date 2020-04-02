@@ -39,7 +39,7 @@ CreateMappingSetsFromPayloadCommand.flags = {
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   file: flags.string({
     char: 'f',
-    description: 'The json file path with schema data'
+    description: 'The json file path with mappingset data'
   }),
 }
 

@@ -31,7 +31,7 @@ class CreateSchemasFromPayloadCommand extends BaseCommand {
   }
 }
 
-CreateSchemasFromPayloadCommand.description = 'Create a mapping set. '
+CreateSchemasFromPayloadCommand.description = 'Create a schema from file. '
 CreateSchemasFromPayloadCommand.hidden = false
 CreateSchemasFromPayloadCommand.flags = {
   ...BaseCommand.flags,
@@ -39,7 +39,7 @@ CreateSchemasFromPayloadCommand.flags = {
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   file: flags.string({
     char: 'f',
-    description: 'The json file path with schema data'
+    description: 'The json file path with schema payload'
   }),
 }
 

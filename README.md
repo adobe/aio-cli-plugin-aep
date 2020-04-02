@@ -89,7 +89,7 @@ Run the following commands now (no particular order)
 
 ## 4. **_Finally run this simple command to list datasets in your org to make sure the configuration is all correct_**
 
-   ```$ aep aep:ds:list```
+   ```$ aio aep:ds:list```
  
  Output would look something like...  
   

@@ -228,13 +228,18 @@ let Client = {
     return (result)
   },
 
-  createDetaSetWithPayload : async function (file) {
-    const result = await this._createDetaSetWithPayload(file)
+  createDataSetWithPayload : async function (file) {
+    const result = await this._createDataSetWithPayload(file)
     return (result)
   },
 
-  patchDetaSetWithPayload  : async function (file, datasetId) {
-    const result = await this._patchDetaSetWithPayload(file, datasetId)
+  patchDataSetWithPayload  : async function (file, datasetId) {
+    const result = await this._patchDataSetWithPayload(file, datasetId)
+    return (result)
+  },
+
+  createMappingSetWithPayload : async function (file, datasetId) {
+    const result = await this._createMappingSetWithPayload(file, datasetId)
     return (result)
   },
 
@@ -971,7 +976,7 @@ let Client = {
 
 },
 
-  _createDetaSetWithPayload  : async function (file) {
+  _createDataSetWithPayload  : async function (file) {
   const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`)
   let rawdata = fs.readFileSync(file);
   let expressionPayload = JSON.parse(rawdata);
@@ -983,7 +988,19 @@ let Client = {
 
 },
 
-  _patchDetaSetWithPayload  : async function (file, datasetId) {
+  _createMappingSetWithPayload: async function (file, datasetId) {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${datasetId}`)
+    let rawdata = fs.readFileSync(file);
+    let expressionPayload = JSON.parse(rawdata);
+    const body = expressionPayload
+    return this.patch(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot fulfill request on resource mappingsets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
+
+  },
+
+  _patchDataSetWithPayload  : async function (file, datasetId) {
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}${datasetId}`)
     let rawdata = fs.readFileSync(file);
     let expressionPayload = JSON.parse(rawdata);

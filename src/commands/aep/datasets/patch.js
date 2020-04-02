@@ -31,7 +31,7 @@ class PathDatasetFromPayload extends BaseCommand {
   }
 }
 
-PathDatasetFromPayload.description = 'Create a mapping set. '
+PathDatasetFromPayload.description = 'Path a dataset from file. '
 PathDatasetFromPayload.hidden = false
 PathDatasetFromPayload.flags = {
   ...BaseCommand.flags,
@@ -45,10 +45,10 @@ PathDatasetFromPayload.flags = {
 }
 
 PathDatasetFromPayload.aliases = [
-  'aep:schemas:createpayload']
+  'aep:datasets:patch']
 
 PathDatasetFromPayload.examples = [
-  '$ aio aep:schemas:createpayload -f=$filepath',
+  '$ aio aep:datasets:patch -f=$filepath',
 
 ]
 module.exports = PathDatasetFromPayload

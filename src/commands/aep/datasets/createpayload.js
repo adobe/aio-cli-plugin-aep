@@ -31,7 +31,7 @@ class CreateDatasetsFromPayloadCommand extends BaseCommand {
   }
 }
 
-CreateDatasetsFromPayloadCommand.description = 'Create a mapping set. '
+CreateDatasetsFromPayloadCommand.description = 'Create a dataset from a file. '
 CreateDatasetsFromPayloadCommand.hidden = false
 CreateDatasetsFromPayloadCommand.flags = {
   ...BaseCommand.flags,
