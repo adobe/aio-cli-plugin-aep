@@ -31,7 +31,7 @@ class ListMappingsCommand extends BaseCommand {
   }
 }
 
-ListMappingsCommand.description = 'Retrieve the list of batches associated with this organization'
+ListMappingsCommand.description = 'Retrieve the list of mappings associated with this organization'
 ListMappingsCommand.hidden = false
 ListMappingsCommand.flags = {
   ...BaseCommand.flags,

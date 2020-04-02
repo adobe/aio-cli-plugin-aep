@@ -31,7 +31,7 @@ class ListClassesCommand extends BaseCommand {
   }
 }
 
-ListClassesCommand.description = 'Retrieve the list of datasources associated with this organization'
+ListClassesCommand.description = 'Retrieve the list of classes associated with this organization'
 ListClassesCommand.hidden = false
 ListClassesCommand.flags = {
   ...BaseCommand.flags,

@@ -31,13 +31,13 @@ class CompleteBulkBatchCommand extends BaseCommand {
   }
 }
 
-CompleteBulkBatchCommand.description = 'Create a batch. '
+CompleteBulkBatchCommand.description = 'Complete a bulk batch upload. '
 CompleteBulkBatchCommand.hidden = false
 CompleteBulkBatchCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
-  batchId: flags.string({char: 'b', description: 'The ID of the batch.', required: true}),
+  batchId: flags.string({char: 'i', description: 'The ID of the batch.', required: true}),
 }
 
 CompleteBulkBatchCommand.aliases = [
@@ -45,7 +45,7 @@ CompleteBulkBatchCommand.aliases = [
 ]
 
 CompleteBulkBatchCommand.examples = [
-  '$ aio aep:bulkingest:complete -b=abcd1234',
+  '$ aio aep:bulkingest:complete -i=abc',
 
 ]
 module.exports = CompleteBulkBatchCommand

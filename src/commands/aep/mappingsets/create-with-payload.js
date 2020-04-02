@@ -31,7 +31,7 @@ class CreateMappingSetsFromPayloadCommand extends BaseCommand {
   }
 }
 
-CreateMappingSetsFromPayloadCommand.description = 'Create a mapping set. '
+CreateMappingSetsFromPayloadCommand.description = 'Create a mapping set with a payload. '
 CreateMappingSetsFromPayloadCommand.hidden = false
 CreateMappingSetsFromPayloadCommand.flags = {
   ...BaseCommand.flags,

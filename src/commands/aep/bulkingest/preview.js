@@ -31,7 +31,7 @@ class PreviewBatchCommand extends BaseCommand {
   }
 }
 
-PreviewBatchCommand.description = 'Retrieve the list of batches associated with this organization'
+PreviewBatchCommand.description = 'Preview a batch'
 PreviewBatchCommand.hidden = false
 PreviewBatchCommand.flags = {
   ...BaseCommand.flags,

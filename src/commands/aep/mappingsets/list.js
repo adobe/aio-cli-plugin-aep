@@ -31,7 +31,7 @@ class ListMappingSetsCommand extends BaseCommand {
   }
 }
 
-ListMappingSetsCommand.description = 'Retrieve the list of batches associated with this organization'
+ListMappingSetsCommand.description = 'Retrieve the list of mappingsets associated with this organization'
 ListMappingSetsCommand.hidden = false
 ListMappingSetsCommand.flags = {
   ...BaseCommand.flags,

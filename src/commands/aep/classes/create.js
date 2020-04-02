@@ -31,7 +31,7 @@ class CreateClassesCommand extends BaseCommand {
   }
 }
 
-CreateClassesCommand.description = 'Create a dataset. '
+CreateClassesCommand.description = 'Create a class. '
 CreateClassesCommand.hidden = false
 CreateClassesCommand.flags = {
   ...BaseCommand.flags,

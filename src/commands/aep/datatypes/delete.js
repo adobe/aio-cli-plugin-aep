@@ -31,7 +31,7 @@ class DeleteDatatypesCommand extends BaseCommand {
   }
 }
 
-DeleteDatatypesCommand.description = 'Delete this datatypes.'
+DeleteDatatypesCommand.description = 'Delete this datatype.'
 DeleteDatatypesCommand.hidden = false
 DeleteDatatypesCommand.flags = {
   ...BaseCommand.flags,

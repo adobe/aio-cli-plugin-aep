@@ -31,7 +31,7 @@ class CreateBulkBatchCommand extends BaseCommand {
   }
 }
 
-CreateBulkBatchCommand.description = 'Create a batch. '
+CreateBulkBatchCommand.description = 'Create a bulk batch. '
 CreateBulkBatchCommand.hidden = false
 CreateBulkBatchCommand.flags = {
   ...BaseCommand.flags,

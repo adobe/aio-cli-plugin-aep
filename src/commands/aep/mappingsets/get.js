@@ -31,7 +31,7 @@ class GetMappingSetsCommand extends BaseCommand {
   }
 }
 
-GetMappingSetsCommand.description = 'Retrieve the detail of one datatypes'
+GetMappingSetsCommand.description = 'Retrieve the detail of one mappingset.'
 GetMappingSetsCommand.hidden = false
 GetMappingSetsCommand.flags = {
   ...BaseCommand.flags,

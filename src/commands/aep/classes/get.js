@@ -31,7 +31,7 @@ class GetClassesCommand extends BaseCommand {
   }
 }
 
-GetClassesCommand.description = 'Retrieve the detail of one dataset'
+GetClassesCommand.description = 'Retrieve the detail of a class'
 GetClassesCommand.hidden = false
 GetClassesCommand.flags = {
   ...BaseCommand.flags,

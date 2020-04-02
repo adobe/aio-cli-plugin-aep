@@ -30,7 +30,7 @@ class DeleteMixinsCommand extends BaseCommand {
   }
 }
 
-DeleteMixinsCommand.description = 'Delete this dataset.'
+DeleteMixinsCommand.description = 'Delete this mixin.'
 DeleteMixinsCommand.hidden = false
 DeleteMixinsCommand.flags = {
   mixinId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),

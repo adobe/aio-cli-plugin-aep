@@ -30,7 +30,7 @@ class DeleteClassesCommand extends BaseCommand {
   }
 }
 
-DeleteClassesCommand.description = 'Delete this dataset.'
+DeleteClassesCommand.description = 'Delete a class.'
 DeleteClassesCommand.hidden = false
 DeleteClassesCommand.flags = {
   ...BaseCommand.flags,

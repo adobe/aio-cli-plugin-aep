@@ -31,7 +31,7 @@ class GetDatatypesCommand extends BaseCommand {
   }
 }
 
-GetDatatypesCommand.description = 'Retrieve the detail of one datatypes'
+GetDatatypesCommand.description = 'Retrieve the detail of one datatype'
 GetDatatypesCommand.hidden = false
 GetDatatypesCommand.flags = {
   ...BaseCommand.flags,

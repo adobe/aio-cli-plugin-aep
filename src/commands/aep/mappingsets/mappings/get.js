@@ -31,7 +31,7 @@ class GetMappingCommand extends BaseCommand {
   }
 }
 
-GetMappingCommand.description = 'Retrieve the detail of one datatypes'
+GetMappingCommand.description = 'Retrieve a mapping'
 GetMappingCommand.hidden = false
 GetMappingCommand.flags = {
   ...BaseCommand.flags,

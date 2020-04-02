@@ -31,7 +31,7 @@ class GetBatchesCommand extends BaseCommand {
   }
 }
 
-GetBatchesCommand.description = 'Retrieve the detail of one dataset'
+GetBatchesCommand.description = 'Retrieve the detail of one batch'
 GetBatchesCommand.hidden = false
 GetBatchesCommand.flags = {
   ...BaseCommand.flags,
@@ -41,5 +41,5 @@ GetBatchesCommand.flags = {
 }
 
 GetBatchesCommand.aliases = [
-  'aep:batches:get']
+  'aep:batches:get -i=abc']
 module.exports = GetBatchesCommand

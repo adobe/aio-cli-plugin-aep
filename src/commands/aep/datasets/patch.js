@@ -31,7 +31,7 @@ class PathDatasetFromPayload extends BaseCommand {
   }
 }
 
-PathDatasetFromPayload.description = 'Path a dataset from file. '
+PathDatasetFromPayload.description = 'Patch a dataset from file. '
 PathDatasetFromPayload.hidden = false
 PathDatasetFromPayload.flags = {
   ...BaseCommand.flags,

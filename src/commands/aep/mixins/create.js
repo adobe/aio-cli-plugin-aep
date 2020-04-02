@@ -34,7 +34,7 @@ class CreateMixinsCommand extends BaseCommand {
   }
 }
 
-CreateMixinsCommand.description = 'Create a dataset. '
+CreateMixinsCommand.description = 'Create a mixin. '
 CreateMixinsCommand.hidden = false
 CreateMixinsCommand.flags = {
   ...BaseCommand.flags,

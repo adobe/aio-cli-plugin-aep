@@ -31,13 +31,13 @@ class GetMixinsCommand extends BaseCommand {
   }
 }
 
-GetMixinsCommand.description = 'Retrieve the detail of one dataset'
+GetMixinsCommand.description = 'Retrieve the detail of one mixin'
 GetMixinsCommand.hidden = false
 GetMixinsCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
-  mixinId: flags.string({char: 'i', description: 'The meta:altId of the class.', required: true}),
+  mixinId: flags.string({char: 'i', description: 'The meta:altId of the mixin.', required: true}),
   container: flags.string({
     char: 'c',
     description: 'The type of container. One of  global, tenant',

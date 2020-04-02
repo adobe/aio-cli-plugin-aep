@@ -31,7 +31,7 @@ class UpdateMappingInMappingSetCommand extends BaseCommand {
   }
 }
 
-UpdateMappingInMappingSetCommand.description = 'Create a mapping for a mappingset. '
+UpdateMappingInMappingSetCommand.description = 'Update mappings for a mappingset. '
 UpdateMappingInMappingSetCommand.hidden = false
 UpdateMappingInMappingSetCommand.flags = {
   ...BaseCommand.flags,

@@ -38,6 +38,6 @@ DeleteBatchesCommand.flags = {
 }
 
 DeleteBatchesCommand.aliases = [
-  'aep:batches:delete']
+  'aep:batches:delete i=abc']
 
 module.exports = DeleteBatchesCommand

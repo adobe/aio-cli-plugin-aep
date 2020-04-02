@@ -34,14 +34,15 @@ A plugin for CRUD operations on aep resources
       
 ##      **For PROD**
 
-1. Go to  https://console.adobe.io/integrations and create a production integration for test
+1. Go to https://console.adobe.io/integrations and create a production integration for test
 
-2. Follow  the instructions on https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md
-   
+2. Follow the instructions on https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md
+
    to get the necessary I/O config credentials
 
 3. Create a config.json file with the following content
-```javascript
+```javascript 1.8
+
 {
   "client_id": "your_client_id",
   "client_secret": "your_client_secret",
@@ -56,36 +57,61 @@ A plugin for CRUD operations on aep resources
 }
 
 ```
-Run the following commands now (no particular order)
+4. Run the following commands now (no particular order)
 
-4. ```$ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json```
+5. ``` $ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json ```
 
-5. ```$ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration}```
+6. ``` $ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration} ```
 
-6. ```$ aio config:set x-sandbox-id ${your_sanbox_id}```
+7. ``` $ aio config:set x-sandbox-id ${your_sanbox_id} ```
 
-7. ```$ aio config:set x-sandbox-name ${your_sanbox_name}```
+8. ``` $ aio config:set x-sandbox-name ${your_sanbox_name}```
 
-8. ```$ aio config:set env prod```
+9. ``` $ aio config:set env prod ```
 
-9. I have noticed sometimes access_token is not generated from aio-cli-config module and is a lazy load after the first command. So fire this please, to refresh the token
- 
-   ```$ aio console:list-integrations```
 
-##      **For STG/INT**
 
-1. Follow the same setup as PROD but with STG/INT URL's in the config.json file in step#3 of PROD integration
+Additionally set the 'access_token' value in config with the following command. Think of it as the same parameter we pass in the 'Authorization' header on postman/Curl. You can get the access_token value from STG/INT Adobe I/O portal https://console-stage.adobe.io/. Please follow the instructions as suggested in this article, to get the access_token https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md#generate-access-token
 
-2. **_Additionally_** after step #4 set the '**_access_token_**' value in config with the following command. You can get the access_token value from STG/INT Adobe I/O portal https://console-stage.adobe.io/.
-   Please follow the instructions as suggested in this article, to get the access_token https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md#generate-access-token 
+``` $ aio config:set jwt-auth.access_token ${your_access_token_generated_through_adobeI/O_integration} ```
 
-   ```$ aio config:set jwt-auth.access_token ${your_access_token_generated_through_adobeI/O_integration}```
- 
-3. No need to run any ```aio console``` commands like in PROD setting, since ```aio console``` plugin is tied to production URL's
+##      **For STG/INT** (This sample is for INT)
 
-4. Set enviornment to stg/int accordingly. For example: ```$ aio config:set env stg```
+1. Go to https://console-stage.adobe.io/integrations and create a production integration for test
 
-4. If you notice a **_401 _Unauthorized__** in any resource CRUD command, please regenarate your **_access_token_** as advised in step# 2 in the STG/INT sections.
+2. Follow the instructions on https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md
+
+   to get the necessary I/O config credentials
+
+3. Create a config.json file with the following content
+```javascript 1.8
+
+{
+  "client_id": "your_client_id",
+  "client_secret": "your_client_secret",
+  "jwt_payload": { 
+    "exp": your_expiration_time_value,
+    "iss": "your_org@AdobeOrg",
+    "sub": "your_tech_id@techacct.adobe.com",
+    "https://ims-na1-stg1.adobelogin.com/s/ent_dataservices_sdk": true,
+    "aud": "https://ims-na1-stg1.adobelogin.com/c/${your_client_id}"
+  },
+  "token_exchange_url": "https://ims-na1-stg1.adobelogin.com/ims/exchange/jwt/"
+}
+
+```
+4. Run the following commands now (no particular order)
+
+5. ``` $ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json ```
+
+6. ``` $ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration} ```
+
+7. ``` $ aio config:set x-sandbox-id ${your_sanbox_id} ```
+
+8. ``` $ aio config:set x-sandbox-name ${your_sanbox_name}```
+
+9. ``` $ aio config:set env int ```
+
 
 ## 4. **_Finally run this simple command to list datasets in your org to make sure the configuration is all correct_**
 
