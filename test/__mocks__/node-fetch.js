@@ -93,3 +93,10 @@ mockResponseWithMethod(url + '/conversion/mappingSets/', 'GET', mockResponseForA
 mockResponseWithMethod(url + '/conversion/mappingSets/abc', 'GET', mockResponseForApi)
 mockResponseWithMethod(url + '/conversion/mappingSets/abc', 'PUT', mockResponseForApi)
 
+
+fetchMock.post(url + '/conversion/mappingSets/abc/mappings/', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/mappingSets/abc/mappings/', 'POST', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/mappingSets/abc/mappings/abc', 'GET', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/mappingSets/abc/mappings/', 'GET', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/mappingSets/abc/mappings/abc', 'PUT', mockResponseForApi)
+

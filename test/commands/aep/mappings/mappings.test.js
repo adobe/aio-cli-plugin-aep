@@ -10,56 +10,55 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const CreateMappingSetsCommand = require('../../../../src/commands/aep/mappingsets/create')
-const GetMappingSetsCommand = require('../../../../src/commands/aep/mappingsets/get')
-const ListMappingSetsCommand = require('../../../../src/commands/aep/mappingsets/list')
-const UpdateMappingSetCommand = require('../../../../src/commands/aep/mappingsets/update')
+const CreateMappingsCommand = require('../../../../src/commands/aep/mappingsets/mappings/create')
+const GetMappingsCommand = require('../../../../src/commands/aep/mappingsets/mappings/get')
+const ListMappingsCommand = require('../../../../src/commands/aep/mappingsets/mappings/list')
+const UpdateMappingsCommand = require('../../../../src/commands/aep/mappingsets/mappings/update')
+
 
 const config = require('@adobe/aio-cli-config')
 var constants = require('../../../__mocks__/constants.js')
 var testFilePath = '../test.json'
-test('create-mapping-set - missing config', async () => {
+test('create-mapping - missing config', async () => {
   expect.assertions(2)
-  let runResult = CreateMappingSetsCommand.run(['-f=abc'])
+  let runResult = CreateMappingsCommand.run(['-i=abc', '-s=abc', '-d=abc', '-t=EXPRESSION'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))
 })
 
-test('create-mapping-set-with-and-without-filter-params-success', async () => {
+test('create-mapping-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
     return constants.mockConfig
   })
-  runResult = CreateMappingSetsCommand.run(['-f=test/commands/aep/test.json'])
+  runResult = CreateMappingsCommand.run(['-i=abc', '-s=abc', '-d=abc', '-t=EXPRESSION'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
-test('create-mapping-set-success', async () => {
+test('create-mapping-success', async () => {
   config.get.mockImplementation(() => {
     return constants.mockConfig
   })
   expect.assertions(1)
-  let runResult = CreateMappingSetsCommand.run(['-f=test/commands/aep/test.json'])
+  runResult = CreateMappingsCommand.run(['-i=abc', '-s=abc', '-d=abc', '-t=EXPRESSION'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
-test('list-and-get-mappingsets-with-and-without-filter-params-success', async () => {
+test('list-and-get-mappings-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
     return constants.mockConfig
   })
   expect.assertions(2)
-  let runResult = ListMappingSetsCommand.run([])
+  let runResult = ListMappingsCommand.run(['-i=abc'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
-  runResult = GetMappingSetsCommand.run(['-i=abc'])
+  runResult = GetMappingsCommand.run(['-i=abc', '-m=abc'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 
-test('update-mapping-set-with-and-without-filter-params-success', async () => {
+test('update-mappings-with-and-without-filter-params-success', async () => {
   config.get.mockImplementation(() => {
     return constants.mockConfig
   })
-  runResult = UpdateMappingSetCommand.run(['-f=test/commands/aep/test.json', '-i=abc'])
+  runResult = UpdateMappingsCommand.run(['-i=abc', '-s=abc', '-d=abc', '-t=EXPRESSION', '-m=abc'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
-
-
 

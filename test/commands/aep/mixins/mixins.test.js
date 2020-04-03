@@ -18,7 +18,7 @@ const config = require('@adobe/aio-cli-config')
 var constants = require('../../../__mocks__/constants.js')
 
 test('list-mixins - missing config', async () => {
-  expect.assertions(2)
+  expect.assertions()
   let runResult = ListMixinsCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('missing config data: org'))

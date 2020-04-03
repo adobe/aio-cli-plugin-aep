@@ -238,10 +238,6 @@ let Client = {
     return (result)
   },
 
-  createMappingSetWithPayload : async function (file, datasetId) {
-    const result = await this._createMappingSetWithPayload(file, datasetId)
-    return (result)
-  },
 
   //
   listStats: async function (limit = null, start = null, orderBy = null) {
@@ -988,17 +984,6 @@ let Client = {
 
 },
 
-  _createMappingSetWithPayload: async function (file, datasetId) {
-    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${datasetId}`)
-    let rawdata = fs.readFileSync(file);
-    let expressionPayload = JSON.parse(rawdata);
-    const body = expressionPayload
-    return this.patch(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
-      if (res.ok) return res.json()
-      else throw new Error(`Cannot fulfill request on resource mappingsets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
-    })
-
-  },
 
   _patchDataSetWithPayload  : async function (file, datasetId) {
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}${datasetId}`)

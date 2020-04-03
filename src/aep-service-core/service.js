@@ -164,9 +164,6 @@ let AdobeAep = {
     return Client.patchDataSetWithPayload(file, datasetId)
   },
 
-  createMappingSetWithPayload: async function (file) {
-    return Client.createMappingSetWithPayload(file)
-  },
 
   //stats
   listStats: async function (limit = null, start = null, orderBy = null) {

@@ -40,7 +40,7 @@ CreateMappingSetsFromPayloadCommand.flags = {
   file: flags.string({
     char: 'f',
     description: 'The json file path with mappingset data'
-  }),
+  })
 }
 
 CreateMappingSetsFromPayloadCommand.aliases = [
