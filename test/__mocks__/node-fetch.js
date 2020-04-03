@@ -100,3 +100,8 @@ mockResponseWithMethod(url + '/conversion/mappingSets/abc/mappings/abc', 'GET', 
 mockResponseWithMethod(url + '/conversion/mappingSets/abc/mappings/', 'GET', mockResponseForApi)
 mockResponseWithMethod(url + '/conversion/mappingSets/abc/mappings/abc', 'PUT', mockResponseForApi)
 
+mockResponseWithMethod(url + '/conversion/languages/el/validate', 'POST', mockResponseForApi)
+mockResponseWithMethod(url + '/conversion/languages/el/functions', 'GET', mockResponseForApi)
+
+
+
