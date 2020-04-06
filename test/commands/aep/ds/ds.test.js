@@ -14,6 +14,7 @@ const ListDatasetCommand = require('../../../../src/commands/aep/datasets/list')
 const GetDatasetCommand = require('../../../../src/commands/aep/datasets/get')
 const CreateDatasetCommand = require('../../../../src/commands/aep/datasets/create')
 const DeleteDatasetCommand = require('../../../../src/commands/aep/datasets/delete')
+const CreateDatasetWithCommand = require('../../../../src/commands/aep/datasets/create-with-payload')
 const config = require('@adobe/aio-cli-config')
 var constants = require('../../../__mocks__/constants.js')
 
@@ -41,6 +42,15 @@ test('create-ds-success', async () => {
   })
 
   let runResult = CreateDatasetCommand.run(['-n=TestPleaseIgnore', '-d=TestPleaseIgnore', '-x=_xdm.context.profile__union'])
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
+})
+
+test('create-ds-with-payload-success', async () => {
+  config.get.mockImplementation(() => {
+    return constants.mockConfig
+  })
+
+  let runResult = CreateDatasetWithCommand.run(['-f=test/commands/aep/test.json'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 

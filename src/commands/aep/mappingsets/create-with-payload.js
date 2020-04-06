@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class CreateMappingSetsFromPayloadCommand extends BaseCommand {
+class CreateMappingSetsCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(CreateMappingSetsFromPayloadCommand)
+    const {flags} = this.parse(CreateMappingSetsCommand)
     let result
 
     try {
-      result = await this.createMappingSetWithPayload(flags.file)
+      result = await this.createMappingSet(flags.file)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,28 +26,29 @@ class CreateMappingSetsFromPayloadCommand extends BaseCommand {
     return result
   }
 
-  async createMappingSetWithPayload(file) {
-    return this.getAdobeAep().createMappingSetWithPayload(file)
+  async createMappingSet(file) {
+    return this.getAdobeAep().createMappingSet(file)
   }
 }
 
-CreateMappingSetsFromPayloadCommand.description = 'Create a mapping set with a payload. '
-CreateMappingSetsFromPayloadCommand.hidden = false
-CreateMappingSetsFromPayloadCommand.flags = {
+CreateMappingSetsCommand.description = 'Create a mapping set. '
+CreateMappingSetsCommand.hidden = false
+CreateMappingSetsCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   file: flags.string({
     char: 'f',
-    description: 'The json file path with mappingset data'
-  })
+    description: 'The json file path with mapping set data'
+  }),
 }
 
-CreateMappingSetsFromPayloadCommand.aliases = [
-  'aep:schemas:create-with-payload']
+CreateMappingSetsCommand.aliases = [
+  'aep:mappingsets:create',
+  'aep:mappingsets:new']
 
-CreateMappingSetsFromPayloadCommand.examples = [
-  '$ aio aep:schemas:create-with-payload -f=$filepath',
+CreateMappingSetsCommand.examples = [
+  '$ aio aep:mappingsets:create -f=$filepath',
 
 ]
-module.exports = CreateMappingSetsFromPayloadCommand
+module.exports = CreateMappingSetsCommand

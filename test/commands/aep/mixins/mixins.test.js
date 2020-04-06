@@ -14,6 +14,7 @@ const ListMixinsCommand = require('../../../../src/commands/aep/mixins/list')
 const GetMixinsCommand = require('../../../../src/commands/aep/mixins/get')
 const CreateMixinsCommand = require('../../../../src/commands/aep/mixins/create')
 const DeleteMixinsCommand = require('../../../../src/commands/aep/mixins/delete')
+const CreateMixinWithPayload = require('../../../../src/commands/aep/mixins/create-with-payload')
 const config = require('@adobe/aio-cli-config')
 var constants = require('../../../__mocks__/constants.js')
 
@@ -40,6 +41,14 @@ test('create-mixin-success', async () => {
     return constants.mockConfig
   })
   let runResult = CreateMixinsCommand.run(['-c=tenant', '-i=https://ns.adobe.com/xdm/context/profile', '-p=location*string', '-o=abc', '-t=title', '-d=description'])
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
+})
+
+test('create-mixin-success-with-payload', async () => {
+  config.get.mockImplementation(() => {
+    return constants.mockConfig
+  })
+  let runResult = CreateMixinWithPayload.run(['-f=test/commands/aep/test.json', '-c=tenant'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 

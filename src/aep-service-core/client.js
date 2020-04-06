@@ -202,6 +202,10 @@ let Client = {
     return (result)
   },
 
+  createMixinWithPayload: async function (container, file) {
+    const result = await this._createMixinWithPayload(container, file)
+    return (result)
+  },
   //schemas signature
 
   createSchema: async function (mixin, title, description, baseClass, container) {
@@ -223,21 +227,20 @@ let Client = {
     return (result)
   },
 
-  createSchemaWithPayload: async function (file) {
-    const result = await this._createSchemaWithPayload(file)
+  createSchemaWithPayload: async function (container, file) {
+    const result = await this._createSchemaWithPayload(container, file)
     return (result)
   },
 
-  createDataSetWithPayload : async function (file) {
+  createDataSetWithPayload: async function (file) {
     const result = await this._createDataSetWithPayload(file)
     return (result)
   },
 
-  patchDataSetWithPayload  : async function (file, datasetId) {
+  patchDataSetWithPayload: async function (file, datasetId) {
     const result = await this._patchDataSetWithPayload(file, datasetId)
     return (result)
   },
-
 
   //
   listStats: async function (limit = null, start = null, orderBy = null) {
@@ -262,7 +265,7 @@ let Client = {
     return (result)
   },
 
-  createMappingSet :async function (file) {
+  createMappingSet: async function (file) {
     const result = await this._createMappingSet(file)
     return (result)
   },
@@ -277,32 +280,32 @@ let Client = {
     return (result)
   },
 
-  listMappings :  async function (limit = null, start = null, orderBy = null, mappingsetId) {
+  listMappings: async function (limit = null, start = null, orderBy = null, mappingsetId) {
     const result = await this._listMappings(limit, start, orderBy, mappingsetId)
     return (result)
   },
 
-  getMapping : async function(mappingsetId, mappingId) {
+  getMapping: async function (mappingsetId, mappingId) {
     const result = await this._getMapping(mappingsetId, mappingId)
     return (result)
   },
 
-  updateMapping: async function(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType) {
+  updateMapping: async function (mappingsetId, mappingId, sourceSchema, targetSchema, sourceType) {
     const result = await this._updateMapping(mappingsetId, mappingId, sourceSchema, targetSchema, sourceType)
     return (result)
   },
 
-  updateMappingSet:async function (mappingsetId, file) {
-  const result = await this._updateMappingSet(mappingsetId, file)
-  return (result)
-},
+  updateMappingSet: async function (mappingsetId, file) {
+    const result = await this._updateMappingSet(mappingsetId, file)
+    return (result)
+  },
 
   validateExpression: async function (file) {
     const result = await this._validateExpression(file)
     return (result)
   },
 
-  listFunctions: async function() {
+  listFunctions: async function () {
     const result = await this._listFunctions()
     return (result)
   },
@@ -611,7 +614,7 @@ let Client = {
     }
     return this.post(`${baseUrl.toString()}`, endPoints.datatypes.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
       if (res.ok) return res.json()
-      else throw new Error(`Cannot create datatype: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+      else throw new Error(`Cannot create mixin: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
   },
 
@@ -836,10 +839,9 @@ let Client = {
     })
   },
 
-
   _createMappingSet: async function (file) {
-    let rawdata = fs.readFileSync(file);
-    let mappingSetPayload = JSON.parse(rawdata);
+    let rawdata = fs.readFileSync(file)
+    let mappingSetPayload = JSON.parse(rawdata)
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}`)
     const body = mappingSetPayload
     return this.post(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
@@ -865,7 +867,7 @@ let Client = {
     const body = {
       sourceType: sourceType,
       source: sourceSchema,
-      destination: targetSchema
+      destination: targetSchema,
     }
     return this.post(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
       if (res.ok) return res.json()
@@ -910,7 +912,7 @@ let Client = {
     const body = {
       sourceType: sourceType,
       source: sourceSchema,
-      destination: targetSchema
+      destination: targetSchema,
     }
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}${endPoints.mappingSets.mappingsPath}${mappingId}`)
 
@@ -923,24 +925,24 @@ let Client = {
     })
   },
 
-  _updateMappingSet : async function (mappingsetId, file) {
-  let rawdata = fs.readFileSync(file);
-  let mappingSetPayload = JSON.parse(rawdata);
-  const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}`)
-  const body = mappingSetPayload
-  return this.put(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
-    if (res.ok) {
-      return res.json()
-    } else {
-      throw new Error(`Cannot fulfill request on resource mappingsets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
-    }
-  })
-},
+  _updateMappingSet: async function (mappingsetId, file) {
+    let rawdata = fs.readFileSync(file)
+    let mappingSetPayload = JSON.parse(rawdata)
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.resourceType}${mappingsetId}`)
+    const body = mappingSetPayload
+    return this.put(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else {
+        throw new Error(`Cannot fulfill request on resource mappingsets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+      }
+    })
+  },
 
   _validateExpression: async function (file) {
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.functionsRootPath}${endPoints.mappingSets.functionsValidate}`)
-    let rawdata = fs.readFileSync(file);
-    let expressionPayload = JSON.parse(rawdata);
+    let rawdata = fs.readFileSync(file)
+    let expressionPayload = JSON.parse(rawdata)
     const body = expressionPayload
     return this.post(`${baseUrl.toString()}`, endPoints.mappingSets.contentType, body, 'application/json').then((res) => {
       if (res.ok) return res.json()
@@ -949,7 +951,7 @@ let Client = {
 
   },
 
-  _listFunctions: async function() {
+  _listFunctions: async function () {
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.mappingSets.resourcePath}${endPoints.mappingSets.functionsRootPath}${endPoints.mappingSets.functionsGetPath}`)
     return this.get(`${baseUrl.toString()}`, null, endPoints.mappingSets.contentType).then((res) => {
       if (res.ok) {
@@ -959,36 +961,34 @@ let Client = {
       }
     })
   },
-  _createSchemaWithPayload : async function (file) {
-    const container = 'tenant'
-   const baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}`)
-  let rawdata = fs.readFileSync(file);
-  let expressionPayload = JSON.parse(rawdata);
-  const body = expressionPayload
+  _createSchemaWithPayload: async function (container, file) {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.schemas.resourcePath}${container}${endPoints.schemas.resourceType}`)
+    let rawdata = fs.readFileSync(file)
+    let expressionPayload = JSON.parse(rawdata)
+    const body = expressionPayload
     return this.post(`${baseUrl.toString()}`, endPoints.schemas.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
-    if (res.ok) return res.json()
-    else throw new Error(`Cannot fulfill request on resource schema: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
-  })
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot fulfill request on resource schema: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
 
-},
+  },
 
-  _createDataSetWithPayload  : async function (file) {
-  const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`)
-  let rawdata = fs.readFileSync(file);
-  let expressionPayload = JSON.parse(rawdata);
-  const body = expressionPayload
+  _createDataSetWithPayload: async function (file) {
+    const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}`)
+    let rawdata = fs.readFileSync(file)
+    let expressionPayload = JSON.parse(rawdata)
+    const body = expressionPayload
     return this.post(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
-    if (res.ok) return res.json()
-    else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
-  })
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot fulfill request on resource datasets: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
 
-},
+  },
 
-
-  _patchDataSetWithPayload  : async function (file, datasetId) {
+  _patchDataSetWithPayload: async function (file, datasetId) {
     const baseUrl = new URL(`${catalogBaseUrl}${endPoints.datasets.resourcePath}${datasetId}`)
-    let rawdata = fs.readFileSync(file);
-    let expressionPayload = JSON.parse(rawdata);
+    let rawdata = fs.readFileSync(file)
+    let expressionPayload = JSON.parse(rawdata)
     const body = expressionPayload
     return this.patch(`${baseUrl.toString()}`, endPoints.datasets.contentType, body).then((res) => {
       if (res.ok) return res.json()
@@ -1006,6 +1006,16 @@ let Client = {
     })
   },
 
+  _createMixinWithPayload: async function (container, file) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.mixins.resourcePath}${container}${endPoints.mixins.resourceType}`)
+    let rawdata = fs.readFileSync(file)
+    let expressionPayload = JSON.parse(rawdata)
+    const body = expressionPayload
+    return this.post(`${baseUrl.toString()}`, endPoints.schemas.contentType, body, 'application/vnd.adobe.xed-full+json').then((res) => {
+      if (res.ok) return res.json()
+      else throw new Error(`Cannot create mixin: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+    })
+  },
 
 }
 

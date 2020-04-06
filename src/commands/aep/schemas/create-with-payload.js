@@ -18,7 +18,7 @@ class CreateSchemasFromPayloadCommand extends BaseCommand {
     let result
 
     try {
-      result = await this.createSchemaWithPayload(flags.file)
+      result = await this.createSchemaWithPayload(flags.container, flags.file)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,8 +26,8 @@ class CreateSchemasFromPayloadCommand extends BaseCommand {
     return result
   }
 
-  async createSchemaWithPayload(file) {
-    return this.getAdobeAep().createSchemaWithPayload(file)
+  async createSchemaWithPayload(container, file) {
+    return this.getAdobeAep().createSchemaWithPayload(container, file)
   }
 }
 
@@ -41,13 +41,20 @@ CreateSchemasFromPayloadCommand.flags = {
     char: 'f',
     description: 'The json file path with schema payload'
   }),
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
+  }),
 }
 
 CreateSchemasFromPayloadCommand.aliases = [
-  'aep:schemas:create-with-payload']
+  'aep:schemas:create-with-payload.js']
 
 CreateSchemasFromPayloadCommand.examples = [
-  '$ aio aep:schemas:create-with-payload -f=$filepath',
+  '$ aio aep:schemas:create-with-payload.js -f=$filepath',
 
 ]
 module.exports = CreateSchemasFromPayloadCommand

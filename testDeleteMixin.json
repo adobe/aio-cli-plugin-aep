@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "title": "mixin aep cli test -1",
+  "meta:intendedToExtend": ["https://ns.adobe.com/xdm/context/profile"],
+  "description": "mixin aep cli test -1.",
+  "definitions": {
+  "loyalty": {
+    "properties": {
+      "_platointegrationtest": {
+        "type":"object",
+          "properties": {
+          "loyaltyId": {
+            "title": "Loyalty Identifier",
+              "type": "string",
+              "description": "Loyalty Identifier."
+          }
+        }
+      }
+    }
+  }
+},
+  "allOf": [
+  {
+    "$ref": "#/definitions/loyalty"
+  }
+]
+}

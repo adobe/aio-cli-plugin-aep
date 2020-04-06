@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const CreateMappingSetsCommand = require('../../../../src/commands/aep/mappingsets/create')
+const CreateMappingSetsCommand = require('../../../../src/commands/aep/mappingsets/create-with-payload')
 const GetMappingSetsCommand = require('../../../../src/commands/aep/mappingsets/get')
 const ListMappingSetsCommand = require('../../../../src/commands/aep/mappingsets/list')
 const UpdateMappingSetCommand = require('../../../../src/commands/aep/mappingsets/update')
@@ -30,6 +30,15 @@ test('create-mapping-set-with-and-without-filter-params-success', async () => {
     return constants.mockConfig
   })
   runResult = CreateMappingSetsCommand.run(['-f=test/commands/aep/test.json'])
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
+})
+
+test('create-mapping-set-success', async () => {
+  config.get.mockImplementation(() => {
+    return constants.mockConfig
+  })
+  expect.assertions(1)
+  let runResult = CreateMappingSetsCommand.run(['-f=test/commands/aep/test.json'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 

@@ -44,10 +44,10 @@ CreateDatasetsFromPayloadCommand.flags = {
 }
 
 CreateDatasetsFromPayloadCommand.aliases = [
-  'aep:datasets:create-with-payload']
+  'aep:datasets:create-with-payload.js']
 
 CreateDatasetsFromPayloadCommand.examples = [
-  '$ aio aep:datasets:create-with-payload -f=$filepath',
+  '$ aio aep:datasets:create-with-payload.js -f=$filepath',
 
 ]
 module.exports = CreateDatasetsFromPayloadCommand

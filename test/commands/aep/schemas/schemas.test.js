@@ -15,6 +15,7 @@ const ListSchemasCommand = require('../../../../src/commands/aep/schemas/list')
 const GetSchemasCommand = require('../../../../src/commands/aep/schemas/get')
 const CreateSchemasCommand = require('../../../../src/commands/aep/schemas/create')
 const DeleteSchemasCommand = require('../../../../src/commands/aep/schemas/delete')
+const CreateSchemaWithPayload = require('../../../../src/commands/aep/schemas/create-with-payload')
 const config = require('@adobe/aio-cli-config')
 var constants = require('../../../__mocks__/constants.js')
 
@@ -41,6 +42,14 @@ test('create-schema-success', async () => {
     return constants.mockConfig
   })
   let runResult = CreateSchemasCommand.run(['-c=tenant', '-b=https://ns.adobe.com/xdm/context/experienceevent', '-u', '-t=title', '-d=description'])
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
+})
+
+test('create-schema-success-with-payload', async () => {
+  config.get.mockImplementation(() => {
+    return constants.mockConfig
+  })
+  let runResult = CreateSchemaWithPayload.run(['-f=test/commands/aep/test.json', '-c=tenant'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })
 

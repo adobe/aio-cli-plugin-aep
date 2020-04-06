@@ -152,8 +152,8 @@ let AdobeAep = {
     return Client.deleteSchema(schemaId, container)
   },
 
-  createSchemaWithPayload : async function (file) {
-  return Client.createSchemaWithPayload(file)
+  createSchemaWithPayload : async function (container, file) {
+  return Client.createSchemaWithPayload(container, file)
 },
 
   createDetaSetWithPayload : async function (file) {
@@ -164,7 +164,9 @@ let AdobeAep = {
     return Client.patchDataSetWithPayload(file, datasetId)
   },
 
-
+  createMixinWithPayload: async function(container, file) {
+    return Client.createMixinWithPayload(container, file)
+  },
   //stats
   listStats: async function (limit = null, start = null, orderBy = null) {
     return Client.listStats(limit, start, orderBy)

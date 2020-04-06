@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class CreateMappingSetsCommand extends BaseCommand {
+class CreateMixinsWithPayloadCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(CreateMappingSetsCommand)
+    const {flags} = this.parse(CreateMixinsWithPayloadCommand)
     let result
 
     try {
-      result = await this.createMappingSet(flags.file)
+      result = await this.createMixinWithPayload(flags.container, flags.file)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,29 +26,35 @@ class CreateMappingSetsCommand extends BaseCommand {
     return result
   }
 
-  async createMappingSet(file) {
-    return this.getAdobeAep().createMappingSet(file)
+  async createMixinWithPayload(container, file) {
+    return this.getAdobeAep().createMixinWithPayload(container, file)
   }
 }
 
-CreateMappingSetsCommand.description = 'Create a mapping set. '
-CreateMappingSetsCommand.hidden = false
-CreateMappingSetsCommand.flags = {
+CreateMixinsWithPayloadCommand.description = 'Create a mixin with a payload. '
+CreateMixinsWithPayloadCommand.hidden = false
+CreateMixinsWithPayloadCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
   file: flags.string({
     char: 'f',
-    description: 'The json file path with mapping set data'
+    description: 'The json file path with mixins data'
+  }),
+  container: flags.string({
+    char: 'c',
+    description: 'The type of container. One of  global, tenant',
+    options: ['global', 'tenant'],
+    default: 'global',
+    required: false,
   }),
 }
 
-CreateMappingSetsCommand.aliases = [
-  'aep:mappingsets:create',
-  'aep:mappingsets:new']
+CreateMixinsWithPayloadCommand.aliases = [
+  'aep:aio:mixins:create-with-payload.js']
 
-CreateMappingSetsCommand.examples = [
-  '$ aio aep:mappingsets:create -f=$filepath',
+CreateMixinsWithPayloadCommand.examples = [
+  '$ aep:aio:mixins:create-with-payload.js -f=$filepath',
 
 ]
-module.exports = CreateMappingSetsCommand
+module.exports = CreateMixinsWithPayloadCommand
