@@ -641,7 +641,7 @@ let Client = {
     return this.get(`${baseUrl.toString()}`, endPoints.mixins.contentType, 'application/vnd.adobe.xed-full-notext+json; version=1').then((res) => {
       if (res.ok) {
         return res.json()
-      } else throw new Error(`Cannot fulfill request on resource datatype: ${res.url} (${res.status} ${res.statusText} ${res.toString()}`)
+      } else throw new Error(`Cannot fulfill request on resource mixins: ${res.url} (${res.status} ${res.statusText} ${res.toString()}`)
     })
   },
 
@@ -815,7 +815,7 @@ let Client = {
       if (res.ok) {
         console.log('The batch with id ' + batchId + ' is marked complete')
         return res
-      } else throw new Error(`Cannot register batch for bulk upload: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
+      } else throw new Error(`Cannot complete batch for bulk upload: ${res.url} ${JSON.stringify(body)} (${res.status} ${res.statusText})`)
     })
   },
 
@@ -957,7 +957,7 @@ let Client = {
       if (res.ok) {
         return res.json()
       } else {
-        throw new Error(`Cannot fulfill request on resource mappings: ${res.url} (${res.status} ${res.statusText}})`)
+        throw new Error(`Cannot fulfill request on resource functions: ${res.url} (${res.status} ${res.statusText}})`)
       }
     })
   },
