@@ -12,7 +12,8 @@ const {Command, flags} = require('@oclif/command')
 const AdobeAep = require('../../aep-service-core/service')
 const hjson = require('hjson')
 const yaml = require('js-yaml')
-
+const fs = require('fs-extra')
+const path = require('path')
 class BaseCommand extends Command {
   getAdobeAep() {
     AdobeAep.init()

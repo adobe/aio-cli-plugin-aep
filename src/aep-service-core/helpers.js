@@ -54,7 +54,7 @@ function getTenantName() {
 }
 
 function getSandboxId() {
-  const sandboxId = config.get('x-sandbox-id')
+  const sandboxId = config.get('jwt-auth.x-sandbox-id')
   if (!sandboxId) {
     throw new Error('missing x-sandbox-id')
   }
@@ -62,7 +62,7 @@ function getSandboxId() {
 }
 
 function getSandboxName() {
-  const sandboxName = config.get('x-sandbox-name')
+  const sandboxName = config.get('jwt-auth.x-sandbox-name')
   if (!sandboxName) {
     throw new Error('missing x-sandbox-name')
   }
@@ -70,10 +70,10 @@ function getSandboxName() {
 }
 
 function getEnv() {
-  if(config === undefined || config === null || config.get('env') === undefined || config.get('env') === null) {
+  if(config === undefined || config === null || config.get('jwt-auth.env') === undefined || config.get('jwt-auth.env') === null) {
     return 'https://platform-int.adobe.io/data/foundation'
   }
-  var env = config.get('env')//.toUpperCase()
+  var env = config.get('jwt-auth.env')//.toUpperCase()
   if (env === 'INT' || env === 'INTEGRATION' || env === 'int') {
     return 'https://platform-int.adobe.io/data/foundation'
   }
