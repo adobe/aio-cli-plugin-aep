@@ -27,7 +27,7 @@ A plugin for CRUD operations on aep resources
 
 3. Link aep with aio ```$ aio plugins:install @adobe/aio-cli-plugin-aep```
 
-4. When you run ```$ aio aep -h``` now you should be able to see aep in the list of available plugins
+4. When you run ```$ aio aep -h``` now you should be able to see aep as an available plugin with its available sub-commands.
 
 ![Image of successfull installation](Successfull_Installation.png)
 
