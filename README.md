@@ -27,8 +27,11 @@ A plugin for CRUD operations on aep resources
 
 3. Link aep with aio ```$ aio plugins:install @adobe/aio-cli-plugin-aep```
 
-4. When you run ```$ aio -h``` now you should be able to see aep in the list of available plugins
+4. When you run ```$ aio aep -h``` now you should be able to see aep in the list of available plugins
 
+![Image of successfull installation]
+
+(https://github.com/adobe/aio-cli-plugin-aep/blob/master/Successfull_Installation.png)
 
 ## 3. **_Set up adobe I/O (PROD/STG/INT) integration_**
       
@@ -40,40 +43,33 @@ A plugin for CRUD operations on aep resources
 
    to get the necessary I/O config credentials
 
-3. Create a config.json file with the following content
+3. Create a ```config.json``` file with the following content and replacing the placeholders with actual values. The ```jwt_payload``` element in the following json, you can directly copy from your Adobe I/O integrations page mentioned in step 1.
 ```javascript 1.8
 
 {
-  "client_id": "your_client_id",
-  "client_secret": "your_client_secret",
-  "jwt_payload": { 
-    "exp": your_expiration_time_value,
-    "iss": "your_org@AdobeOrg",
-    "sub": "your_tech_id@techacct.adobe.com",
+  "client_id": "${your_client_id}",
+  "client_secret": "${your_client_secret}",
+  "jwt_payload": {
+    "exp": ${your_expiration_time},
+    "iss": "${your_org@AdobeOrg}",
+    "sub": "${your_tech_id@techacct.adobe.com}",
     "https://ims-na1.adobelogin.com/s/ent_dataservices_sdk": true,
     "aud": "https://ims-na1.adobelogin.com/c/${your_client_id}"
   },
-  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/"
+  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/",
+  "x-sandbox-id": "${your_sandbox_id}",
+  "x-sandbox-name": "${your_sandbox_name}",
+  "env": "prod"
 }
 
 ```
-4. Run the following commands now (no particular order)
+Run the following commands now (in the particular order)
 
 5. ``` $ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json ```
 
-6. ``` $ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration} ```
-
-7. ``` $ aio config:set x-sandbox-id ${your_sanbox_id} ```
-
-8. ``` $ aio config:set x-sandbox-name ${your_sanbox_name}```
-
-9. ``` $ aio config:set env prod ```
+6. ``` $ aio jwt-auth:access-token ```
 
 
-
-Additionally set the 'access_token' value in config with the following command. Think of it as the same parameter we pass in the 'Authorization' header on postman/Curl. You can get the access_token value from STG/INT Adobe I/O portal https://console-stage.adobe.io/. Please follow the instructions as suggested in this article, to get the access_token https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md#generate-access-token
-
-``` $ aio config:set jwt-auth.access_token ${your_access_token_generated_through_adobeI/O_integration} ```
 
 ##      **For STG/INT** (This sample is for INT)
 
@@ -83,39 +79,37 @@ Additionally set the 'access_token' value in config with the following command. 
 
    to get the necessary I/O config credentials
 
-3. Create a config.json file with the following content
+3. Create a ```config.json``` file with the following content and replacing the placeholders with actual values. The ```jwt_payload``` element in the following json, you can directly copy from your Adobe I/O integrations page mentioned in step 1.
 ```javascript 1.8
 
 {
-  "client_id": "your_client_id",
-  "client_secret": "your_client_secret",
-  "jwt_payload": { 
-    "exp": your_expiration_time_value,
-    "iss": "your_org@AdobeOrg",
-    "sub": "your_tech_id@techacct.adobe.com",
+  "client_id": "${your_client_id}",
+  "client_secret": "${your_client_secret}",
+  "jwt_payload": {
+    "exp": ${your_expiration_time},
+    "iss": "${your_org@AdobeOrg}",
+    "sub": "${your_tech_id@techacct.adobe.com}",
     "https://ims-na1-stg1.adobelogin.com/s/ent_dataservices_sdk": true,
     "aud": "https://ims-na1-stg1.adobelogin.com/c/${your_client_id}"
   },
-  "token_exchange_url": "https://ims-na1-stg1.adobelogin.com/ims/exchange/jwt/"
+  "token_exchange_url": "https://ims-na1-stg1.adobelogin.com/ims/exchange/jwt/",
+  "x-sandbox-id": "${your_sandbox_id}",
+  "x-sandbox-name": "${your_sandbox_name}",
+  "env": "int"
 }
 
 ```
-4. Run the following commands now (no particular order)
+Run the following commands now (in the particular order)
 
 5. ``` $ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json ```
 
-6. ``` $ aio config:set jwt-auth.jwt_private_key ${path_to_the_private_key_file_used_in_integration} ```
+6. ``` $ aio jwt-auth:access-token ```
 
-7. ``` $ aio config:set x-sandbox-id ${your_sanbox_id} ```
-
-8. ``` $ aio config:set x-sandbox-name ${your_sanbox_name}```
-
-9. ``` $ aio config:set env int ```
 
 
 ## 4. **_Finally run this simple command to list datasets in your org to make sure the configuration is all correct_**
 
-   ```$ aio aep:ds:list```
+   ```$ aio aep:datasets:list```
  
  Output would look something like...  
   
@@ -165,8 +159,29 @@ Additionally set the 'access_token' value in config with the following command. 
 
 ...
 ```
+You can choose not to read the following additional information.
+
+## **Additional read**
+
+The last command would generate a new ```access_token``` value and place it in appropriate folder for every command to read. 
+Think of it as the same parameter we pass in the ```Authorization``` header on postman/Curl. 
+
+You can also get the ```access_token``` manually and use the following command to set it. No need to do this if you have done step 2.
+
+Please follow the instructions as suggested in this article, to get the access_token https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md#generate-access-token
+
+``` $ aio config:set jwt-auth.access_token ${your_access_token_generated_through_adobeI/O_integration} ```
+
+
+Additionally if you want to have multiple integrations and want the ability to quickly switch between them, create multiple ```config.json``` files and place each one of them in a corresponding folder
+in your root directory with aprropriate name.
+For example, if you want to create an integration with name 'abc'. Please place the corresponding ```config.json``` file in ```/Users/${your_user_name}/abc```. And then run the command
+
+```$ aio aep:switch-config:set -n=abc```
+
 
 ## 5. (Developers) **_To run unit tests from the root folder of the project run the commands in following order_**
+
 ```$ npm install```
 
 ```$ jest```
