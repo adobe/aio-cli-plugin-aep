@@ -27,7 +27,7 @@ class BaseCommand extends Command {
       console.log(this.config)
     } else {
       console.log('Plugin = ' + '@adobe/aio-cli-plugin-aep')
-      console.log('Version = ' + '1.0.3')
+      console.log('Version = ' + '1.0.4')
       console.log('Contributors = ' + 'bgaurav@adobe.com')
     }
   }
