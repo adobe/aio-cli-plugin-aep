@@ -29,9 +29,7 @@ A plugin for CRUD operations on aep resources
 
 4. When you run ```$ aio aep -h``` now you should be able to see aep in the list of available plugins
 
-![Image of successfull installation]
-
-(https://github.com/adobe/aio-cli-plugin-aep/blob/master/Successfull_Installation.png)
+![Image of successfull installation](Successfull_Installation.png)
 
 ## 3. **_Set up adobe I/O (PROD/STG/INT) integration_**
       
