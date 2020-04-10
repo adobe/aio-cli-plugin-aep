@@ -1,16 +1,24 @@
-FROM node:10-alpine
+FROM node:12
 
-# Create app directory
-WORKDIR /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+#WORKDIR /usr/src/app
+#
+#COPY package*.json ./
+#
+#
+#RUN npm install
+#
+#COPY . .
 
-RUN npm install
-# If you are building your code for production
-# RUN npm install --only=production
+RUN npm install -g @adobe/aio-cli
 
-# Bundle app source
-COPY src /app
+RUN npm install -g @adobe/aio-cli-plugin-aep
+
+RUN aio plugins:install @adobe/aio-cli-plugin-aep
+
+CMD [ "aio", "aep", "--help" ]
+
+#docker build -t bgaurav/aio-cli-plugin-aep
+#docker run -it --entrypoint /bin/bash bgaurav/aio-cli-plugin-aep -s
+
+
