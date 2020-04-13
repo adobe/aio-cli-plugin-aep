@@ -8,9 +8,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@adobe/aio-cli":"^3.2.0",
-    "@adobe/aio-cli-plugin-console":"^2.0.4",
-    "@adobe/aio-cli-plugin-config":"^2.2.1",
     "@adobe/aio-app-scripts": "^0.6.0",
     "@adobe/aio-cli-config": "^1.0.7",
     "@adobe/aio-cli-plugin-jwt-auth": "^2.0.3",

@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  aio-cli-plugin-aep:
+    image: aep-cli
+    build:
+      context: .
+      dockerfile: Dockerfile

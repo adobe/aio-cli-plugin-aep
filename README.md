@@ -55,6 +55,7 @@ A plugin for CRUD operations on aep resources
     "aud": "https://ims-na1.adobelogin.com/c/${your_client_id}"
   },
   "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/",
+  "jwt_private_key": "${path to your private.key file used in Adobe I/O integration}",
   "x-sandbox-id": "${your_sandbox_id}",
   "x-sandbox-name": "${your_sandbox_name}",
   "env": "prod"
@@ -91,6 +92,7 @@ Run the following commands now (in the particular order)
     "aud": "https://ims-na1-stg1.adobelogin.com/c/${your_client_id}"
   },
   "token_exchange_url": "https://ims-na1-stg1.adobelogin.com/ims/exchange/jwt/",
+  "jwt_private_key": "${path to your private.key file used in Adobe I/O integration}",
   "x-sandbox-id": "${your_sandbox_id}",
   "x-sandbox-name": "${your_sandbox_name}",
   "env": "int"
@@ -178,7 +180,18 @@ For example, if you want to create an integration with name 'abc'. Please place 
 ```$ aio aep:switch-config:set -n=abc```
 
 
-## 5. (Developers) **_To run unit tests from the root folder of the project run the commands in following order_**
+## 5. Run insode a docker container: **_To run this plugin as a docker image_**
+
+1. DockerFile location: ```https://github.com/adobe/aio-cli-plugin-aep/blob/master/Dockerfile```
+
+2. Build image: From the folder where dockerFile is located```$ docker build -t aio-cli-plugin-aep .```
+
+3. Point to the I/O auth config file and start the container: ```$ docker run -it --rm -v ~/.config:/root/.config --entrypoint /bin/bash bgaurav/aio-cli-plugin-aep -s```
+
+4. Test: ```$ aio aep:datasets:list```
+
+
+## 6. (Developers) **_To run unit tests from the root folder of the project run the commands in following order_**
 
 ```$ npm install```
 
