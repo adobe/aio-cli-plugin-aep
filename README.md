@@ -180,15 +180,48 @@ For example, if you want to create an integration with name 'abc'. Please place 
 ```$ aio aep:switch-config:set -n=abc```
 
 
-## 5. Run insode a docker container: **_To run this plugin as a docker image_**
+## 5. Run inside a docker container: **_To run this plugin as a docker image_**
 
 1. DockerFile location: ```https://github.com/adobe/aio-cli-plugin-aep/blob/master/Dockerfile```
 
 2. Build image: From the folder where dockerFile is located```$ docker build -t aio-cli-plugin-aep .```
 
-3. Point to the I/O auth config file and start the container: ```$ docker run -it --rm -v ~/.config:/root/.config --entrypoint /bin/bash bgaurav/aio-cli-plugin-aep -s```
+3. Create a config.json file (based on whether you want STG/INT or PROD) integration with the following content and replacing the placeholders with actual values. 
 
-4. Test: ```$ aio aep:datasets:list```
+```javascript 1.8
+
+{
+  "client_id": "${your_client_id}",
+  "client_secret": "${your_client_secret}",
+  "jwt_payload": {
+    "exp": ${your_expiration_time},
+    "iss": "${your_org@AdobeOrg}",
+    "sub": "${your_tech_id@techacct.adobe.com}",
+    "https://ims-na1.adobelogin.com/s/ent_dataservices_sdk": true,
+    "aud": "https://ims-na1.adobelogin.com/c/${your_client_id}"
+  },
+  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/",
+  "jwt_private_key": "${path to your private.key file used in Adobe I/O integration}",
+  "x-sandbox-id": "${your_sandbox_id}",
+  "x-sandbox-name": "${your_sandbox_name}",
+  "env": "prod"
+}
+
+```
+
+4. Run the following commands now (in the particular order): `
+
+ ```$ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json```
+ 
+ ```$ aio jwt-auth:access-token```
+ 
+5. Mount the 'aio' file under your root .config director (~/.config/aio) and make docker container aware of it
+
+```$ docker run -it --rm -v ~/.config:/root/.config --entrypoint /bin/bash aio-cli-plugin-aep -s```
+
+6. Test: $ aio aep:datasets:list
+
+**Note**: In order to regenerate the access_token (in case of 403 status code), stop the container and rerun step# 4, 5 and 6.
 
 
 ## 6. (Developers) **_To run unit tests from the root folder of the project run the commands in following order_**
