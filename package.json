@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@adobe/aio-cli-config": "^1.0.7",
-    "@adobe/aio-lib-core-config": "^1.0.15",
+    "@adobe/aio-lib-core-config": "^2.0.0",
     "@anycli/plugin-version": "^0.1.34",
     "@oclif/command": "^1.5.12",
     "@oclif/config": "^1.12.12",
