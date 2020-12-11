@@ -14,6 +14,7 @@ const ListBatchesCommand = require('../../../../src/commands/aep/batches/list')
 const GetBatchesCommand = require('../../../../src/commands/aep/batches/get')
 const CreateBatchesCommand = require('../../../../src/commands/aep/batches/create')
 const DeleteBatchesCommand = require('../../../../src/commands/aep/batches/delete')
+const GetBatchesFieldCommand = require('../../../../src/commands/aep/batches/get-field')
 const config = require('@adobe/aio-cli-config')
 var constants = require('../../../__mocks__/constants.js')
 
@@ -50,5 +51,14 @@ test('delete-batch-success', async () => {
   })
   expect.assertions(1)
   runResult = DeleteBatchesCommand.run(['-i=abc'])
+  await expect(runResult).resolves.toEqual(constants.mockPayload)
+})
+
+test('get-field--batch-success', async () => {
+  config.get.mockImplementation(() => {
+    return constants.mockConfig
+  })
+  expect.assertions(1)
+  runResult = GetBatchesFieldCommand.run(['-i=field'])
   await expect(runResult).resolves.toEqual(constants.mockPayload)
 })

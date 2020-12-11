@@ -12,13 +12,13 @@ const BaseCommand = require('../about')
 const {flags} = require('@oclif/command')
 const {cli} = require('cli-ux')
 
-class GetBatchesCommand extends BaseCommand {
+class GetBatchesFieldCommand extends BaseCommand {
   async run() {
-    const {flags} = this.parse(GetBatchesCommand)
+    const {flags} = this.parse(GetBatchesFieldCommand)
     let result
 
     try {
-      result = await this.getBatch(flags.batchId)
+      result = await this.getField(flags.field)
       this.printObject(result)
     } catch (error) {
       this.error(error.message)
@@ -26,20 +26,21 @@ class GetBatchesCommand extends BaseCommand {
     return result
   }
 
-  async getBatch(batchId) {
-    return this.getAdobeAep().getBatch(batchId)
+  async getField(field) {
+    return this.getAdobeAep().getField(field)
   }
 }
 
-GetBatchesCommand.description = 'Retrieve the detail of one batch'
-GetBatchesCommand.hidden = false
-GetBatchesCommand.flags = {
+GetBatchesFieldCommand.description = '\n' +
+  'Fetches the unique values stored in the requested field, standard filtering applies before gathering the uniques. Supported fields are [id]'
+GetBatchesFieldCommand.hidden = false
+GetBatchesFieldCommand.flags = {
   ...BaseCommand.flags,
   json: flags.boolean({char: 'j', hidden: false, description: 'value as json'}),
   yaml: flags.boolean({char: 'y', hidden: false, description: 'value as yaml'}),
-  batchId: flags.string({char: 'i', description: 'The ID of the batch.', required: true}),
+  field: flags.string({char: 'i', description: 'The field in the batch.', required: true}),
 }
 
-GetBatchesCommand.aliases = [
-  'aep:batches:get -i=abc']
-module.exports = GetBatchesCommand
+GetBatchesFieldCommand.aliases = [
+  'aep:batches:get-field -i=abc']
+module.exports = GetBatchesFieldCommand

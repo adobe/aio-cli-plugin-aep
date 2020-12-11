@@ -62,6 +62,10 @@ let AdobeAep = {
     return Client.deleteBatch(batchId)
   },
 
+  getField: async function(field) {
+    return Client.getField(field)
+  },
+
   //bulk upload in batch
 
   uploadToBatch: async function(datasetId, batchId, fileType, file, batchExists, name) {

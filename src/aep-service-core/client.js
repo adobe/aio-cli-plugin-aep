@@ -122,6 +122,11 @@ let Client = {
     return (result)
   },
 
+  getField: async function (field) {
+    const result = await this._getField(field)
+    return (result)
+  },
+
 //datasets signature
 
   listDatasets: async function (limit = null, start = null, orderBy = null) {
@@ -425,6 +430,16 @@ let Client = {
       } else throw new Error(`Cannot fulfill request on resource batches: ${res.url} (${res.status} ${res.statusText}`)
     })
   },
+
+  _getField: async function (field) {
+    let baseUrl = new URL(`${catalogBaseUrl}${endPoints.batches.resourcePath}` +`uniques/`+field)
+    return this.get(`${baseUrl.toString()}`, endPoints.batches.contentType).then((res) => {
+      if (res.ok) {
+        return res.json()
+      } else throw new Error(`Cannot fulfill request on resource batches: ${res.url} (${res.status} ${res.statusText}`)
+    })
+  },
+
 
   //classes implementaion
 

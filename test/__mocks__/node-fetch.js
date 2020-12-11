@@ -46,6 +46,7 @@ mockResponseWithMethod(url + '/catalog/batches/?limit=3&start=-id&orderBy=1', 'G
 fetchMock.get(url + '/catalog/batches/abc', mockResponseForApi)
 fetchMock.delete(url + '/catalog/batches/abc', mockResponseForApi)
 fetchMock.post(url + '/catalog/batches/', mockResponseForApi)
+fetchMock.get(url + '/catalog/batches/uniques/field', mockResponseForApi)
 
 mockResponseWithMethod(url + '/schemaregistry/global/classes/', 'GET', mockResponseForApi)
 mockResponseWithMethod(url + '/schemaregistry/global/classes/abc', 'GET', mockResponseForApi)
