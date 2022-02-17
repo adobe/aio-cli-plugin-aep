@@ -3,231 +3,79 @@ aio-cli-plugin-aep
 
 A plugin for CRUD operations on aep resources
 
-
-
+<!-- toc -->
+* [Getting started](#getting-started)
+* [Technical requirements](#technical-requirements)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
-# Follow the steps below to start using this plugin.
 
-## 1. **_Set up necessary dependencies for npm to work_**
+# Getting started
 
-1. Install brew: ```$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"```
+See the [Adobe Developer App Builder docs](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html)
 
-2. Install npm: ```$ brew install npm```
+# Technical requirements
 
-3. Install yarn: ```$ npm install --global yarn```
+See the [App Builder - Setting up Your Environment doc](https://www.adobe.io/apis/experienceplatform/project-firefly/docs.html#!AdobeDocs/project-firefly/master/getting_started/setup.md)
 
-4. Upgrade yarn: ```$ npm upgrade --global yarn```
+# Setup
 
+Before we can call any AEP commands we need to first create the project, add the Adobe Experience Platform API to it and setup the Service Account to talk to it.
 
-## 2. **_Set up necessary adobe I/O dependencies_**
- 
-1. Install aio-cli core libraries```$ npm install -g @adobe/aio-cli```
-
-2. Install aep aio plugin```$ npm install -g @adobe/aio-cli-plugin-aep```
-
-3. Link aep with aio ```$ aio plugins:install @adobe/aio-cli-plugin-aep```
-
-4. When you run ```$ aio aep -h``` now you should be able to see aep as an available plugin with its available sub-commands.
-
-![Image of successfull installation](Successfull_Installation.png)
-
-## 3. **_Set up adobe I/O (PROD/STG/INT) integration_**
-      
-##      **For PROD**
-
-1. Go to https://console.adobe.io/integrations and create a production integration for test
-
-2. Follow the instructions on https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md
-
-   to get the necessary I/O config credentials
-
-3. Create a ```config.json``` file with the following content and replacing the placeholders with actual values. The ```jwt_payload``` element in the following json, you can directly copy from your Adobe I/O integrations page mentioned in step 1.
-```javascript 1.8
-
+1. Go to [https://developer.adobe.com/console/home](https://developer.adobe.com/console/home)
+2. Click on _Create new project_
+3. Click on _Add to Project_ -> _API_ then choose _Adobe Experience Platform_ and click on _Next_
+4. Choose _Option 1 - Generate a key pair_ and click on _Generate keypair_
+5. Download the _Config_ zip file(note location) and click on _Next_
+6. Choose _Launch - techops_ product profile and click on _Save configured API_
+7. Now you should see some credential details under _Service Account (JWT)_ section, next you're going to create a JSON file that contains these credential details
+```
 {
-  "client_id": "${your_client_id}",
-  "client_secret": "${your_client_secret}",
-  "jwt_payload": {
-    "exp": ${your_expiration_time},
-    "iss": "${your_org@AdobeOrg}",
-    "sub": "${your_tech_id@techacct.adobe.com}",
-    "https://ims-na1.adobelogin.com/s/ent_dataservices_sdk": true,
-    "aud": "https://ims-na1.adobelogin.com/c/${your_client_id}"
-  },
-  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/",
-  "jwt_private_key": "${path to your private.key file used in Adobe I/O integration}",
-  "x-sandbox-id": "${your_sandbox_id}",
-  "x-sandbox-name": "${your_sandbox_name}",
-  "env": "prod"
+  "client_id": "<copy/paste CLIENT ID>",
+  "client_secret": "<copy/paste CLIENT SECRET>",
+  "technical_account_id": "<copy/paste TECHNICAL ACCOUNT ID>",
+  "meta_scopes": ["ent_reactor_sdk"],
+  "ims_org_id": "<copy/paste ORGANIZATION ID>",
+  "private_key": "<see next step for this one>"
 }
-
 ```
-Run the following commands now (in the particular order)
-
-5. ``` $ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json ```
-
-6. ``` $ aio jwt-auth:access-token ```
-
-
-
-##      **For STG/INT** (This sample is for INT)
-
-1. Go to https://console-stage.adobe.io/integrations and create a production integration for test
-
-2. Follow the instructions on https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md
-
-   to get the necessary I/O config credentials
-
-3. Create a ```config.json``` file with the following content and replacing the placeholders with actual values. The ```jwt_payload``` element in the following json, you can directly copy from your Adobe I/O integrations page mentioned in step 1.
-```javascript 1.8
-
-{
-  "client_id": "${your_client_id}",
-  "client_secret": "${your_client_secret}",
-  "jwt_payload": {
-    "exp": ${your_expiration_time},
-    "iss": "${your_org@AdobeOrg}",
-    "sub": "${your_tech_id@techacct.adobe.com}",
-    "https://ims-na1-stg1.adobelogin.com/s/ent_dataservices_sdk": true,
-    "aud": "https://ims-na1-stg1.adobelogin.com/c/${your_client_id}"
-  },
-  "token_exchange_url": "https://ims-na1-stg1.adobelogin.com/ims/exchange/jwt/",
-  "jwt_private_key": "${path to your private.key file used in Adobe I/O integration}",
-  "x-sandbox-id": "${your_sandbox_id}",
-  "x-sandbox-name": "${your_sandbox_name}",
-  "env": "int"
-}
-
+8. Unpack the _Config_ zip file and note location of _private.key_
+9. Run the following command to turn the contents in this file into one line
 ```
-Run the following commands now (in the particular order)
-
-5. ``` $ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json ```
-
-6. ``` $ aio jwt-auth:access-token ```
-
-
-
-## 4. **_Finally run this simple command to list datasets in your org to make sure the configuration is all correct_**
-
-   ```$ aio aep:datasets:list```
- 
- Output would look something like...  
-  
-   ```javascript 1.8
-{
-	'abc': {
-		tags: {
-			targetDataSetId: ['abc'],
-			'aep/siphon/partitions': [],
-			'adobe/pqs/table': ['abc'],
-			sandboxId: ['abc'],
-			mappingId: ['abc'],
-			acp_validationContext: ['enabled']
-		},
-		imsOrg: 'abc@AdobeOrg',
-		name: 'Mapping DataSet_abc',
-		namespace: 'ACP',
-		state: 'DRAFT',
-		lastBatchId: 'abc',
-		lastBatchStatus: 'success',
-		version: '1.0.3',
-		created: 1573866068596,
-		updated: 1573866132606,
-		createdClient: 'acp_foundation_connectors',
-		createdUser: 'abc@AdobeID',
-		updatedUser: 'acp_foundation_dataTracker@AdobeID',
-		lastSuccessfulBatch: 'abc',
-		viewId: 'abc',
-		aspect: 'production',
-		status: 'enabled',
-		fileDescription: {
-			persisted: false
-		},
-		files: '@/dataSets/abc/views/abc/files',
-		schemaMetadata: {
-			primaryKey: [],
-			delta: [],
-			dule: [],
-			gdpr: []
-		},
-		schemaRef: {
-			id: 'https://ns.adobe.com/acponboarding/schemas/abc',
-			contentType: 'application/vnd.adobe.xed-full+json;version=1'
-		},
-		streamingIngestionEnabled: 'false'
-	},
-
-...
+awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <location of private.key file>
 ```
-You can choose not to read the following additional information.
-
-## **Additional read**
-
-The last command would generate a new ```access_token``` value and place it in appropriate folder for every command to read. 
-Think of it as the same parameter we pass in the ```Authorization``` header on postman/Curl. 
-
-You can also get the ```access_token``` manually and use the following command to set it. No need to do this if you have done step 2.
-
-Please follow the instructions as suggested in this article, to get the access_token https://www.adobe.io/apis/experienceplatform/home/tutorials/alltutorials.html#!api-specification/markdown/narrative/tutorials/authenticate_to_acp_tutorial/authenticate_to_acp_tutorial.md#generate-access-token
-
-``` $ aio config:set jwt-auth.access_token ${your_access_token_generated_through_adobeI/O_integration} ```
-
-
-Additionally if you want to have multiple integrations and want the ability to quickly switch between them, create multiple ```config.json``` files and place each one of them in a corresponding folder
-in your root directory with aprropriate name.
-For example, if you want to create an integration with name 'abc'. Please place the corresponding ```config.json``` file in ```/Users/${your_user_name}/abc```. And then run the command
-
-```$ aio aep:switch-config:set -n=abc```
-
-
-## 5. Run inside a docker container: **_To run this plugin as a docker image_**
-
-1. DockerFile location: ```https://github.com/adobe/aio-cli-plugin-aep/blob/master/Dockerfile```
-
-2. Build image: From the folder where dockerFile is located```$ docker build -t aio-cli-plugin-aep .```
-
-3. Create a config.json file (based on whether you want STG/INT or PROD) integration with the following content and replacing the placeholders with actual values. 
-
-```javascript 1.8
-
-{
-  "client_id": "${your_client_id}",
-  "client_secret": "${your_client_secret}",
-  "jwt_payload": {
-    "exp": ${your_expiration_time},
-    "iss": "${your_org@AdobeOrg}",
-    "sub": "${your_tech_id@techacct.adobe.com}",
-    "https://ims-na1.adobelogin.com/s/ent_dataservices_sdk": true,
-    "aud": "https://ims-na1.adobelogin.com/c/${your_client_id}"
-  },
-  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt/",
-  "jwt_private_key": "${path to your private.key file used in Adobe I/O integration}",
-  "x-sandbox-id": "${your_sandbox_id}",
-  "x-sandbox-name": "${your_sandbox_name}",
-  "env": "prod"
-}
-
+10. Copy/paste the contents to `private_key` attribute in the JSON file
+11. Next we're going to set the IMS Context with this JSON file
+```
+aio config:set ims.contexts.jwt <name of JSON file> --file --json
+```
+12. Run the following command to set the IMS context for authentication
+```
+aio auth:ctx --set=jwt
 ```
 
-4. Run the following commands now (in the particular order): `
+Now you should be all setup to authenticate and call the AEP commands.
 
- ```$ aio config:set jwt-auth ${path_to_the_above_config.json} --file --json```
- 
- ```$ aio jwt-auth:access-token```
- 
-5. Mount the 'aio' file under your root .config director (~/.config/aio) and make docker container aware of it
+# Usage
 
-```$ docker run -it --rm -v ~/.config:/root/.config --entrypoint /bin/bash aio-cli-plugin-aep -s```
+```
+$ aio auth:login
+$ aio aep:datasets:list
+```
 
-6. Test: $ aio aep:datasets:list
+# Commands
+* [`aio aep:datasets:list`](#aio-aep-datasets-list)
 
-**Note**: In order to regenerate the access_token (in case of 403 status code), stop the container and rerun step# 4, 5 and 6.
+## `aio aep:datasets:list`
 
+List AEP datasets
 
-## 6. (Developers) **_To run unit tests from the root folder of the project run the commands in following order_**
+```
+List all the AEP datasets
 
-```$ npm install```
+USAGE
+  $ aio aep:datasets:list
 
-```$ jest```
-
-```$ jest --coverage``` (to see coverage report)
+OPTIONS
+  -v, --verbose  Verbose output
+```
